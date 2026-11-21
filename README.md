@@ -68,3 +68,23 @@ Für Runtime-Texte können einzelne Variablenwerte gezielt erzeugt werden. Ohne 
 Modellname: `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign`. Das Modell wird einmal pro Prozess geladen und für alle Clips wiederverwendet. Die erzeugte Audiodauer und der GPU-Spitzenverbrauch hängen vom Text und der Laufzeitumgebung ab; beides wird lokal im Manifest erfasst. Fehler werden pro ID protokolliert, ohne den restlichen Batch abzubrechen.
 
 Offizielle Anleitung: [QwenLM/Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS). Sie führt VoiceDesign für Deutsch auf und zeigt die Inferenz mit `generate_voice_design`; die Installation empfiehlt ein isoliertes Python 3.12 Environment.
+
+## React-Spiel (Vite, TypeScript, SCSS)
+
+Die Spiel-App liegt unter `src/` und verwendet die bestehenden 20 Fragen sowie die IDs aus `input/quiz-krawall-tts.json`. Steuerung per Maus, Tastatur und Gamepad; Einstellungsmenü für 5/10/20 Fragen, zufällige Fragen- und Antwortreihenfolge, Pause und Ergebnisschirm.
+
+```bash
+npm install
+npm run dev
+npm run build
+```
+
+### WAV-Audios im Spiel
+
+Die generierten Clips verbleiben lokal in **`output/`** (per `.gitignore` ausgeschlossen). Der Vite-Entwicklungsserver stellt sie unter `/audio/` bereit; `npm run build` übernimmt vorhandene `output/**/*.wav` in `dist/audio/`. **WAV-Dateien niemals ins Repository pushen.** Fehlen WAV-Dateien, verwendet das Spiel automatisch die Browser-SpeechSynthesis-API als Fallback. Die Anwendung startet deshalb auch mit leerem `output/`.
+
+Die Dateinamen entsprechen den IDs aus der TTS-JSON, z. B. `output/q01.question.wav`, `output/q01.answer.1.wav`, `output/feedback.correct.wav`. Dynamische Varianten werden wie von `scripts/generate.py` erzeugt angesprochen: `output/question.prefix.question_number-01.wav` und `output/results.score.points-04.total-05.wav`. Die Antwortpositionen X/Y/B/A werden als eigenständige Clips angesagt, damit die Reihenfolge pro Runde beliebig gemischt werden kann.
+
+**Eingaben:** Xbox-Standardbelegung X/blau, Y/gelb, B/rot, A/grün; Steuerkreuz/Stick und A bestätigen Menüs, B geht zurück, Start pausiert. Tastatur X/Y/B/A oder 1–4, Pfeiltasten, Enter und Esc. Maus klickt Menüpunkte/Antworten.
+
+Die App ist zunächst ein Web-Build; eine native Tauri-Hülle ist noch nicht integriert.
