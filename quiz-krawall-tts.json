@@ -1,0 +1,1728 @@
+{
+  "schema_version": "1.0",
+  "project": "Quiz-Krawall",
+  "purpose": "Batch-TTS-Audioerzeugung. Alle aktuellen Sprechertexte getrennt in Audio-Clips; optionale neue Menütexte sind kenntlich gemacht.",
+  "tts_profile": {
+    "voice_id": "moderator",
+    "language": "de-DE",
+    "voice_direction": "Lebhafter, schneller, warmer deutscher Kinderquizshow-Moderator; energiegeladen und verspielt, wie eine überdrehte Gameshow, aber nie gemein oder erschreckend. Natürliches Deutsch, klare Aussprache und abwechslungsreiche Betonung."
+  },
+  "export_notes": [
+    "source=current bedeutet: Dieser Text oder Baustein wird im bestehenden HTML-Spiel gesprochen. source=optional_new bedeutet: Ergänzender Text für eine spätere vertonte Menüführung, im aktuellen Spiel noch nicht gesprochen. source=runtime_template bedeutet: Text mit Platzhaltern oder frei kombinierbarer Antwortposition.",
+    "Die Fragen und Antwortoptionen werden im Spiel zufällig gemischt: Frage, jede Antwort und jede Reaktion einzeln vertonen, nicht als feste Liste inklusive X/Y/B/A.",
+    "Bei der bisherigen Web Speech API wird die komplette Frage mit ihren neu gemischten Antworten zu einem Satz zusammengesetzt. Für vorproduzierte Audioclips die Fragennummer bei Bedarf generieren und Audio-Clips der Reihe nach abspielen.",
+    "Die feedback-Phrase Richtig! / Nicht ganz! steht vor den jeweils zugehörigen 20 Reaktionen.",
+    "Vorlesetexte enthalten keine Emojis."
+  ],
+  "question_count": 20,
+  "items": [
+    {
+      "id": "welcome.title",
+      "text": "Bereit für Quiz-Krawall?",
+      "category": "welcome",
+      "emotion": "excited",
+      "source": "optional_new"
+    },
+    {
+      "id": "welcome.intro",
+      "text": "Hallihallo! Willkommen bei QUIZ-KRAWALL! Hier kommen Fragen, Quatsch und jede Menge Spaß! Bist du bereit?",
+      "category": "welcome",
+      "emotion": "excited",
+      "source": "optional_new"
+    },
+    {
+      "id": "welcome.start",
+      "text": "Und los geht’s!",
+      "category": "welcome",
+      "emotion": "excited",
+      "source": "optional_new"
+    },
+    {
+      "id": "instructions.intro",
+      "text": "Hör gut zu! Ich stelle dir eine Frage und lese dir vier Antworten vor. Drück die passende bunte Taste!",
+      "category": "instructions",
+      "emotion": "friendly",
+      "source": "optional_new"
+    },
+    {
+      "id": "instructions.controls",
+      "text": "X ist blau, Y ist gelb, B ist rot und A ist grün. Du kannst auch mit der Maus klicken oder die Tasten auf der Tastatur drücken.",
+      "category": "instructions",
+      "emotion": "clear",
+      "source": "optional_new"
+    },
+    {
+      "id": "instructions.pause",
+      "text": "Wenn du eine Pause brauchst, drück die Starttaste auf dem Controller oder Escape auf der Tastatur.",
+      "category": "instructions",
+      "emotion": "friendly",
+      "source": "optional_new"
+    },
+    {
+      "id": "settings.title",
+      "text": "Wie viele Fragen möchtest du spielen? Fünf, zehn oder zwanzig?",
+      "category": "settings",
+      "emotion": "friendly",
+      "source": "optional_new"
+    },
+    {
+      "id": "settings.voice_on",
+      "text": "Die Stimme ist wieder an!",
+      "category": "settings",
+      "emotion": "cheerful",
+      "source": "current"
+    },
+    {
+      "id": "pause.title",
+      "text": "Kleine Pause! Wir machen gleich weiter.",
+      "category": "pause",
+      "emotion": "gentle",
+      "source": "optional_new"
+    },
+    {
+      "id": "pause.resume",
+      "text": "Und weiter geht’s!",
+      "category": "pause",
+      "emotion": "excited",
+      "source": "optional_new"
+    },
+    {
+      "id": "pause.return_to_menu",
+      "text": "Zurück zum Hauptmenü!",
+      "category": "pause",
+      "emotion": "friendly",
+      "source": "optional_new"
+    },
+    {
+      "id": "feedback.correct",
+      "text": "Richtig!",
+      "category": "feedback",
+      "emotion": "jubilant",
+      "source": "current"
+    },
+    {
+      "id": "feedback.incorrect",
+      "text": "Nicht ganz!",
+      "category": "feedback",
+      "emotion": "kind",
+      "source": "current",
+      "direction": "Ermutigend, nicht enttäuscht."
+    },
+    {
+      "id": "question.prefix",
+      "text": "Frage {question_number}.",
+      "category": "template",
+      "emotion": "excited",
+      "source": "runtime_template",
+      "variables": [
+        "question_number"
+      ]
+    },
+    {
+      "id": "answer.prefix.X",
+      "text": "X, blau:",
+      "category": "answer_prefix",
+      "emotion": "clear",
+      "source": "runtime_template",
+      "button": "X"
+    },
+    {
+      "id": "answer.prefix.Y",
+      "text": "Y, gelb:",
+      "category": "answer_prefix",
+      "emotion": "clear",
+      "source": "runtime_template",
+      "button": "Y"
+    },
+    {
+      "id": "answer.prefix.B",
+      "text": "B, rot:",
+      "category": "answer_prefix",
+      "emotion": "clear",
+      "source": "runtime_template",
+      "button": "B"
+    },
+    {
+      "id": "answer.prefix.A",
+      "text": "A, grün:",
+      "category": "answer_prefix",
+      "emotion": "clear",
+      "source": "runtime_template",
+      "button": "A"
+    },
+    {
+      "id": "answer.prefix.last",
+      "text": "Oder A, grün:",
+      "category": "answer_prefix",
+      "emotion": "clear",
+      "source": "runtime_template",
+      "button": "A"
+    },
+    {
+      "id": "q01.question",
+      "text": "Welches Tier sagt „Miau“?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q01"
+    },
+    {
+      "id": "q01.answer.1",
+      "text": "Die Katze",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q01",
+      "answer_id": "q01-a1",
+      "correct": true,
+      "display_label": "Die Katze 🐱"
+    },
+    {
+      "id": "q01.answer.2",
+      "text": "Der Elefant",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q01",
+      "answer_id": "q01-a2",
+      "correct": false,
+      "display_label": "Der Elefant 🐘"
+    },
+    {
+      "id": "q01.answer.3",
+      "text": "Die Ente",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q01",
+      "answer_id": "q01-a3",
+      "correct": false,
+      "display_label": "Die Ente 🦆"
+    },
+    {
+      "id": "q01.answer.4",
+      "text": "Der Fisch",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q01",
+      "answer_id": "q01-a4",
+      "correct": false,
+      "display_label": "Der Fisch 🐟"
+    },
+    {
+      "id": "q01.correct",
+      "text": "Miau-tastisch! Die Katze bekommt ein Extra-Leckerli!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q01"
+    },
+    {
+      "id": "q01.incorrect",
+      "text": "Uuups! Das war wohl ein Quatsch-Tier. Die Katze sagt Miau!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q01"
+    },
+    {
+      "id": "q01.reveal",
+      "text": "Die Katze ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q01"
+    },
+    {
+      "id": "q02.question",
+      "text": "Was ziehst du an, wenn es draußen regnet?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q02"
+    },
+    {
+      "id": "q02.answer.1",
+      "text": "Eine Regenjacke",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q02",
+      "answer_id": "q02-a1",
+      "correct": true,
+      "display_label": "Eine Regenjacke 🌧️"
+    },
+    {
+      "id": "q02.answer.2",
+      "text": "Eine Sonnenbrille",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q02",
+      "answer_id": "q02-a2",
+      "correct": false,
+      "display_label": "Eine Sonnenbrille 🕶️"
+    },
+    {
+      "id": "q02.answer.3",
+      "text": "Eine Badehose",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q02",
+      "answer_id": "q02-a3",
+      "correct": false,
+      "display_label": "Eine Badehose 🩳"
+    },
+    {
+      "id": "q02.answer.4",
+      "text": "Einen Kochtopf",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q02",
+      "answer_id": "q02-a4",
+      "correct": false,
+      "display_label": "Einen Kochtopf 🍲"
+    },
+    {
+      "id": "q02.correct",
+      "text": "Plitsch, platsch! Du bleibst trocken wie ein Profi!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q02"
+    },
+    {
+      "id": "q02.incorrect",
+      "text": "Oje! Mit einem Kochtopf auf dem Kopf wird das aber nass. Richtig ist die Regenjacke!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q02"
+    },
+    {
+      "id": "q02.reveal",
+      "text": "Eine Regenjacke ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q02"
+    },
+    {
+      "id": "q03.question",
+      "text": "Was ist meistens gelb und krumm?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q03"
+    },
+    {
+      "id": "q03.answer.1",
+      "text": "Eine Gurke",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q03",
+      "answer_id": "q03-a1",
+      "correct": false,
+      "display_label": "Eine Gurke 🥒"
+    },
+    {
+      "id": "q03.answer.2",
+      "text": "Eine Banane",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q03",
+      "answer_id": "q03-a2",
+      "correct": true,
+      "display_label": "Eine Banane 🍌"
+    },
+    {
+      "id": "q03.answer.3",
+      "text": "Ein Auto",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q03",
+      "answer_id": "q03-a3",
+      "correct": false,
+      "display_label": "Ein Auto 🚗"
+    },
+    {
+      "id": "q03.answer.4",
+      "text": "Eine Wolke",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q03",
+      "answer_id": "q03-a4",
+      "correct": false,
+      "display_label": "Eine Wolke ☁️"
+    },
+    {
+      "id": "q03.correct",
+      "text": "Bananenstark! Da freut sich sogar der Affe!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q03"
+    },
+    {
+      "id": "q03.incorrect",
+      "text": "Huch, fast! Die Banane ist gelb und krumm. Affenstark, dass du mitgespielt hast!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q03"
+    },
+    {
+      "id": "q03.reveal",
+      "text": "Eine Banane ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q03"
+    },
+    {
+      "id": "q04.question",
+      "text": "Welches Tier macht „Wau wau“?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q04"
+    },
+    {
+      "id": "q04.answer.1",
+      "text": "Der Hund",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q04",
+      "answer_id": "q04-a1",
+      "correct": true,
+      "display_label": "Der Hund 🐶"
+    },
+    {
+      "id": "q04.answer.2",
+      "text": "Die Kuh",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q04",
+      "answer_id": "q04-a2",
+      "correct": false,
+      "display_label": "Die Kuh 🐄"
+    },
+    {
+      "id": "q04.answer.3",
+      "text": "Die Maus",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q04",
+      "answer_id": "q04-a3",
+      "correct": false,
+      "display_label": "Die Maus 🐭"
+    },
+    {
+      "id": "q04.answer.4",
+      "text": "Der Frosch",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q04",
+      "answer_id": "q04-a4",
+      "correct": false,
+      "display_label": "Der Frosch 🐸"
+    },
+    {
+      "id": "q04.correct",
+      "text": "Wau! Du bist ein echter Hunde-Profi!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q04"
+    },
+    {
+      "id": "q04.incorrect",
+      "text": "Hoppla! Wau wau macht der Hund. Der freut sich trotzdem über dich!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q04"
+    },
+    {
+      "id": "q04.reveal",
+      "text": "Der Hund ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q04"
+    },
+    {
+      "id": "q05.question",
+      "text": "Was brauchst du zum Zähneputzen?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q05"
+    },
+    {
+      "id": "q05.answer.1",
+      "text": "Einen Löffel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q05",
+      "answer_id": "q05-a1",
+      "correct": false,
+      "display_label": "Einen Löffel 🥄"
+    },
+    {
+      "id": "q05.answer.2",
+      "text": "Eine Zahnbürste",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q05",
+      "answer_id": "q05-a2",
+      "correct": true,
+      "display_label": "Eine Zahnbürste 🪥"
+    },
+    {
+      "id": "q05.answer.3",
+      "text": "Einen Ball",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q05",
+      "answer_id": "q05-a3",
+      "correct": false,
+      "display_label": "Einen Ball ⚽"
+    },
+    {
+      "id": "q05.answer.4",
+      "text": "Einen Schuh",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q05",
+      "answer_id": "q05-a4",
+      "correct": false,
+      "display_label": "Einen Schuh 👟"
+    },
+    {
+      "id": "q05.correct",
+      "text": "Blitzeblanke Zähne! Sogar der Krokodil-Zahnarzt staunt!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q05"
+    },
+    {
+      "id": "q05.incorrect",
+      "text": "Nicht ganz! Mit der Zahnbürste werden die Zähne sauber!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q05"
+    },
+    {
+      "id": "q05.reveal",
+      "text": "Eine Zahnbürste ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q05"
+    },
+    {
+      "id": "q06.question",
+      "text": "Welche Farbe hat eine reife Erdbeere meistens?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q06"
+    },
+    {
+      "id": "q06.answer.1",
+      "text": "Blau",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q06",
+      "answer_id": "q06-a1",
+      "correct": false,
+      "display_label": "Blau 🔵"
+    },
+    {
+      "id": "q06.answer.2",
+      "text": "Grün",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q06",
+      "answer_id": "q06-a2",
+      "correct": false,
+      "display_label": "Grün 🟢"
+    },
+    {
+      "id": "q06.answer.3",
+      "text": "Rot",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q06",
+      "answer_id": "q06-a3",
+      "correct": true,
+      "display_label": "Rot 🔴"
+    },
+    {
+      "id": "q06.answer.4",
+      "text": "Schwarz",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q06",
+      "answer_id": "q06-a4",
+      "correct": false,
+      "display_label": "Schwarz ⚫"
+    },
+    {
+      "id": "q06.correct",
+      "text": "Erdbeer-Alarm! Rot und lecker!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q06"
+    },
+    {
+      "id": "q06.incorrect",
+      "text": "Knapp daneben! Eine reife Erdbeere ist meistens rot!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q06"
+    },
+    {
+      "id": "q06.reveal",
+      "text": "Rot ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q06"
+    },
+    {
+      "id": "q07.question",
+      "text": "Was kannst du auf deinen Kopf setzen?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q07"
+    },
+    {
+      "id": "q07.answer.1",
+      "text": "Eine Mütze",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q07",
+      "answer_id": "q07-a1",
+      "correct": true,
+      "display_label": "Eine Mütze 🧢"
+    },
+    {
+      "id": "q07.answer.2",
+      "text": "Einen Tisch",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q07",
+      "answer_id": "q07-a2",
+      "correct": false,
+      "display_label": "Einen Tisch 🪑"
+    },
+    {
+      "id": "q07.answer.3",
+      "text": "Ein Fahrrad",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q07",
+      "answer_id": "q07-a3",
+      "correct": false,
+      "display_label": "Ein Fahrrad 🚲"
+    },
+    {
+      "id": "q07.answer.4",
+      "text": "Ein Bett",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q07",
+      "answer_id": "q07-a4",
+      "correct": false,
+      "display_label": "Ein Bett 🛏️"
+    },
+    {
+      "id": "q07.correct",
+      "text": "Sitzt perfekt! Du siehst aus wie ein Quiz-Star!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q07"
+    },
+    {
+      "id": "q07.incorrect",
+      "text": "Ein Fahrrad auf dem Kopf? Uiuiui! Eine Mütze passt besser!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q07"
+    },
+    {
+      "id": "q07.reveal",
+      "text": "Eine Mütze ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q07"
+    },
+    {
+      "id": "q08.question",
+      "text": "Welches Tier hat einen langen Rüssel?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q08"
+    },
+    {
+      "id": "q08.answer.1",
+      "text": "Das Schaf",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q08",
+      "answer_id": "q08-a1",
+      "correct": false,
+      "display_label": "Das Schaf 🐑"
+    },
+    {
+      "id": "q08.answer.2",
+      "text": "Der Elefant",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q08",
+      "answer_id": "q08-a2",
+      "correct": true,
+      "display_label": "Der Elefant 🐘"
+    },
+    {
+      "id": "q08.answer.3",
+      "text": "Das Huhn",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q08",
+      "answer_id": "q08-a3",
+      "correct": false,
+      "display_label": "Das Huhn 🐔"
+    },
+    {
+      "id": "q08.answer.4",
+      "text": "Der Hase",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q08",
+      "answer_id": "q08-a4",
+      "correct": false,
+      "display_label": "Der Hase 🐰"
+    },
+    {
+      "id": "q08.correct",
+      "text": "Törööö! Elefantenstark beantwortet!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q08"
+    },
+    {
+      "id": "q08.incorrect",
+      "text": "Törööö! Der Elefant hat den langen Rüssel!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q08"
+    },
+    {
+      "id": "q08.reveal",
+      "text": "Der Elefant ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q08"
+    },
+    {
+      "id": "q09.question",
+      "text": "Was fällt im Winter manchmal vom Himmel?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q09"
+    },
+    {
+      "id": "q09.answer.1",
+      "text": "Spaghetti",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q09",
+      "answer_id": "q09-a1",
+      "correct": false,
+      "display_label": "Spaghetti 🍝"
+    },
+    {
+      "id": "q09.answer.2",
+      "text": "Seifenblasen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q09",
+      "answer_id": "q09-a2",
+      "correct": false,
+      "display_label": "Seifenblasen 🫧"
+    },
+    {
+      "id": "q09.answer.3",
+      "text": "Schnee",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q09",
+      "answer_id": "q09-a3",
+      "correct": true,
+      "display_label": "Schnee ❄️"
+    },
+    {
+      "id": "q09.answer.4",
+      "text": "Kartoffeln",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q09",
+      "answer_id": "q09-a4",
+      "correct": false,
+      "display_label": "Kartoffeln 🥔"
+    },
+    {
+      "id": "q09.correct",
+      "text": "Schneeflöckchen, Weißröckchen! Volltreffer!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q09"
+    },
+    {
+      "id": "q09.incorrect",
+      "text": "Kartoffelregen? Das wäre ja verrückt! Richtig ist Schnee!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q09"
+    },
+    {
+      "id": "q09.reveal",
+      "text": "Schnee ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q09"
+    },
+    {
+      "id": "q10.question",
+      "text": "Womit kannst du ein Bild malen?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q10"
+    },
+    {
+      "id": "q10.answer.1",
+      "text": "Mit Buntstiften",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q10",
+      "answer_id": "q10-a1",
+      "correct": true,
+      "display_label": "Mit Buntstiften 🖍️"
+    },
+    {
+      "id": "q10.answer.2",
+      "text": "Mit Socken",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q10",
+      "answer_id": "q10-a2",
+      "correct": false,
+      "display_label": "Mit Socken 🧦"
+    },
+    {
+      "id": "q10.answer.3",
+      "text": "Mit einem Kissen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q10",
+      "answer_id": "q10-a3",
+      "correct": false,
+      "display_label": "Mit einem Kissen 🛏️"
+    },
+    {
+      "id": "q10.answer.4",
+      "text": "Mit einem Teller",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q10",
+      "answer_id": "q10-a4",
+      "correct": false,
+      "display_label": "Mit einem Teller 🍽️"
+    },
+    {
+      "id": "q10.correct",
+      "text": "Kunterbunt! Dein Kunstwerk kommt ins Museum!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q10"
+    },
+    {
+      "id": "q10.incorrect",
+      "text": "Oh, ein Socken-Gemälde? Mit Buntstiften geht es leichter!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q10"
+    },
+    {
+      "id": "q10.reveal",
+      "text": "Mit Buntstiften ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q10"
+    },
+    {
+      "id": "q11.question",
+      "text": "Welches Tier legt Eier?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q11"
+    },
+    {
+      "id": "q11.answer.1",
+      "text": "Die Katze",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q11",
+      "answer_id": "q11-a1",
+      "correct": false,
+      "display_label": "Die Katze 🐱"
+    },
+    {
+      "id": "q11.answer.2",
+      "text": "Das Huhn",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q11",
+      "answer_id": "q11-a2",
+      "correct": true,
+      "display_label": "Das Huhn 🐔"
+    },
+    {
+      "id": "q11.answer.3",
+      "text": "Der Hund",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q11",
+      "answer_id": "q11-a3",
+      "correct": false,
+      "display_label": "Der Hund 🐶"
+    },
+    {
+      "id": "q11.answer.4",
+      "text": "Das Pferd",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q11",
+      "answer_id": "q11-a4",
+      "correct": false,
+      "display_label": "Das Pferd 🐴"
+    },
+    {
+      "id": "q11.correct",
+      "text": "Gack gack! Das war eine ei-nmalige Antwort!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q11"
+    },
+    {
+      "id": "q11.incorrect",
+      "text": "Fast! Das Huhn legt Eier. Gack gack!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q11"
+    },
+    {
+      "id": "q11.reveal",
+      "text": "Das Huhn ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q11"
+    },
+    {
+      "id": "q12.question",
+      "text": "Was benutzt du, wenn du durstig bist?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q12"
+    },
+    {
+      "id": "q12.answer.1",
+      "text": "Einen Handschuh",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q12",
+      "answer_id": "q12-a1",
+      "correct": false,
+      "display_label": "Einen Handschuh 🧤"
+    },
+    {
+      "id": "q12.answer.2",
+      "text": "Eine Schere",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q12",
+      "answer_id": "q12-a2",
+      "correct": false,
+      "display_label": "Eine Schere ✂️"
+    },
+    {
+      "id": "q12.answer.3",
+      "text": "Einen Becher",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q12",
+      "answer_id": "q12-a3",
+      "correct": true,
+      "display_label": "Einen Becher 🥛"
+    },
+    {
+      "id": "q12.answer.4",
+      "text": "Eine Zahnbürste",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q12",
+      "answer_id": "q12-a4",
+      "correct": false,
+      "display_label": "Eine Zahnbürste 🪥"
+    },
+    {
+      "id": "q12.correct",
+      "text": "Schluck, schluck! Ein Hoch auf den Quiz-Profi!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q12"
+    },
+    {
+      "id": "q12.incorrect",
+      "text": "Mit der Schere trinken? Lieber nicht! Nimm einen Becher!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q12"
+    },
+    {
+      "id": "q12.reveal",
+      "text": "Einen Becher ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q12"
+    },
+    {
+      "id": "q13.question",
+      "text": "Was leuchtet nachts am Himmel?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q13"
+    },
+    {
+      "id": "q13.answer.1",
+      "text": "Der Mond",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q13",
+      "answer_id": "q13-a1",
+      "correct": true,
+      "display_label": "Der Mond 🌙"
+    },
+    {
+      "id": "q13.answer.2",
+      "text": "Ein Apfel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q13",
+      "answer_id": "q13-a2",
+      "correct": false,
+      "display_label": "Ein Apfel 🍎"
+    },
+    {
+      "id": "q13.answer.3",
+      "text": "Ein Teddy",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q13",
+      "answer_id": "q13-a3",
+      "correct": false,
+      "display_label": "Ein Teddy 🧸"
+    },
+    {
+      "id": "q13.answer.4",
+      "text": "Ein Keks",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q13",
+      "answer_id": "q13-a4",
+      "correct": false,
+      "display_label": "Ein Keks 🍪"
+    },
+    {
+      "id": "q13.correct",
+      "text": "Mondmäßig gut! Bis zu den Sternen und zurück!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q13"
+    },
+    {
+      "id": "q13.incorrect",
+      "text": "Ein leuchtender Keks? Wie lustig! Der Mond leuchtet nachts am Himmel!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q13"
+    },
+    {
+      "id": "q13.reveal",
+      "text": "Der Mond ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q13"
+    },
+    {
+      "id": "q14.question",
+      "text": "Welches Tier kann fliegen?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q14"
+    },
+    {
+      "id": "q14.answer.1",
+      "text": "Der Vogel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q14",
+      "answer_id": "q14-a1",
+      "correct": true,
+      "display_label": "Der Vogel 🐦"
+    },
+    {
+      "id": "q14.answer.2",
+      "text": "Die Kuh",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q14",
+      "answer_id": "q14-a2",
+      "correct": false,
+      "display_label": "Die Kuh 🐄"
+    },
+    {
+      "id": "q14.answer.3",
+      "text": "Das Schwein",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q14",
+      "answer_id": "q14-a3",
+      "correct": false,
+      "display_label": "Das Schwein 🐷"
+    },
+    {
+      "id": "q14.answer.4",
+      "text": "Der Hund",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q14",
+      "answer_id": "q14-a4",
+      "correct": false,
+      "display_label": "Der Hund 🐶"
+    },
+    {
+      "id": "q14.correct",
+      "text": "Flatter, flatter! Du hast den Dreh raus!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q14"
+    },
+    {
+      "id": "q14.incorrect",
+      "text": "Eine fliegende Kuh? Das wäre lustig! Der Vogel kann fliegen!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q14"
+    },
+    {
+      "id": "q14.reveal",
+      "text": "Der Vogel ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q14"
+    },
+    {
+      "id": "q15.question",
+      "text": "Was brauchen wir, wenn es dunkel ist und wir etwas sehen wollen?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q15"
+    },
+    {
+      "id": "q15.answer.1",
+      "text": "Eine Taschenlampe",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q15",
+      "answer_id": "q15-a1",
+      "correct": true,
+      "display_label": "Eine Taschenlampe 🔦"
+    },
+    {
+      "id": "q15.answer.2",
+      "text": "Eine Socke",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q15",
+      "answer_id": "q15-a2",
+      "correct": false,
+      "display_label": "Eine Socke 🧦"
+    },
+    {
+      "id": "q15.answer.3",
+      "text": "Einen Apfel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q15",
+      "answer_id": "q15-a3",
+      "correct": false,
+      "display_label": "Einen Apfel 🍎"
+    },
+    {
+      "id": "q15.answer.4",
+      "text": "Einen Ball",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q15",
+      "answer_id": "q15-a4",
+      "correct": false,
+      "display_label": "Einen Ball ⚽"
+    },
+    {
+      "id": "q15.correct",
+      "text": "Licht an! Du bist ja ein helles Köpfchen!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q15"
+    },
+    {
+      "id": "q15.incorrect",
+      "text": "Mit einer Socke wird es nicht heller. Die Taschenlampe macht Licht!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q15"
+    },
+    {
+      "id": "q15.reveal",
+      "text": "Eine Taschenlampe ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q15"
+    },
+    {
+      "id": "q16.question",
+      "text": "Welches Tier hüpft und hat lange Ohren?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q16"
+    },
+    {
+      "id": "q16.answer.1",
+      "text": "Der Hase",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q16",
+      "answer_id": "q16-a1",
+      "correct": true,
+      "display_label": "Der Hase 🐰"
+    },
+    {
+      "id": "q16.answer.2",
+      "text": "Der Fisch",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q16",
+      "answer_id": "q16-a2",
+      "correct": false,
+      "display_label": "Der Fisch 🐟"
+    },
+    {
+      "id": "q16.answer.3",
+      "text": "Die Schnecke",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q16",
+      "answer_id": "q16-a3",
+      "correct": false,
+      "display_label": "Die Schnecke 🐌"
+    },
+    {
+      "id": "q16.answer.4",
+      "text": "Die Kuh",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q16",
+      "answer_id": "q16-a4",
+      "correct": false,
+      "display_label": "Die Kuh 🐄"
+    },
+    {
+      "id": "q16.correct",
+      "text": "Hoppel-di-hopp! Genau richtig!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q16"
+    },
+    {
+      "id": "q16.incorrect",
+      "text": "Eine hüpfende Schnecke? Hihi! Der Hase hat lange Ohren!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q16"
+    },
+    {
+      "id": "q16.reveal",
+      "text": "Der Hase ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q16"
+    },
+    {
+      "id": "q17.question",
+      "text": "Womit kannst du Suppe essen?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q17"
+    },
+    {
+      "id": "q17.answer.1",
+      "text": "Mit einem Löffel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q17",
+      "answer_id": "q17-a1",
+      "correct": true,
+      "display_label": "Mit einem Löffel 🥄"
+    },
+    {
+      "id": "q17.answer.2",
+      "text": "Mit einer Gabel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q17",
+      "answer_id": "q17-a2",
+      "correct": false,
+      "display_label": "Mit einer Gabel 🍴"
+    },
+    {
+      "id": "q17.answer.3",
+      "text": "Mit einem Schuh",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q17",
+      "answer_id": "q17-a3",
+      "correct": false,
+      "display_label": "Mit einem Schuh 👟"
+    },
+    {
+      "id": "q17.answer.4",
+      "text": "Mit einem Ball",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q17",
+      "answer_id": "q17-a4",
+      "correct": false,
+      "display_label": "Mit einem Ball ⚽"
+    },
+    {
+      "id": "q17.correct",
+      "text": "Schlürf, schlürf! Das war suppenstark!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q17"
+    },
+    {
+      "id": "q17.incorrect",
+      "text": "Ein Schuh voller Suppe? Lieber einen Löffel nehmen!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q17"
+    },
+    {
+      "id": "q17.reveal",
+      "text": "Mit einem Löffel ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q17"
+    },
+    {
+      "id": "q18.question",
+      "text": "Was wächst an einem Apfelbaum?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q18"
+    },
+    {
+      "id": "q18.answer.1",
+      "text": "Äpfel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q18",
+      "answer_id": "q18-a1",
+      "correct": true,
+      "display_label": "Äpfel 🍎"
+    },
+    {
+      "id": "q18.answer.2",
+      "text": "Bananen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q18",
+      "answer_id": "q18-a2",
+      "correct": false,
+      "display_label": "Bananen 🍌"
+    },
+    {
+      "id": "q18.answer.3",
+      "text": "Karotten",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q18",
+      "answer_id": "q18-a3",
+      "correct": false,
+      "display_label": "Karotten 🥕"
+    },
+    {
+      "id": "q18.answer.4",
+      "text": "Kartoffeln",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q18",
+      "answer_id": "q18-a4",
+      "correct": false,
+      "display_label": "Kartoffeln 🥔"
+    },
+    {
+      "id": "q18.correct",
+      "text": "Knackig! Du kennst dich aus im Obstgarten!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q18"
+    },
+    {
+      "id": "q18.incorrect",
+      "text": "Bananen am Apfelbaum? Das wäre verrückt! Dort wachsen Äpfel!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q18"
+    },
+    {
+      "id": "q18.reveal",
+      "text": "Äpfel ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q18"
+    },
+    {
+      "id": "q19.question",
+      "text": "Welche Farbe hat Gras meistens?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q19"
+    },
+    {
+      "id": "q19.answer.1",
+      "text": "Grün",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q19",
+      "answer_id": "q19-a1",
+      "correct": true,
+      "display_label": "Grün 🟢"
+    },
+    {
+      "id": "q19.answer.2",
+      "text": "Lila",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q19",
+      "answer_id": "q19-a2",
+      "correct": false,
+      "display_label": "Lila 🟣"
+    },
+    {
+      "id": "q19.answer.3",
+      "text": "Blau",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q19",
+      "answer_id": "q19-a3",
+      "correct": false,
+      "display_label": "Blau 🔵"
+    },
+    {
+      "id": "q19.answer.4",
+      "text": "Rosa",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q19",
+      "answer_id": "q19-a4",
+      "correct": false,
+      "display_label": "Rosa 🩷"
+    },
+    {
+      "id": "q19.correct",
+      "text": "Grün wie eine ganze Wiese! Volltreffer!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q19"
+    },
+    {
+      "id": "q19.incorrect",
+      "text": "Rosa Gras wäre lustig! Meistens ist Gras grün!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q19"
+    },
+    {
+      "id": "q19.reveal",
+      "text": "Grün ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q19"
+    },
+    {
+      "id": "q20.question",
+      "text": "Wo schläft man normalerweise nachts?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q20"
+    },
+    {
+      "id": "q20.answer.1",
+      "text": "Im Bett",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q20",
+      "answer_id": "q20-a1",
+      "correct": true,
+      "display_label": "Im Bett 🛏️"
+    },
+    {
+      "id": "q20.answer.2",
+      "text": "In der Badewanne",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q20",
+      "answer_id": "q20-a2",
+      "correct": false,
+      "display_label": "In der Badewanne 🛁"
+    },
+    {
+      "id": "q20.answer.3",
+      "text": "Auf der Schaukel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q20",
+      "answer_id": "q20-a3",
+      "correct": false,
+      "display_label": "Auf der Schaukel 🛝"
+    },
+    {
+      "id": "q20.answer.4",
+      "text": "Im Kühlschrank",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q20",
+      "answer_id": "q20-a4",
+      "correct": false,
+      "display_label": "Im Kühlschrank 🧊"
+    },
+    {
+      "id": "q20.correct",
+      "text": "Kuschelig richtig! Das Bett wartet schon!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q20"
+    },
+    {
+      "id": "q20.incorrect",
+      "text": "Im Kühlschrank ist es viel zu kalt! Geschlafen wird im Bett!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q20"
+    },
+    {
+      "id": "q20.reveal",
+      "text": "Im Bett ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q20"
+    },
+    {
+      "id": "results.intro",
+      "text": "Das war Quiz-Krawall!",
+      "category": "results",
+      "emotion": "excited",
+      "source": "current"
+    },
+    {
+      "id": "results.score",
+      "text": "{points} von {total} Fragen richtig.",
+      "category": "template",
+      "emotion": "celebratory",
+      "source": "runtime_template",
+      "variables": [
+        "points",
+        "total"
+      ]
+    },
+    {
+      "id": "results.perfect",
+      "text": "Alle richtig! Du bist ein Quiz-Superstar! Konfetti-Alarm!",
+      "category": "results",
+      "emotion": "jubilant",
+      "source": "current"
+    },
+    {
+      "id": "results.great",
+      "text": "Wow! So viele Treffer! Du bist ein richtiger Quiz-Fuchs!",
+      "category": "results",
+      "emotion": "excited",
+      "source": "current"
+    },
+    {
+      "id": "results.encourage",
+      "text": "Super mitgespielt! Und weißt du was? Üben macht Spaß!",
+      "category": "results",
+      "emotion": "encouraging",
+      "source": "current"
+    },
+    {
+      "id": "results.again",
+      "text": "Noch eine Runde?",
+      "category": "results",
+      "emotion": "playful",
+      "source": "optional_new"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "entries": {
+    "welcome.title": {
+      "id": "welcome.title",
+      "source_text": "Bereit für Quiz-Krawall?",
+      "text": "Bereit für Quiz-Krawall?",
+      "variants": [
+        {
+          "key": "default",
+          "values": {},
+          "text": "Bereit für Quiz-Krawall?",
+          "source_text": "Bereit für Quiz-Krawall?",
+          "path": "tests/welcome.wav",
+          "duration_seconds": 1.52,
+          "status": "success",
+          "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+          "voice_design": {
+            "language": "German",
+            "instruction": "A German male game show host with an extremely energetic, theatrical and playful personality. Fast-paced, highly expressive delivery, dramatic pauses, exaggerated excitement, sudden whispers and explosive celebrations. Warm, funny, slightly chaotic, never aggressive or intimidating. Perfect for a humorous children's quiz show. Speak natural standard German (Hochdeutsch), with clear pronunciation suitable for very young children. Lebhafter, schneller, warmer deutscher Kinderquizshow-Moderator; energiegeladen und verspielt, wie eine überdrehte Gameshow, aber nie gemein oder erschreckend. Natürliches Deutsch, klare Aussprache und abwechslungsreiche Betonung. Very excited and energetic.",
+            "dtype": "float16",
+            "device": "cuda:0"
+          },
+          "generation_parameters": {
+            "max_new_tokens": 48,
+            "seed": 2365063430
+          },
+          "error": null,
+          "sample_rate": 24000,
+          "generation_seconds": 3.158,
+          "peak_gpu_memory_mb": 4041.2
+        }
+      ],
+      "status": "success",
+      "voice_design": {
+        "language": "German",
+        "instruction": "A German male game show host with an extremely energetic, theatrical and playful personality. Fast-paced, highly expressive delivery, dramatic pauses, exaggerated excitement, sudden whispers and explosive celebrations. Warm, funny, slightly chaotic, never aggressive or intimidating. Perfect for a humorous children's quiz show. Speak natural standard German (Hochdeutsch), with clear pronunciation suitable for very young children. Lebhafter, schneller, warmer deutscher Kinderquizshow-Moderator; energiegeladen und verspielt, wie eine überdrehte Gameshow, aber nie gemein oder erschreckend. Natürliches Deutsch, klare Aussprache und abwechslungsreiche Betonung. Very excited and energetic."
+      }
+    },
+    "feedback.correct": {
+      "id": "feedback.correct",
+      "source_text": "Richtig!",
+      "text": "Richtig!",
+      "variants": [
+        {
+          "key": "default",
+          "values": {},
+          "text": "Richtig!",
+          "source_text": "Richtig!",
+          "path": "tests/correct.wav",
+          "duration_seconds": 0.64,
+          "status": "success",
+          "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+          "voice_design": {
+            "language": "German",
+            "instruction": "A German male game show host with an extremely energetic, theatrical and playful personality. Fast-paced, highly expressive delivery, dramatic pauses, exaggerated excitement, sudden whispers and explosive celebrations. Warm, funny, slightly chaotic, never aggressive or intimidating. Perfect for a humorous children's quiz show. Speak natural standard German (Hochdeutsch), with clear pronunciation suitable for very young children. Lebhafter, schneller, warmer deutscher Kinderquizshow-Moderator; energiegeladen und verspielt, wie eine überdrehte Gameshow, aber nie gemein oder erschreckend. Natürliches Deutsch, klare Aussprache und abwechslungsreiche Betonung. Exuberant, celebratory, and warmly delighted.",
+            "dtype": "float16",
+            "device": "cuda:0"
+          },
+          "generation_parameters": {
+            "max_new_tokens": 32,
+            "seed": 2229826391
+          },
+          "error": null,
+          "sample_rate": 24000,
+          "generation_seconds": 0.993,
+          "peak_gpu_memory_mb": 4041.2
+        }
+      ],
+      "status": "success",
+      "voice_design": {
+        "language": "German",
+        "instruction": "A German male game show host with an extremely energetic, theatrical and playful personality. Fast-paced, highly expressive delivery, dramatic pauses, exaggerated excitement, sudden whispers and explosive celebrations. Warm, funny, slightly chaotic, never aggressive or intimidating. Perfect for a humorous children's quiz show. Speak natural standard German (Hochdeutsch), with clear pronunciation suitable for very young children. Lebhafter, schneller, warmer deutscher Kinderquizshow-Moderator; energiegeladen und verspielt, wie eine überdrehte Gameshow, aber nie gemein oder erschreckend. Natürliches Deutsch, klare Aussprache und abwechslungsreiche Betonung. Exuberant, celebratory, and warmly delighted."
+      }
+    },
+    "q01.question": {
+      "id": "q01.question",
+      "source_text": "Welches Tier sagt „Miau“?",
+      "text": "Welches Tier sagt „Miau“?",
+      "variants": [
+        {
+          "key": "default",
+          "values": {},
+          "text": "Welches Tier sagt „Miau“?",
+          "source_text": "Welches Tier sagt „Miau“?",
+          "path": "tests/question.wav",
+          "duration_seconds": 3.76,
+          "status": "success",
+          "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+          "voice_design": {
+            "language": "German",
+            "instruction": "A German male game show host with an extremely energetic, theatrical and playful personality. Fast-paced, highly expressive delivery, dramatic pauses, exaggerated excitement, sudden whispers and explosive celebrations. Warm, funny, slightly chaotic, never aggressive or intimidating. Perfect for a humorous children's quiz show. Speak natural standard German (Hochdeutsch), with clear pronunciation suitable for very young children. Lebhafter, schneller, warmer deutscher Kinderquizshow-Moderator; energiegeladen und verspielt, wie eine überdrehte Gameshow, aber nie gemein oder erschreckend. Natürliches Deutsch, klare Aussprache und abwechslungsreiche Betonung. Curious, playful, and inviting, with a dramatic pause before the question.",
+            "dtype": "float16",
+            "device": "cuda:0"
+          },
+          "generation_parameters": {
+            "max_new_tokens": 48,
+            "seed": 2099415340
+          },
+          "error": null,
+          "sample_rate": 24000,
+          "generation_seconds": 5.328,
+          "peak_gpu_memory_mb": 4065.7
+        }
+      ],
+      "status": "success",
+      "voice_design": {
+        "language": "German",
+        "instruction": "A German male game show host with an extremely energetic, theatrical and playful personality. Fast-paced, highly expressive delivery, dramatic pauses, exaggerated excitement, sudden whispers and explosive celebrations. Warm, funny, slightly chaotic, never aggressive or intimidating. Perfect for a humorous children's quiz show. Speak natural standard German (Hochdeutsch), with clear pronunciation suitable for very young children. Lebhafter, schneller, warmer deutscher Kinderquizshow-Moderator; energiegeladen und verspielt, wie eine überdrehte Gameshow, aber nie gemein oder erschreckend. Natürliches Deutsch, klare Aussprache und abwechslungsreiche Betonung. Curious, playful, and inviting, with a dramatic pause before the question."
+      }
+    }
+  },
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "updated_at": "2026-11-21T12:57:32.872598+00:00",
+  "model_load_seconds": 4.897
+}

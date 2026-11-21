@@ -1,0 +1,49 @@
+# Generated production audio (kept on Athene, not in Git)
+/output/
+
+# Operating system files
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+
+# Node and Python environments
+node_modules/
+.venv/
+venv/
+env/
+.tools/
+.tox/
+.nox/
+
+# Python caches and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Model weights and local caches
+.cache/
+*.safetensors
+*.ckpt
+*.pth
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Editors
+.idea/
+.vscode/
