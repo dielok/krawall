@@ -1,27 +1,37 @@
 import {useEffect,useRef,useState} from 'react';
 import {Narrator,type Cue} from './audio';
+import {SoundDirector} from './sounds';
 import {phrase,result,type Question} from './game';
 import {allCategory,categories,categoryName} from './categories';
 import {createShowRound,type CategoryBlock} from './show';
 
 type Screen='menu'|'instructions'|'settings'|'categories'|'categoryIntro'|'question'|'results';
 type Action='UP'|'DOWN'|'CONFIRM'|'BACK'|'MENU'|'REPEAT'|'ANSWER_X'|'ANSWER_Y'|'ANSWER_B'|'ANSWER_A';
-type State={screen:Screen;paused:boolean;length:5|10|20;categoryId:string;voiceOn:boolean;round:Question[];blocks:CategoryBlock[];index:number;points:number;answered:number|null;focus:number};
+type State={screen:Screen;paused:boolean;length:5|10|20;categoryId:string;voiceOn:boolean;soundOn:boolean;round:Question[];blocks:CategoryBlock[];index:number;points:number;answered:number|null;focus:number};
 const letters=['X','Y','B','A'] as const;
 const colors=['blau','gelb','rot','grün'] as const;
-const choices:Record<string,string[]>={menu:['start','instructions','settings'],instructions:['back'],settings:['length5','length10','length20','sound','back'],categories:['category:all',...categories.map(c=>'category:'+c.id),'back'],results:['restart','menu'],pause:['resume','repeat','menu']};
-const padActions:Record<number,Action>={0:'ANSWER_A',1:'ANSWER_B',2:'ANSWER_X',3:'ANSWER_Y',9:'MENU',5:'REPEAT',12:'UP',13:'DOWN'};
+const choices:Record<string,string[]>={menu:['start','instructions','settings'],instructions:['back'],settings:['length5','length10','length20','sound','effects','back'],categories:['category:all',...categories.map(c=>'category:'+c.id),'back'],results:['restart','menu'],pause:['resume','repeat','menu']};
+// Standard Gamepad API: 0=A, 1=B, 2=X (left/blue), 3=Y (top/yellow).
+export const padActions:Record<number,Action>={0:'ANSWER_A',1:'ANSWER_B',2:'ANSWER_X',3:'ANSWER_Y',9:'MENU',5:'REPEAT',12:'UP',13:'DOWN'};
 const cue=(id:string,text=phrase(id)):Cue=>({id,text});
 const padded=(value:number)=>String(value).padStart(2,'0');
 
 export function App(){
- const [s,setS]=useState<State>({screen:'menu',paused:false,length:10,categoryId:'all',voiceOn:true,round:[],blocks:[],index:0,points:0,answered:null,focus:0});
+ const [s,setS]=useState<State>({screen:'menu',paused:false,length:10,categoryId:'all',voiceOn:true,soundOn:true,round:[],blocks:[],index:0,points:0,answered:null,focus:0});
  const ref=useRef(s);ref.current=s;
  const narrator=useRef(new Narrator());
+ const sounds=useRef(new SoundDirector());
+ const speechPhase=useRef<'question'|'feedback'|null>(null);
+ const queuedAdvance=useRef(false);
+ narrator.current.onActivityChange=active=>sounds.current.setSpeaking(active);
  const timeout=useRef<ReturnType<typeof setTimeout>|null>(null);
  const [controller,setController]=useState('Controller: Zum Verbinden eine Taste drücken.');
- function patch(next:Partial<State>){ref.current={...ref.current,...next};setS(ref.current);}
- function stop(){if(timeout.current!==null){clearTimeout(timeout.current);timeout.current=null;}narrator.current.stop();}
+ function patch(next:Partial<State>){
+  ref.current={...ref.current,...next};setS(ref.current);
+  const state=ref.current;
+  sounds.current.setScene(state.paused?'pause':state.screen==='categoryIntro'?'intro':state.screen==='results'?'results':state.screen==='question'?(state.answered!==null?'feedback':speechPhase.current==='question'?'question':'waiting'):'menu');
+ }
+ function stop(){if(timeout.current!==null){clearTimeout(timeout.current);timeout.current=null;}speechPhase.current=null;queuedAdvance.current=false;narrator.current.stop();}
  function questionSpeech(q:Question,i:number){
   const lines:Cue[]=[cue('question.prefix.question_number-'+padded(i+1), 'Frage '+(i+1)+'.'),cue(q.id+'.question',q.text)];
   q.options.forEach((option,j)=>{
@@ -29,12 +39,23 @@ export function App(){
    const text=(j===3?'Oder ':'')+letters[j]+', '+colors[j]+':';
    lines.push(cue(prefix,text),cue(option.id,option.spoken));
   });
-  narrator.current.play(lines);
+  speechPhase.current='question';
+  sounds.current.setScene('question');
+  narrator.current.play(lines,()=>{
+   speechPhase.current=null;
+   if(ref.current.screen==='question'&&ref.current.index===i){
+    if(ref.current.answered!==null)feedbackSpeech(q,ref.current.answered);
+    else sounds.current.setScene('waiting');
+   }
+  });
  }
  function feedbackSpeech(q:Question,i:number){
   const correct=q.options[i].correct;
+  speechPhase.current='feedback';
   narrator.current.play([cue(correct?'feedback.correct':'feedback.incorrect'),cue(q.id+(correct?'.correct':'.incorrect'),correct?q.fun:q.wrong)],()=>{
-   timeout.current=setTimeout(()=>advance(),ref.current.voiceOn?900:4000);
+   speechPhase.current=null;
+   timeout.current=setTimeout(()=>advance(),queuedAdvance.current?250:ref.current.voiceOn?900:4000);
+   queuedAdvance.current=false;
   });
  }
  function showIntro(index:number){
@@ -42,6 +63,7 @@ export function App(){
   const block=ref.current.blocks.find(b=>b.start===index)!;
   patch({screen:'categoryIntro',index,answered:null,focus:0,paused:false});
   narrator.current.enabled=ref.current.voiceOn;
+  sounds.current.playEffect('intro');
   narrator.current.play([cue(block.intro.id,block.intro.text)],()=>{
    timeout.current=setTimeout(()=>enterQuestion(index),ref.current.voiceOn?500:1500);
   });
@@ -60,6 +82,7 @@ export function App(){
  function advance(){
   const current=ref.current;
   if(current.screen!=='question'||current.paused||current.answered===null)return;
+  if(speechPhase.current!==null){queuedAdvance.current=true;return;}
   stop();
   if(current.index+1<current.round.length){
    const nextIndex=current.index+1;
@@ -70,6 +93,7 @@ export function App(){
    }
   }else{
    patch({screen:'results',focus:0});
+   sounds.current.playEffect('results');
    const outcome=result(current.points,current.round.length);
    narrator.current.play([cue('results.intro'),
     cue('results.score.points-'+padded(current.points)+'.total-'+padded(current.round.length),current.points+' von '+current.round.length+' Fragen richtig.'),
@@ -79,10 +103,12 @@ export function App(){
  function answer(i:number){
   const state=ref.current;
   if(state.screen!=='question'||state.paused||state.answered!==null||!state.round[state.index]||i<0||i>3)return;
-  stop();
+  const wasReading=speechPhase.current==='question';
+  if(!wasReading)stop();
   const q=state.round[state.index];
   patch({answered:i,points:state.points+(q.options[i].correct?1:0)});
-  feedbackSpeech(q,i);
+  sounds.current.playEffect(q.options[i].correct?'correct':'wrong');
+  if(!wasReading)feedbackSpeech(q,i);
  }
  function pause(){
   stop();patch({paused:true,focus:0});
@@ -109,6 +135,7 @@ export function App(){
    case 'back':toMenu();break;
    case 'resume':resume();break;
    case 'repeat':input('REPEAT');break;
+   case 'effects':sounds.current.setEnabled(!state.soundOn);patch({soundOn:!state.soundOn});break;
    case 'sound':stop();narrator.current.enabled=!state.voiceOn;patch({voiceOn:!state.voiceOn});
     if(!state.voiceOn)narrator.current.play([cue('settings.voice_on')]);break;
   }
@@ -202,7 +229,7 @@ export function App(){
   frame=requestAnimationFrame(poll);
   return()=>cancelAnimationFrame(frame);
  },[]);
- useEffect(()=>()=>stop(),[]);
+ useEffect(()=>{sounds.current.setScene('menu');return()=>{stop();sounds.current.stop();};},[]);
  const q=s.round[s.index];
  const currentBlock=s.blocks.find(block=>block.start<=s.index&&s.index<block.start+block.length);
  const blockPosition=currentBlock?s.blocks.indexOf(currentBlock)+1:0;
@@ -215,7 +242,7 @@ export function App(){
    {s.screen==='menu'&&<section className="screen"><div className="character">🎤</div><div className="eyebrow">Die große Mini-Quizshow</div><h1>Bereit für Quiz-Krawall?</h1>{menu([{text:'▶ Spiel starten',action:'start',kind:'primary'},{text:'So funktioniert’s',action:'instructions'},{text:'⚙ Einstellungen',action:'settings'},{text:'Kategorien',action:'categories'}])}<p className="category-choice">Aktuelle Auswahl: {categoryName(s.categoryId)}</p><div className="helper">Controller: Steuerkreuz + A · Tastatur: Pfeiltasten + Enter · Maus: Klicken</div></section>}
    {s.screen==='instructions'&&<section className="screen"><div className="character">🎮</div><h2>So funktioniert’s</h2><p className="info-paragraph">Höre die Frage und drücke die richtige bunte Taste. <strong>X = Blau, Y = Gelb, B = Rot, A = Grün.</strong> Alternativ X/Y/B/A oder 1–4 auf der Tastatur oder mit der Maus klicken.</p><p className="info-paragraph">Nach jeder Antwort kommt ein lustiger Spruch, dann geht es weiter. Start / Esc / ☰ pausiert das Spiel.</p>{menu([{text:'← Zurück',action:'back',kind:'primary'}])}</section>}
    {s.screen==='categories'&&<section className="screen category-screen"><div className="character">🎲</div><h2>Kategorie auswählen</h2><p className="category-explainer">Je Kategorie gibt es zehn Fragen. Bei „Alles gemischt“ sind alle vierzig dabei.</p>{menu([{text:allCategory.icon+' '+allCategory.name+(s.categoryId==='all'?' ✓':''),action:'category:all'},...categories.map(c=>({text:c.icon+' '+c.name+(s.categoryId===c.id?' ✓':''),action:'category:'+c.id})),{text:'← Zurück',action:'back'}])}</section>}
-   {s.screen==='settings'&&<section className="screen"><div className="character">⚙️</div><h2>Einstellungen</h2><p>Wie viele Fragen möchtest du spielen?</p><div className="options">{([5,10,20] as const).map((n,i)=><button type="button" className={'length-btn '+(s.focus===i?'focused':'')} aria-pressed={s.length===n} key={n} onMouseEnter={()=>patch({focus:i})} onClick={()=>perform('length'+n)}><span>{n}</span></button>)}</div>{menu([{text:s.voiceOn?'🔊 Stimme an':'🔇 Stimme aus',action:'sound'},{text:'← Zurück zum Menü',action:'back',kind:'primary'}],3)}</section>}
+   {s.screen==='settings'&&<section className="screen"><div className="character">⚙️</div><h2>Einstellungen</h2><p>Wie viele Fragen möchtest du spielen?</p><div className="options">{([5,10,20] as const).map((n,i)=><button type="button" className={'length-btn '+(s.focus===i?'focused':'')} aria-pressed={s.length===n} key={n} onMouseEnter={()=>patch({focus:i})} onClick={()=>perform('length'+n)}><span>{n}</span></button>)}</div>{menu([{text:s.voiceOn?'🔊 Stimme an':'🔇 Stimme aus',action:'sound'},{text:s.soundOn?'♫ Musik & Effekte an':'♫ Musik & Effekte aus',action:'effects'},{text:'← Zurück zum Menü',action:'back',kind:'primary'}],3)}</section>}
    {s.screen==='categoryIntro'&&currentBlock&&<section className="screen show-intro">
     <div className="intro-eyebrow">KATEGORIE {blockPosition} VON {s.blocks.length}</div>
     <div className="intro-symbol" aria-hidden="true">{categories.find(c=>c.id===currentBlock.categoryId)!.icon}</div>
