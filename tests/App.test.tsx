@@ -169,3 +169,69 @@ describe('additional controller and audio transitions',()=>{
   expect(screen.queryByText('Pause')).toBeNull();
  });
 });
+
+
+describe('branch completion: navigation, callbacks and gamepad states',()=>{
+ it('executes menu hover, settings focus and question replay button callbacks',()=>{
+  render(<App/>);
+  fireEvent.mouseEnter(screen.getByRole('button',{name:'So funktioniert’s'}));
+  key('Enter');expect(screen.getByText('So funktioniert’s',{selector:'h2'})).toBeTruthy();
+  click(/Zurück/);click('⚙ Einstellungen');
+  fireEvent.mouseEnter(screen.getByRole('button',{name:'5'}));
+  key('Enter');expect(screen.getByRole('button',{name:'5'}).getAttribute('aria-pressed')).toBe('true');
+  key('Escape');click(/Spiel starten/);
+  click(/Frage vorlesen/);expect(narrator.play.mock.calls.length).toBeGreaterThan(1);
+ });
+ it('covers key repeat, left, up and unknown keys',()=>{
+  render(<App/>);key('ArrowDown');key('ArrowUp');
+  fireEvent.keyDown(window,{key:'ArrowDown',repeat:true});
+  fireEvent.keyDown(window,{key:'n'});
+  key('ArrowLeft');key('ArrowRight');
+  key('Enter');expect(screen.getByText('So funktioniert’s',{selector:'h2'})).toBeTruthy();
+ });
+ it('uses shorter silent-feedback timing and ignores delayed callbacks on new questions',()=>{
+  vi.useFakeTimers();render(<App/>);
+  click('⚙ Einstellungen');click(/Stimme an/);click(/Zurück zum Menü/);click(/Spiel starten/);
+  key('x');expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
+  key('Enter');expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
+  key('x');key('Enter');expect(screen.getByText('Frage 3 von 10')).toBeTruthy();
+  // With voice off, feedback is scheduled on the 4-second path only when narrator completes.
+ });
+ it('ignores a delayed feedback callback after quitting the round',()=>{
+  vi.useFakeTimers();render(<App/>);click(/Spiel starten/);key('x');
+  const done=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
+  expect(done).toBeTypeOf('function');
+  key('Escape');click(/Zum Hauptmenü/);
+  act(()=>done?.());act(()=>vi.advanceTimersByTime(900));
+  expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
+ });
+ it('handles old voice callbacks after the next question has started',()=>{
+  vi.useFakeTimers();render(<App/>);click(/Spiel starten/);key('x');
+  const done=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
+  key('Enter');expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
+  act(()=>done?.());act(()=>vi.advanceTimersByTime(900));
+  expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
+ });
+ it('handles controller stick, held inputs, menu back, D-pad and menu repeat',()=>{
+  const buttons=Array.from({length:16},()=>({pressed:false,touched:false,value:0}));
+  pad={index:0,buttons,axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);act(()=>frameCallback?.(0));
+  (pad.axes as number[])[1]=1;act(()=>frameCallback?.(0));
+  act(()=>frameCallback?.(0)); // held stick should not repeat
+  (pad.axes as number[])[1]=0;act(()=>frameCallback?.(0));
+  (pad.axes as number[])[1]=-1;act(()=>frameCallback?.(0));
+  (pad.axes as number[])[1]=0;act(()=>frameCallback?.(0));
+  tickPad(13);tickPad(12);
+  tickPad(0);expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  tickPad(9);expect(screen.getByText('Pause')).toBeTruthy();
+  tickPad(13);tickPad(12);tickPad(5); // menu navigation and replay
+  expect(screen.queryByText('Pause')).toBeNull();
+ });
+ it('does not process button held continuously across animation frames',()=>{
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);act(()=>frameCallback?.(0));
+  (pad.buttons as GamepadButton[])[0]={pressed:true,touched:true,value:1};
+  act(()=>frameCallback?.(0));act(()=>frameCallback?.(0));
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+});

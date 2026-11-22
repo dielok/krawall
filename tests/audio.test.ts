@@ -88,3 +88,20 @@ describe('narration',()=>{
   expect(players).toHaveLength(0);expect(done).toHaveBeenCalledOnce();
  });
 });
+
+
+describe('narration race safety',()=>{
+ it('short-circuits old queued clips after interruption',async()=>{
+  const n=new Narrator(),done=vi.fn();
+  n.play([{id:'first',text:'One'},{id:'second',text:'Two'}],done);
+  n.stop();await tick();
+  expect(players).toHaveLength(1);expect(done).not.toHaveBeenCalled();
+ });
+ it('ignores duplicate completion events',async()=>{
+  const n=new Narrator(),done=vi.fn();
+  n.play([{id:'only',text:'One'}],done);
+  const completed=players[0].onended;
+  completed?.();completed?.();await tick();
+  expect(done).toHaveBeenCalledOnce();
+ });
+});

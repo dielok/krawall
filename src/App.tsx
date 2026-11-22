@@ -65,11 +65,10 @@ export function App(){
   feedbackSpeech(q,i);
  }
  function pause(){
-  const state=ref.current;if(state.screen!=='question'||state.paused)return;
   stop();patch({paused:true,focus:0});
  }
  function resume(replay=false){
-  const state=ref.current;if(!state.paused)return;
+  const state=ref.current;
   stop();patch({paused:false,focus:0});
   if(state.answered===null||replay){
    if(state.answered===null)questionSpeech(state.round[state.index],state.index);
@@ -86,7 +85,7 @@ export function App(){
    case 'length5':case 'length10':case 'length20':patch({length:Number(action.slice(6)) as 5|10|20});break;
    case 'instructions':case 'settings':stop();patch({screen:action,focus:0});break;
    case 'menu':toMenu();break;
-   case 'back':state.paused?resume():toMenu();break;
+   case 'back':toMenu();break;
    case 'resume':resume();break;
    case 'repeat':input('REPEAT');break;
    case 'sound':stop();narrator.current.enabled=!state.voiceOn;patch({voiceOn:!state.voiceOn});
@@ -120,9 +119,9 @@ export function App(){
    else if(action==='CONFIRM'&&state.answered!==null)advance();
    return;
   }
-  const menu=choices[state.paused?'pause':state.screen]??[];
+  const menu=choices[state.paused?'pause':state.screen];
   if(action==='UP'||action==='DOWN')patch({focus:(state.focus+(action==='DOWN'?1:-1)+menu.length)%Math.max(menu.length,1)});
-  else if(action==='CONFIRM')perform(menu[state.focus]??menu[0]);
+  else if(action==='CONFIRM')perform(menu[state.focus]);
  }
  const inputRef=useRef(input);inputRef.current=input;
  useEffect(()=>{
