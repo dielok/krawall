@@ -29,7 +29,7 @@ export function App(){
  function patch(next:Partial<State>){
   ref.current={...ref.current,...next};setS(ref.current);
   const state=ref.current;
-  sounds.current.setScene(state.paused?'pause':state.screen==='categoryIntro'?'intro':state.screen==='results'?'results':state.screen==='question'?(state.answered!==null?'feedback':speechPhase.current==='question'?'question':'waiting'):'menu');
+  sounds.current.setScene(state.paused?'pause':state.screen==='categoryIntro'?'intro':state.screen==='results'?'results':state.screen==='question'?(state.answered!==null?'feedback':'waiting'):'menu');
  }
  function stop(){if(timeout.current!==null){clearTimeout(timeout.current);timeout.current=null;}speechPhase.current=null;queuedAdvance.current=false;narrator.current.stop();}
  function questionSpeech(q:Question,i:number){

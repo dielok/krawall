@@ -1,11 +1,12 @@
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
 import {fireEvent,render,screen,cleanup,act} from '@testing-library/react';
 import {App} from '../src/App';
-const narrator=vi.hoisted(()=>({play:vi.fn(),stop:vi.fn(),enabled:true}));
+const narrator=vi.hoisted(()=>({play:vi.fn(),stop:vi.fn(),enabled:true,activity:null as null|((active:boolean)=>void)}));
 const sound=vi.hoisted(()=>({setScene:vi.fn(),setSpeaking:vi.fn(),playEffect:vi.fn(),setEnabled:vi.fn(),stop:vi.fn()}));
 vi.mock('../src/sounds',()=>({SoundDirector:class {setScene= sound.setScene;setSpeaking=sound.setSpeaking;playEffect=sound.playEffect;setEnabled=sound.setEnabled;stop=sound.stop;}}));
 vi.mock('../src/audio',()=>({
  Narrator:class {get enabled(){return narrator.enabled;}set enabled(v:boolean){narrator.enabled=v;}
+  set onActivityChange(callback:(active:boolean)=>void){narrator.activity=callback;}
   play(cues:unknown[],done?:()=>void){narrator.play(cues,done);}
   stop(){narrator.stop();}}
 }));
@@ -23,7 +24,7 @@ function tickPad(button:number){
  act(()=>frameCallback?.(0));
 }
 beforeEach(()=>{
- narrator.play.mockReset();narrator.play.mockImplementation((cues:unknown[],done?:()=>void)=>{if(cues.length>5||cues.length===2)done?.();});narrator.stop.mockReset();narrator.enabled=true;
+ narrator.activity=null;narrator.play.mockReset();narrator.play.mockImplementation((cues:unknown[],done?:()=>void)=>{if(cues.length>5||cues.length===2)done?.();});narrator.stop.mockReset();narrator.enabled=true;
  for(const fn of Object.values(sound))fn.mockReset();
  pad=null;frameCallback=undefined;
  vi.stubGlobal('requestAnimationFrame',vi.fn((f:FrameRequestCallback)=>{frameCallback=f;return 1;}));
@@ -444,5 +445,29 @@ describe('controller color mapping and sound cues',()=>{
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
   act(()=>finish?.());
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+});
+
+
+describe('sound activation and defensive progression',()=>{
+ it('automatically ducks the sound director when narration starts and restores afterwards',()=>{
+  render(<App/>);
+  expect(narrator.activity).toBeTypeOf('function');
+  act(()=>narrator.activity?.(true));
+  expect(sound.setSpeaking).toHaveBeenCalledWith(true);
+  act(()=>narrator.activity?.(false));
+  expect(sound.setSpeaking).toHaveBeenCalledWith(false);
+ });
+ it('ignores an expired advancement when paused, back in menu or on an unanswered question',()=>{
+  vi.useFakeTimers();
+  render(<App/>);startQuiz();
+  key('x');
+  const timer=vi.getTimerCount();
+  expect(timer).toBeGreaterThan(0);
+  key('Escape');
+  act(()=>vi.advanceTimersByTime(1500));
+  expect(screen.getByText('Pause')).toBeTruthy();
+  click(/Zum Hauptmenü/);
+  expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
  });
 });
