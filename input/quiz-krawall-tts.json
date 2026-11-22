@@ -1741,7 +1741,7 @@
       "question_id": "q21",
       "answer_id": "q21-a1",
       "correct": true,
-      "display_label": "Die Kuh"
+      "display_label": "Die Kuh 🐄"
     },
     {
       "id": "q21.answer.2",
@@ -1752,7 +1752,7 @@
       "question_id": "q21",
       "answer_id": "q21-a2",
       "correct": false,
-      "display_label": "Der Hund"
+      "display_label": "Der Hund 🐶"
     },
     {
       "id": "q21.answer.3",
@@ -1763,7 +1763,7 @@
       "question_id": "q21",
       "answer_id": "q21-a3",
       "correct": false,
-      "display_label": "Die Ente"
+      "display_label": "Die Ente 🦆"
     },
     {
       "id": "q21.answer.4",
@@ -1774,7 +1774,7 @@
       "question_id": "q21",
       "answer_id": "q21-a4",
       "correct": false,
-      "display_label": "Die Maus"
+      "display_label": "Die Maus 🐭"
     },
     {
       "id": "q21.correct",
@@ -1817,7 +1817,7 @@
       "question_id": "q22",
       "answer_id": "q22-a1",
       "correct": true,
-      "display_label": "Die Schnecke"
+      "display_label": "Die Schnecke 🐌"
     },
     {
       "id": "q22.answer.2",
@@ -1828,7 +1828,7 @@
       "question_id": "q22",
       "answer_id": "q22-a2",
       "correct": false,
-      "display_label": "Das Pferd"
+      "display_label": "Das Pferd 🐴"
     },
     {
       "id": "q22.answer.3",
@@ -1839,7 +1839,7 @@
       "question_id": "q22",
       "answer_id": "q22-a3",
       "correct": false,
-      "display_label": "Der Schmetterling"
+      "display_label": "Der Schmetterling 🦋"
     },
     {
       "id": "q22.answer.4",
@@ -1850,7 +1850,7 @@
       "question_id": "q22",
       "answer_id": "q22-a4",
       "correct": false,
-      "display_label": "Die Katze"
+      "display_label": "Die Katze 🐱"
     },
     {
       "id": "q22.correct",
@@ -1893,7 +1893,7 @@
       "question_id": "q23",
       "answer_id": "q23-a1",
       "correct": true,
-      "display_label": "Der Frosch"
+      "display_label": "Der Frosch 🐸"
     },
     {
       "id": "q23.answer.2",
@@ -1904,7 +1904,7 @@
       "question_id": "q23",
       "answer_id": "q23-a2",
       "correct": false,
-      "display_label": "Die Biene"
+      "display_label": "Die Biene 🐝"
     },
     {
       "id": "q23.answer.3",
@@ -1915,7 +1915,7 @@
       "question_id": "q23",
       "answer_id": "q23-a3",
       "correct": false,
-      "display_label": "Das Schaf"
+      "display_label": "Das Schaf 🐑"
     },
     {
       "id": "q23.answer.4",
@@ -1926,7 +1926,7 @@
       "question_id": "q23",
       "answer_id": "q23-a4",
       "correct": false,
-      "display_label": "Der Igel"
+      "display_label": "Der Igel 🦔"
     },
     {
       "id": "q23.correct",
@@ -1969,7 +1969,7 @@
       "question_id": "q24",
       "answer_id": "q24-a1",
       "correct": true,
-      "display_label": "Die Biene"
+      "display_label": "Die Biene 🐝"
     },
     {
       "id": "q24.answer.2",
@@ -1980,7 +1980,7 @@
       "question_id": "q24",
       "answer_id": "q24-a2",
       "correct": false,
-      "display_label": "Der Elefant"
+      "display_label": "Der Elefant 🐘"
     },
     {
       "id": "q24.answer.3",
@@ -1991,7 +1991,7 @@
       "question_id": "q24",
       "answer_id": "q24-a3",
       "correct": false,
-      "display_label": "Der Hase"
+      "display_label": "Der Hase 🐰"
     },
     {
       "id": "q24.answer.4",
@@ -2002,7 +2002,7 @@
       "question_id": "q24",
       "answer_id": "q24-a4",
       "correct": false,
-      "display_label": "Der Pinguin"
+      "display_label": "Der Pinguin 🐧"
     },
     {
       "id": "q24.correct",
@@ -2045,7 +2045,7 @@
       "question_id": "q25",
       "answer_id": "q25-a1",
       "correct": true,
-      "display_label": "Mit Wasser und Seife"
+      "display_label": "Mit Wasser und Seife 🧼"
     },
     {
       "id": "q25.answer.2",
@@ -2056,7 +2056,7 @@
       "question_id": "q25",
       "answer_id": "q25-a2",
       "correct": false,
-      "display_label": "Mit Sand"
+      "display_label": "Mit Sand 🏖️"
     },
     {
       "id": "q25.answer.3",
@@ -2067,7 +2067,7 @@
       "question_id": "q25",
       "answer_id": "q25-a3",
       "correct": false,
-      "display_label": "Mit Farbe"
+      "display_label": "Mit Farbe 🎨"
     },
     {
       "id": "q25.answer.4",
@@ -2078,7 +2078,7 @@
       "question_id": "q25",
       "answer_id": "q25-a4",
       "correct": false,
-      "display_label": "Mit Knete"
+      "display_label": "Mit Knete 🟠"
     },
     {
       "id": "q25.correct",
@@ -2121,7 +2121,7 @@
       "question_id": "q26",
       "answer_id": "q26-a1",
       "correct": true,
-      "display_label": "Schuhe"
+      "display_label": "Schuhe 👟"
     },
     {
       "id": "q26.answer.2",
@@ -2132,7 +2132,7 @@
       "question_id": "q26",
       "answer_id": "q26-a2",
       "correct": false,
-      "display_label": "Handschuhe"
+      "display_label": "Handschuhe 🧤"
     },
     {
       "id": "q26.answer.3",
@@ -2143,7 +2143,7 @@
       "question_id": "q26",
       "answer_id": "q26-a3",
       "correct": false,
-      "display_label": "Eine Mütze"
+      "display_label": "Eine Mütze 🧢"
     },
     {
       "id": "q26.answer.4",
@@ -2154,7 +2154,7 @@
       "question_id": "q26",
       "answer_id": "q26-a4",
       "correct": false,
-      "display_label": "Einen Schal"
+      "display_label": "Einen Schal 🧣"
     },
     {
       "id": "q26.correct",
@@ -2197,7 +2197,7 @@
       "question_id": "q27",
       "answer_id": "q27-a1",
       "correct": true,
-      "display_label": "Die Sonne"
+      "display_label": "Die Sonne ☀️"
     },
     {
       "id": "q27.answer.2",
@@ -2208,7 +2208,7 @@
       "question_id": "q27",
       "answer_id": "q27-a2",
       "correct": false,
-      "display_label": "Die Taschenlampe"
+      "display_label": "Die Taschenlampe 🔦"
     },
     {
       "id": "q27.answer.3",
@@ -2219,7 +2219,7 @@
       "question_id": "q27",
       "answer_id": "q27-a3",
       "correct": false,
-      "display_label": "Der Kühlschrank"
+      "display_label": "Der Kühlschrank 🧊"
     },
     {
       "id": "q27.answer.4",
@@ -2230,7 +2230,7 @@
       "question_id": "q27",
       "answer_id": "q27-a4",
       "correct": false,
-      "display_label": "Der Ball"
+      "display_label": "Der Ball ⚽"
     },
     {
       "id": "q27.correct",
@@ -2273,7 +2273,7 @@
       "question_id": "q28",
       "answer_id": "q28-a1",
       "correct": true,
-      "display_label": "Der Wind"
+      "display_label": "Der Wind 💨"
     },
     {
       "id": "q28.answer.2",
@@ -2284,7 +2284,7 @@
       "question_id": "q28",
       "answer_id": "q28-a2",
       "correct": false,
-      "display_label": "Die Zahnbürste"
+      "display_label": "Die Zahnbürste 🪥"
     },
     {
       "id": "q28.answer.3",
@@ -2295,7 +2295,7 @@
       "question_id": "q28",
       "answer_id": "q28-a3",
       "correct": false,
-      "display_label": "Der Löffel"
+      "display_label": "Der Löffel 🥄"
     },
     {
       "id": "q28.answer.4",
@@ -2306,7 +2306,7 @@
       "question_id": "q28",
       "answer_id": "q28-a4",
       "correct": false,
-      "display_label": "Das Kissen"
+      "display_label": "Das Kissen 🛏️"
     },
     {
       "id": "q28.correct",
@@ -2349,7 +2349,7 @@
       "question_id": "q29",
       "answer_id": "q29-a1",
       "correct": true,
-      "display_label": "Eine Pfütze"
+      "display_label": "Eine Pfütze 💦"
     },
     {
       "id": "q29.answer.2",
@@ -2360,7 +2360,7 @@
       "question_id": "q29",
       "answer_id": "q29-a2",
       "correct": false,
-      "display_label": "Eine Sandburg"
+      "display_label": "Eine Sandburg 🏖️"
     },
     {
       "id": "q29.answer.3",
@@ -2371,7 +2371,7 @@
       "question_id": "q29",
       "answer_id": "q29-a3",
       "correct": false,
-      "display_label": "Ein Kuchen"
+      "display_label": "Ein Kuchen 🎂"
     },
     {
       "id": "q29.answer.4",
@@ -2382,7 +2382,7 @@
       "question_id": "q29",
       "answer_id": "q29-a4",
       "correct": false,
-      "display_label": "Ein Schneemann"
+      "display_label": "Ein Schneemann ⛄"
     },
     {
       "id": "q29.correct",
@@ -2425,7 +2425,7 @@
       "question_id": "q30",
       "answer_id": "q30-a1",
       "correct": true,
-      "display_label": "Eis"
+      "display_label": "Eis 🧊"
     },
     {
       "id": "q30.answer.2",
@@ -2436,7 +2436,7 @@
       "question_id": "q30",
       "answer_id": "q30-a2",
       "correct": false,
-      "display_label": "Watte"
+      "display_label": "Watte ☁️"
     },
     {
       "id": "q30.answer.3",
@@ -2447,7 +2447,7 @@
       "question_id": "q30",
       "answer_id": "q30-a3",
       "correct": false,
-      "display_label": "Brot"
+      "display_label": "Brot 🍞"
     },
     {
       "id": "q30.answer.4",
@@ -2458,7 +2458,7 @@
       "question_id": "q30",
       "answer_id": "q30-a4",
       "correct": false,
-      "display_label": "Papier"
+      "display_label": "Papier 📄"
     },
     {
       "id": "q30.correct",
@@ -2501,7 +2501,7 @@
       "question_id": "q31",
       "answer_id": "q31-a1",
       "correct": true,
-      "display_label": "Blühen"
+      "display_label": "Blühen 🌸"
     },
     {
       "id": "q31.answer.2",
@@ -2512,7 +2512,7 @@
       "question_id": "q31",
       "answer_id": "q31-a2",
       "correct": false,
-      "display_label": "Schuhe anziehen"
+      "display_label": "Schuhe anziehen 👟"
     },
     {
       "id": "q31.answer.3",
@@ -2523,7 +2523,7 @@
       "question_id": "q31",
       "answer_id": "q31-a3",
       "correct": false,
-      "display_label": "Fahrrad fahren"
+      "display_label": "Fahrrad fahren 🚲"
     },
     {
       "id": "q31.answer.4",
@@ -2534,7 +2534,7 @@
       "question_id": "q31",
       "answer_id": "q31-a4",
       "correct": false,
-      "display_label": "Suppe kochen"
+      "display_label": "Suppe kochen 🍲"
     },
     {
       "id": "q31.correct",
@@ -2577,7 +2577,7 @@
       "question_id": "q32",
       "answer_id": "q32-a1",
       "correct": true,
-      "display_label": "Donner"
+      "display_label": "Donner ⛈️"
     },
     {
       "id": "q32.answer.2",
@@ -2588,7 +2588,7 @@
       "question_id": "q32",
       "answer_id": "q32-a2",
       "correct": false,
-      "display_label": "Eine Fahrradklingel"
+      "display_label": "Eine Fahrradklingel 🚲"
     },
     {
       "id": "q32.answer.3",
@@ -2599,7 +2599,7 @@
       "question_id": "q32",
       "answer_id": "q32-a3",
       "correct": false,
-      "display_label": "Eine Spieluhr"
+      "display_label": "Eine Spieluhr 🎶"
     },
     {
       "id": "q32.answer.4",
@@ -2610,7 +2610,7 @@
       "question_id": "q32",
       "answer_id": "q32-a4",
       "correct": false,
-      "display_label": "Einen Wecker"
+      "display_label": "Einen Wecker ⏰"
     },
     {
       "id": "q32.correct",
@@ -2653,7 +2653,7 @@
       "question_id": "q33",
       "answer_id": "q33-a1",
       "correct": true,
-      "display_label": "Orange"
+      "display_label": "Orange 🟠"
     },
     {
       "id": "q33.answer.2",
@@ -2664,7 +2664,7 @@
       "question_id": "q33",
       "answer_id": "q33-a2",
       "correct": false,
-      "display_label": "Blau"
+      "display_label": "Blau 🔵"
     },
     {
       "id": "q33.answer.3",
@@ -2675,7 +2675,7 @@
       "question_id": "q33",
       "answer_id": "q33-a3",
       "correct": false,
-      "display_label": "Lila mit Punkten"
+      "display_label": "Lila mit Punkten 🟣"
     },
     {
       "id": "q33.answer.4",
@@ -2686,7 +2686,7 @@
       "question_id": "q33",
       "answer_id": "q33-a4",
       "correct": false,
-      "display_label": "Schwarz mit Sternen"
+      "display_label": "Schwarz mit Sternen 🌌"
     },
     {
       "id": "q33.correct",
@@ -2729,7 +2729,7 @@
       "question_id": "q34",
       "answer_id": "q34-a1",
       "correct": true,
-      "display_label": "Milch"
+      "display_label": "Milch 🥛"
     },
     {
       "id": "q34.answer.2",
@@ -2740,7 +2740,7 @@
       "question_id": "q34",
       "answer_id": "q34-a2",
       "correct": false,
-      "display_label": "Apfelsaft"
+      "display_label": "Apfelsaft 🧃"
     },
     {
       "id": "q34.answer.3",
@@ -2751,7 +2751,7 @@
       "question_id": "q34",
       "answer_id": "q34-a3",
       "correct": false,
-      "display_label": "Tomatensoße"
+      "display_label": "Tomatensoße 🍅"
     },
     {
       "id": "q34.answer.4",
@@ -2762,7 +2762,7 @@
       "question_id": "q34",
       "answer_id": "q34-a4",
       "correct": false,
-      "display_label": "Kakao mit Erdbeeren"
+      "display_label": "Kakao mit Erdbeeren 🍓"
     },
     {
       "id": "q34.correct",
@@ -2805,7 +2805,7 @@
       "question_id": "q35",
       "answer_id": "q35-a1",
       "correct": true,
-      "display_label": "Gelb"
+      "display_label": "Gelb 🟡"
     },
     {
       "id": "q35.answer.2",
@@ -2816,7 +2816,7 @@
       "question_id": "q35",
       "answer_id": "q35-a2",
       "correct": false,
-      "display_label": "Rosa"
+      "display_label": "Rosa 🩷"
     },
     {
       "id": "q35.answer.3",
@@ -2827,7 +2827,7 @@
       "question_id": "q35",
       "answer_id": "q35-a3",
       "correct": false,
-      "display_label": "Braun"
+      "display_label": "Braun 🟤"
     },
     {
       "id": "q35.answer.4",
@@ -2838,7 +2838,7 @@
       "question_id": "q35",
       "answer_id": "q35-a4",
       "correct": false,
-      "display_label": "Türkis"
+      "display_label": "Türkis 🩵"
     },
     {
       "id": "q35.correct",
@@ -2881,7 +2881,7 @@
       "question_id": "q36",
       "answer_id": "q36-a1",
       "correct": true,
-      "display_label": "Blau"
+      "display_label": "Blau 🔵"
     },
     {
       "id": "q36.answer.2",
@@ -2892,7 +2892,7 @@
       "question_id": "q36",
       "answer_id": "q36-a2",
       "correct": false,
-      "display_label": "Gelb"
+      "display_label": "Gelb 🟡"
     },
     {
       "id": "q36.answer.3",
@@ -2903,7 +2903,7 @@
       "question_id": "q36",
       "answer_id": "q36-a3",
       "correct": false,
-      "display_label": "Weiß"
+      "display_label": "Weiß ⚪"
     },
     {
       "id": "q36.answer.4",
@@ -2914,7 +2914,7 @@
       "question_id": "q36",
       "answer_id": "q36-a4",
       "correct": false,
-      "display_label": "Orange"
+      "display_label": "Orange 🟠"
     },
     {
       "id": "q36.correct",
@@ -2957,7 +2957,7 @@
       "question_id": "q37",
       "answer_id": "q37-a1",
       "correct": true,
-      "display_label": "Eine Gurke"
+      "display_label": "Eine Gurke 🥒"
     },
     {
       "id": "q37.answer.2",
@@ -2968,7 +2968,7 @@
       "question_id": "q37",
       "answer_id": "q37-a2",
       "correct": false,
-      "display_label": "Ein Croissant"
+      "display_label": "Ein Croissant 🥐"
     },
     {
       "id": "q37.answer.3",
@@ -2979,7 +2979,7 @@
       "question_id": "q37",
       "answer_id": "q37-a3",
       "correct": false,
-      "display_label": "Ein Brötchen"
+      "display_label": "Ein Brötchen 🥖"
     },
     {
       "id": "q37.answer.4",
@@ -2990,7 +2990,7 @@
       "question_id": "q37",
       "answer_id": "q37-a4",
       "correct": false,
-      "display_label": "Ein Keks"
+      "display_label": "Ein Keks 🍪"
     },
     {
       "id": "q37.correct",
@@ -3033,7 +3033,7 @@
       "question_id": "q38",
       "answer_id": "q38-a1",
       "correct": true,
-      "display_label": "Butter"
+      "display_label": "Butter 🧈"
     },
     {
       "id": "q38.answer.2",
@@ -3044,7 +3044,7 @@
       "question_id": "q38",
       "answer_id": "q38-a2",
       "correct": false,
-      "display_label": "Einen Stein"
+      "display_label": "Einen Stein 🪨"
     },
     {
       "id": "q38.answer.3",
@@ -3055,7 +3055,7 @@
       "question_id": "q38",
       "answer_id": "q38-a3",
       "correct": false,
-      "display_label": "Einen Bauklotz"
+      "display_label": "Einen Bauklotz 🧱"
     },
     {
       "id": "q38.answer.4",
@@ -3066,7 +3066,7 @@
       "question_id": "q38",
       "answer_id": "q38-a4",
       "correct": false,
-      "display_label": "Eine Socke"
+      "display_label": "Eine Socke 🧦"
     },
     {
       "id": "q38.correct",
@@ -3109,7 +3109,7 @@
       "question_id": "q39",
       "answer_id": "q39-a1",
       "correct": true,
-      "display_label": "Die Wassermelone"
+      "display_label": "Die Wassermelone 🍉"
     },
     {
       "id": "q39.answer.2",
@@ -3120,7 +3120,7 @@
       "question_id": "q39",
       "answer_id": "q39-a2",
       "correct": false,
-      "display_label": "Die Banane"
+      "display_label": "Die Banane 🍌"
     },
     {
       "id": "q39.answer.3",
@@ -3131,7 +3131,7 @@
       "question_id": "q39",
       "answer_id": "q39-a3",
       "correct": false,
-      "display_label": "Die Zitrone"
+      "display_label": "Die Zitrone 🍋"
     },
     {
       "id": "q39.answer.4",
@@ -3142,7 +3142,7 @@
       "question_id": "q39",
       "answer_id": "q39-a4",
       "correct": false,
-      "display_label": "Die Kokosnuss"
+      "display_label": "Die Kokosnuss 🥥"
     },
     {
       "id": "q39.correct",
@@ -3185,7 +3185,7 @@
       "question_id": "q40",
       "answer_id": "q40-a1",
       "correct": true,
-      "display_label": "Die Birne"
+      "display_label": "Die Birne 🍐"
     },
     {
       "id": "q40.answer.2",
@@ -3196,7 +3196,7 @@
       "question_id": "q40",
       "answer_id": "q40-a2",
       "correct": false,
-      "display_label": "Die Gabel"
+      "display_label": "Die Gabel 🍴"
     },
     {
       "id": "q40.answer.3",
@@ -3207,7 +3207,7 @@
       "question_id": "q40",
       "answer_id": "q40-a3",
       "correct": false,
-      "display_label": "Der Teller"
+      "display_label": "Der Teller 🍽️"
     },
     {
       "id": "q40.answer.4",
@@ -3218,7 +3218,7 @@
       "question_id": "q40",
       "answer_id": "q40-a4",
       "correct": false,
-      "display_label": "Die Zahnbürste"
+      "display_label": "Die Zahnbürste 🪥"
     },
     {
       "id": "q40.correct",

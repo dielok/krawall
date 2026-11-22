@@ -48,4 +48,20 @@ describe('question bank and randomization',()=>{
   const records=data.items.filter(i=>i.id.endsWith('.answer.1'));
   expect(records.some(i=>'display_label' in i&&i.display_label!==i.text)).toBe(true);
  });
+ it('gives every answer a relevant visible emoji without changing its spoken text',()=>{
+  const answers=data.items.filter(item=>item.category==='answer');
+  expect(answers).toHaveLength(data.question_count*4);
+  for(const answer of answers){
+   expect(answer.display_label,answer.id).toBeTruthy();
+   expect(answer.display_label,answer.id).toMatch(/\p{Extended_Pictographic}/u);
+   expect(answer.display_label,answer.id).toContain(answer.text);
+  }
+  const round=newRound(data.question_count,()=>0.2);
+  for(const question of round)for(const option of question.options){
+   expect(option.label,option.id).toMatch(/\p{Extended_Pictographic}/u);
+   const original=answers.find(answer=>answer.id===option.id)!;
+   expect(option.spoken).toBe(original.text);
+  }
+ });
+
 });

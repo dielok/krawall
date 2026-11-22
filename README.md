@@ -220,3 +220,5 @@ X/Y-Tastenpositionen und ist mit Interaktionstests abgesichert.
 
 Die Originaldateien unter `sounds/` unterliegen ihren jeweiligen Lizenzbedingungen
 und dürfen nicht als eigenständige Audio-Bibliothek weiterverteilt werden.
+
+Alle 160 Antwortoptionen besitzen einen `display_label` mit einem passenden Emoji. Das ursprüngliche `text`-Feld bleibt als TTS-Sprechertext unverändert. Tests prüfen die vollständige Zuordnung, sodass neue Fragen nicht versehentlich reine Textantworten enthalten.
