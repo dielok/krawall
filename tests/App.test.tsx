@@ -460,14 +460,20 @@ describe('sound activation and defensive progression',()=>{
  });
  it('ignores an expired advancement when paused, back in menu or on an unanswered question',()=>{
   vi.useFakeTimers();
+  const spy=vi.spyOn(globalThis,'setTimeout');
   render(<App/>);startQuiz();
   key('x');
-  const timer=vi.getTimerCount();
-  expect(timer).toBeGreaterThan(0);
+  const expired=spy.mock.calls.at(-1)?.[0] as (()=>void)|undefined;
+  expect(expired).toBeTypeOf('function');
   key('Escape');
-  act(()=>vi.advanceTimersByTime(1500));
+  act(()=>expired?.()); // a late timer must not bypass pause
   expect(screen.getByText('Pause')).toBeTruthy();
   click(/Zum Hauptmenü/);
+  act(()=>expired?.()); // a stale timer must not leave the main menu
   expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
+  startQuiz();
+  act(()=>expired?.()); // a stale timer must not skip an unanswered question
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  spy.mockRestore();
  });
 });
