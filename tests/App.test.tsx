@@ -260,3 +260,40 @@ describe('remaining moderator and pause branches',()=>{
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
 });
+
+describe('category menu',()=>{
+ it('offers all categories with ten questions each and a mixed choice',()=>{
+  render(<App/>);
+  click('Kategorien');
+  expect(screen.getByText('Kategorie auswählen')).toBeTruthy();
+  expect(screen.getByRole('button',{name:/Alles gemischt/})).toBeTruthy();
+  expect(screen.getByRole('button',{name:/Tiere/})).toBeTruthy();
+  expect(screen.getByRole('button',{name:/Alltag/})).toBeTruthy();
+  expect(screen.getByRole('button',{name:/Natur & Jahreszeiten/})).toBeTruthy();
+  expect(screen.getByRole('button',{name:/Essen & Farben/})).toBeTruthy();
+  click(/Tiere/);
+  expect(screen.getByText('Aktuelle Auswahl: Tiere')).toBeTruthy();
+  click(/Spiel starten/);
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+ it('selects other categories and mixed mode via keyboard and mouse',()=>{
+  render(<App/>);
+  click('Kategorien');click(/Alltag/);
+  expect(screen.getByText('Aktuelle Auswahl: Alltag')).toBeTruthy();
+  click('Kategorien');click(/Natur & Jahreszeiten/);
+  expect(screen.getByText('Aktuelle Auswahl: Natur & Jahreszeiten')).toBeTruthy();
+  click('Kategorien');click(/Essen & Farben/);
+  expect(screen.getByText('Aktuelle Auswahl: Essen & Farben')).toBeTruthy();
+  click('Kategorien');key('Escape');
+  expect(screen.getByText('Aktuelle Auswahl: Essen & Farben')).toBeTruthy();
+  click('Kategorien');key('Enter');
+  expect(screen.getByText('Aktuelle Auswahl: Alles gemischt')).toBeTruthy();
+  click(/Spiel starten/);expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+ it('limits a configured 20-question round to its ten-question category',()=>{
+  render(<App/>);
+  click('⚙ Einstellungen');click('20');click(/Zurück zum Menü/);
+  click('Kategorien');click(/Tiere/);click(/Spiel starten/);
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+});

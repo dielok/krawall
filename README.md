@@ -36,7 +36,7 @@ Der Testlauf speichert sein Manifest separat unter `tests/manifest.json` und lä
 .venv/bin/python scripts/validate.py
 ```
 
-Alle 185 Einträge werden berücksichtigt: `current`, `optional_new` und `runtime_template`. Die beiden Vorlagen mit Platzhaltern werden in konkrete Clips expandiert, ohne die JSON-Formulierungen zu ändern: Frage 1–20 sowie jede Punktzahl für die in der JSON genannten Rundenlängen 5, 10 und 20. Das ergibt 241 WAV-Dateien aus 185 Quell-IDs. Im Manifest bleibt jede Original-ID erhalten; Varianten stehen mit eingesetzten Laufzeitwerten unter `variants`.
+Alle 345 Einträge werden berücksichtigt: `current`, `optional_new` und `runtime_template`. Die beiden Vorlagen mit Platzhaltern werden in konkrete Clips expandiert, ohne die JSON-Formulierungen zu ändern: Frage 1–40 sowie jede Punktzahl für die in der JSON genannten Rundenlängen 5, 10 und 20. Das ergibt 421 WAV-Dateien aus 345 Quell-IDs. Im Manifest bleibt jede Original-ID erhalten; Varianten stehen mit eingesetzten Laufzeitwerten unter `variants`.
 
 Pro Text wird eine passende `max_new_tokens`-Grenze aus der Wortzahl berechnet, damit kurze Clips nicht unnötig weiterlaufen. Ein stabiler Seed pro ID und Variante macht gezielte Wiederholungen mit derselben Konfiguration reproduzierbar.
 
@@ -71,7 +71,7 @@ Offizielle Anleitung: [QwenLM/Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS). S
 
 ## React-Spiel (Vite, TypeScript, SCSS)
 
-Die Spiel-App liegt unter `src/` und verwendet die bestehenden 20 Fragen sowie die IDs aus `input/quiz-krawall-tts.json`. Steuerung per Maus, Tastatur und Gamepad; Einstellungsmenü für 5/10/20 Fragen, zufällige Fragen- und Antwortreihenfolge, Pause und Ergebnisschirm.
+Die Spiel-App liegt unter `src/` und verwendet die 40 Fragen sowie die IDs aus `input/quiz-krawall-tts.json`. Steuerung per Maus, Tastatur und Gamepad; Einstellungsmenü für 5/10/20 Fragen, zufällige Fragen- und Antwortreihenfolge, Pause und Ergebnisschirm.
 
 ```bash
 npm install
@@ -100,7 +100,7 @@ npm run test:coverage
 npm run build
 ```
 
-Die Tests prüfen die 20 Fragen, Zufallsreihenfolgen, Menü- und Controllersteuerung,
+Die Tests prüfen die 40 Fragen, Zufallsreihenfolgen, Menü- und Controllersteuerung,
 Spielzustände, Audio-Playback, TTS-Fallback, Unterbrechungen und fehlerhafte Daten.
 Der CI-Build erzwingt **100 % Statements, Branches, Functions und Lines** für
 `src/App.tsx`, `src/game.ts` und `src/audio.ts`. Der reine React-Bootstrap
@@ -110,3 +110,38 @@ sind **nicht** Bestandteil dieser TypeScript-Coverage-Messung.
 Für die Python-TTS-Pipeline existieren getrennte Tests unter `tests/test_generate.py`.
 Ein Coverage-Wert von 100 % bedeutet vollständig ausgeführte instrumentierte Codepfade,
 nicht automatisch fehlerfreie Benutzeroberflächen oder reale Controller-Kompatibilität.
+
+## Quiz-Kategorien und neue Fragen
+
+Die Fragenbank enthält jetzt **40 Fragen** in vier Kategorien mit jeweils zehn Fragen:
+Tiere, Alltag, Natur & Jahreszeiten sowie Essen & Farben. In der Kategorieauswahl kann
+zwischen einer Kategorie und „Alles gemischt“ gewechselt werden. Die Kategorien sind
+in `input/categories.json` definiert und durch stabile Fragen-IDs mit den Einträgen
+in `input/quiz-krawall-tts.json` verknüpft. Bestehende Texte und IDs wurden nicht verändert.
+
+Neue Kategorien oder Fragen werden **durch zusätzliche Daten** eingebunden;
+für weitere Kategorien sind keine Änderungen an der Spiel-/Filterlogik erforderlich.
+Jede Frage besteht aus `qNN.question`, vier `qNN.answer.1..4`,
+`qNN.correct`, `qNN.incorrect` und `qNN.reveal`. Pro Frage ist genau
+eine Antwort mit `correct: true` markiert. Die UI mischt Fragen und Antworten
+unabhängig. Wird eine Spielrundenlänge von 20 gewählt, eine Kategorie enthält aber
+nur zehn Fragen, spielt die Runde maximal zehn Fragen.
+
+### Audio für neue Fragen erzeugen
+
+Die 20 neuen Fragen benötigen lokal WAV-Clips für ihre 160 neuen Sprecheinträge
+und 20 zusätzliche Fragennummern-Varianten (21–40). Der vorhandene Generator
+überspringt bereits erfolgreich generierte Dateien; die vorhandenen WAVs
+werden nicht überschrieben und `output/` bleibt in `.gitignore`.
+
+```bash
+.venv/bin/python scripts/generate.py
+.venv/bin/python scripts/validate.py
+```
+
+Bis die neuen WAV-Dateien vorhanden sind, verwendet das Spiel für diese Clips
+die Browser-Sprachausgabe. Das bereits eingecheckte `manifest.json` ist eine
+Aufzeichnung des letzten Erzeugungslaufs und wird erst nach einer lokalen
+Generierung für die neuen IDs vollständig. Es müssen keine WAV-Dateien eingecheckt werden.
+
+Die Tests validieren die vier Kategorien und die referenzierten Fragen-IDs.
