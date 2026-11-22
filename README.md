@@ -199,3 +199,24 @@ output/category.intro.animals.1.mp3
 
 Die WAV-Master werden nicht in Git gespeichert, die MP3s schon. Bis zur Erzeugung werden fehlende Audios im Spiel
 weiterhin über die Browser-Sprachengine ausgegeben.
+
+## Hintergrundmusik und Soundeffekte
+
+Die sechs MP3-Dateien liegen unter `sounds/`. Vite stellt sie im Entwicklungsmodus
+über `/sounds/` bereit und kopiert sie beim Build nach `dist/sounds/`.
+Es ist kein weiteres Herunterladen erforderlich.
+
+Der `SoundDirector` trennt Musik und Effekte von der Sprecherwiedergabe:
+Menü-Musik als Loop, leises Quiz-Ticktack nach dem Vorlesen, Fanfare bei
+Kategorienwechsel, ein eigener Effekt für richtige/falsche Antworten und
+Applaus am Ende. Die Musik wird bei laufender Sprache automatisch abgesenkt.
+In Einstellungen gibt es einen separaten Schalter **Musik & Effekte**.
+
+Der Sprecher liest eine Frage vollständig vor, selbst wenn währenddessen bereits
+eine Antwort gewählt wird; die Feedbackansage wartet bis zum Ende. Schnelles
+Weiterdrücken merkt die Aktion vor und schneidet nicht mehr die laufende Ansage ab.
+Die Controller-Zuordnung verwendet die auf dem Gerät beobachteten
+X/Y-Tastenpositionen und ist mit Interaktionstests abgesichert.
+
+Die Originaldateien unter `sounds/` unterliegen ihren jeweiligen Lizenzbedingungen
+und dürfen nicht als eigenständige Audio-Bibliothek weiterverteilt werden.

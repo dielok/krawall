@@ -105,3 +105,28 @@ describe('narration race safety',()=>{
   expect(done).toHaveBeenCalledOnce();
  });
 });
+
+
+describe('narration activity signaling and uninterrupted queues',()=>{
+ it('signals start and finish only at the boundaries of a full sequence',async()=>{
+  const n=new Narrator(), activity=vi.fn();
+  n.onActivityChange=activity;
+  n.play([{id:'one',text:'A'},{id:'two',text:'B'}]);
+  expect(activity).toHaveBeenLastCalledWith(true);
+  players[0].onended?.();await tick();
+  expect(activity.mock.calls.filter(c=>c[0]===false)).toHaveLength(1); // play calls stop before starting
+  players[1].onended?.();await tick();
+  expect(activity).toHaveBeenLastCalledWith(false);
+ });
+ it('signals interruption and does not finish a replaced sequence',async()=>{
+  const n=new Narrator(),activity=vi.fn(),done=vi.fn();
+  n.onActivityChange=activity;
+  n.play([{id:'first',text:'first'},{id:'last',text:'last'}],done);
+  n.stop();await tick();
+  expect(activity).toHaveBeenLastCalledWith(false);
+  expect(done).not.toHaveBeenCalled();
+  n.play([{id:'new',text:'new'}],done);
+  players[1].onended?.();await tick();
+  expect(done).toHaveBeenCalledOnce();
+ });
+});
