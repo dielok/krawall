@@ -371,3 +371,13 @@ describe('automatic category-intro transitions',()=>{
   expect(screen.getByText('Frage '+progress+' von 10')).toBeTruthy();
  });
 });
+
+
+describe('controller Start on the category announcement',()=>{
+ it('skips the announced topic and goes straight to its first question',()=>{
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);act(()=>frameCallback?.(0));
+  tickPad(9);expect(screen.getByText('KATEGORIE 1 VON',{exact:false})).toBeTruthy();
+  tickPad(9);expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+});
