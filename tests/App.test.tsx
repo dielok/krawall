@@ -2,6 +2,8 @@ import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
 import {fireEvent,render,screen,cleanup,act} from '@testing-library/react';
 import {App} from '../src/App';
 const narrator=vi.hoisted(()=>({play:vi.fn(),stop:vi.fn(),enabled:true}));
+const sound=vi.hoisted(()=>({setScene:vi.fn(),setSpeaking:vi.fn(),playEffect:vi.fn(),setEnabled:vi.fn(),stop:vi.fn()}));
+vi.mock('../src/sounds',()=>({SoundDirector:class {setScene= sound.setScene;setSpeaking=sound.setSpeaking;playEffect=sound.playEffect;setEnabled=sound.setEnabled;stop=sound.stop;}}));
 vi.mock('../src/audio',()=>({
  Narrator:class {get enabled(){return narrator.enabled;}set enabled(v:boolean){narrator.enabled=v;}
   play(cues:unknown[],done?:()=>void){narrator.play(cues,done);}
@@ -21,7 +23,8 @@ function tickPad(button:number){
  act(()=>frameCallback?.(0));
 }
 beforeEach(()=>{
- narrator.play.mockReset();narrator.stop.mockReset();narrator.enabled=true;
+ narrator.play.mockReset();narrator.play.mockImplementation((cues:unknown[],done?:()=>void)=>{if(cues.length>5)done?.();});narrator.stop.mockReset();narrator.enabled=true;
+ for(const fn of Object.values(sound))fn.mockReset();
  pad=null;frameCallback=undefined;
  vi.stubGlobal('requestAnimationFrame',vi.fn((f:FrameRequestCallback)=>{frameCallback=f;return 1;}));
  vi.stubGlobal('cancelAnimationFrame',vi.fn());
@@ -379,5 +382,67 @@ describe('controller Start on the category announcement',()=>{
   render(<App/>);act(()=>frameCallback?.(0));
   tickPad(9);expect(screen.getByText('KATEGORIE 1 VON',{exact:false})).toBeTruthy();
   tickPad(9);expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+});
+
+
+describe('controller color mapping and sound cues',()=>{
+ it('maps physical button 2 to yellow Y and button 3 to blue X',()=>{
+  for(const [button,letter] of [[2,'Y'],[3,'X']] as const){
+   cleanup();
+   pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Gamepad',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+   render(<App/>);act(()=>frameCallback?.(0));tickPad(9);tickPad(0);
+   const answer=screen.getAllByRole('button').find(b=>b.getAttribute('data-key')===letter)!;
+   tickPad(button);
+   expect(answer.getAttribute('disabled')).not.toBeNull();
+   const selected=screen.getAllByRole('button').filter(b=>b.classList.contains('answer')).find(b=>b.classList.contains('wrong')||b.classList.contains('correct')&&b===answer);
+   if(answer.classList.contains('correct'))expect(answer.classList.contains('correct')).toBe(true);
+   else expect(answer.classList.contains('wrong')).toBe(true);
+  }
+ });
+ it('plays distinct fanfare, feedback and results effects while retaining a settings switch',()=>{
+  render(<App/>);
+  expect(sound.setScene).toHaveBeenCalledWith('menu');
+  click(/Spiel starten/);
+  expect(sound.playEffect).toHaveBeenCalledWith('intro');
+  skipIntro();
+  const answer=screen.getAllByRole('button').find(b=>b.classList.contains('answer'))!;
+  fireEvent.click(answer);
+  expect(sound.playEffect).toHaveBeenCalledWith(answer.classList.contains('correct')?'correct':'wrong');
+  key('Escape');click(/Zum Hauptmenü/);click('⚙ Einstellungen');
+  click(/Musik & Effekte an/);
+  expect(sound.setEnabled).toHaveBeenCalledWith(false);
+  click(/Musik & Effekte aus/);
+  expect(sound.setEnabled).toHaveBeenCalledWith(true);
+ });
+ it('keeps question reading alive when an answer is selected and delays feedback until completion',()=>{
+  render(<App/>);
+  click(/Spiel starten/);skipIntro();
+  const questionDone=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
+  // Simulate a slow narrator by starting the question again without completing it.
+  narrator.play.mockImplementation(()=>{});
+  key('r');
+  const readingDone=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
+  expect(readingDone).toBeTypeOf('function');
+  const stops=narrator.stop.mock.calls.length;
+  key('x');
+  expect(narrator.stop.mock.calls.length).toBe(stops);
+  expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
+  const plays=narrator.play.mock.calls.length;
+  key('Enter');
+  expect(narrator.play.mock.calls.length).toBe(plays);
+  act(()=>readingDone?.());
+  expect(narrator.play.mock.calls.length).toBe(plays+1);
+  expect(questionDone).toBeTypeOf('function');
+ });
+ it('queues immediate Enter until the feedback voice finishes',()=>{
+  render(<App/>);click(/Spiel starten/);skipIntro();
+  narrator.play.mockImplementation(()=>{});
+  key('x');const finish=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
+  expect(finish).toBeTypeOf('function');
+  key('Enter');
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  act(()=>finish?.());
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
 });

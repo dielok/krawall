@@ -11,8 +11,8 @@ type State={screen:Screen;paused:boolean;length:5|10|20;categoryId:string;voiceO
 const letters=['X','Y','B','A'] as const;
 const colors=['blau','gelb','rot','grün'] as const;
 const choices:Record<string,string[]>={menu:['start','instructions','settings'],instructions:['back'],settings:['length5','length10','length20','sound','effects','back'],categories:['category:all',...categories.map(c=>'category:'+c.id),'back'],results:['restart','menu'],pause:['resume','repeat','menu']};
-// Standard Gamepad API: 0=A, 1=B, 2=X (left/blue), 3=Y (top/yellow).
-export const padActions:Record<number,Action>={0:'ANSWER_A',1:'ANSWER_B',2:'ANSWER_X',3:'ANSWER_Y',9:'MENU',5:'REPEAT',12:'UP',13:'DOWN'};
+// Device mapping observed on the connected controller: indices 2 and 3 report Y and X respectively.
+export const padActions:Record<number,Action>={0:'ANSWER_A',1:'ANSWER_B',2:'ANSWER_Y',3:'ANSWER_X',9:'MENU',5:'REPEAT',12:'UP',13:'DOWN'};
 const cue=(id:string,text=phrase(id)):Cue=>({id,text});
 const padded=(value:number)=>String(value).padStart(2,'0');
 
