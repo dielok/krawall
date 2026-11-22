@@ -235,3 +235,28 @@ describe('branch completion: navigation, callbacks and gamepad states',()=>{
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
 });
+
+describe('remaining moderator and pause branches',()=>{
+ it('advances after silent audio callbacks using the longer feedback delay',()=>{
+  vi.useFakeTimers();
+  render(<App/>);
+  click('⚙ Einstellungen');click(/Stimme an/);click(/Zurück zum Menü/);click(/Spiel starten/);
+  key('x');
+  const complete=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
+  expect(complete).toBeTypeOf('function');
+  act(()=>complete?.());
+  act(()=>vi.advanceTimersByTime(3999));
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  act(()=>vi.advanceTimersByTime(1));
+  expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
+ });
+ it('uses controller Start to both pause and resume an active question',()=>{
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);act(()=>frameCallback?.(0));
+  tickPad(0);tickPad(9);
+  expect(screen.getByText('Pause')).toBeTruthy();
+  tickPad(9);
+  expect(screen.queryByText('Pause')).toBeNull();
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+});

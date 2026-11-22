@@ -9,6 +9,7 @@ export default defineConfig({
    provider:'v8',reporter:['text','json-summary','json','html'],
    include:['src/**/*.{ts,tsx}'],
    exclude:['src/main.tsx'],
+   thresholds:{statements:100,branches:100,functions:100,lines:100},
   }
  }
 });
