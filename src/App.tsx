@@ -178,7 +178,7 @@ export function App(){
    {s.screen==='results'&&<section className="screen"><div className="character">🏆</div><div className="eyebrow">Geschafft!</div><h1>Das war Quiz-Krawall!</h1><div className="result-number">{s.points} / {s.round.length}</div><p className="muted">{phrase(result(s.points,s.round.length))}</p>{menu([{text:'↻ Nochmal spielen',action:'restart',kind:'primary'},{text:'⌂ Zum Hauptmenü',action:'menu'}])}</section>}
   </main>
   {s.paused&&<div className="pause-overlay"><div className="pause-panel"><div className="character">⏸️</div><h2>Pause</h2>{menu([{text:'▶ Weiterspielen',action:'resume',kind:'primary'},{text:'↻ Frage wiederholen',action:'repeat'},{text:'⌂ Zum Hauptmenü',action:'menu',kind:'danger'}])}<div className="helper">A / Enter: Auswählen · B / Esc: Zurück</div></div></div>}
-  <div className="gamepadinfo" role="status">🎮 {controller}</div><div className="voiceinfo">KI-WAV-Dateien aus output/, sonst Browser-Sprachausgabe.</div>
+  <div className="gamepadinfo" role="status">🎮 {controller}</div>
  </div>;
 }
 
