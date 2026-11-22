@@ -115,3 +115,54 @@ describe('quiz app interaction',()=>{
   key('Enter');expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
  });
 });
+
+
+describe('additional controller and audio transitions',()=>{
+ it('waits for spoken feedback before automatically advancing',()=>{
+  vi.useFakeTimers();
+  render(<App/>);click(/Spiel starten/);key('x');
+  const call=narrator.play.mock.calls.at(-1);
+  expect(call?.[1]).toBeTypeOf('function');
+  act(()=>call?.[1]?.());
+  act(()=>vi.advanceTimersByTime(950));
+  expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
+ });
+ it('supports spoken feedback replay during and after pause',()=>{
+  render(<App/>);click(/Spiel starten/);
+  key('x');const plays=narrator.play.mock.calls.length;
+  key('r');expect(narrator.play.mock.calls.length).toBeGreaterThan(plays);
+  key('Escape');expect(screen.getByText('Pause')).toBeTruthy();
+  click(/Frage wiederholen/);expect(screen.queryByText('Pause')).toBeNull();
+  expect(narrator.play.mock.calls.length).toBeGreaterThan(plays+1);
+ });
+ it('returns from settings with Start and repeats with R1 on gamepad',()=>{
+  render(<App/>);click('⚙ Einstellungen');
+  key('Escape');click(/Spiel starten/);key('Escape');
+  key('Escape');key('Escape');expect(screen.getByText('Pause')).toBeTruthy();
+  click(/Zum Hauptmenü/);click('⚙ Einstellungen');
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  act(()=>frameCallback?.(0));tickPad(9);
+  expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
+ });
+ it('uses face buttons to answer and A to advance on a controller',()=>{
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);
+  act(()=>frameCallback?.(0));
+  tickPad(9);
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  tickPad(2);
+  expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
+  tickPad(0);
+  expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
+ });
+ it('allows controller A to start, D-pad to choose and B to return',()=>{
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);
+  act(()=>frameCallback?.(0));tickPad(0);
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  tickPad(1);
+  expect(screen.getByText('Pause')).toBeTruthy();
+  tickPad(1);
+  expect(screen.queryByText('Pause')).toBeNull();
+ });
+});
