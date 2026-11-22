@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "categories": [
+    {
+      "id": "animals",
+      "name": "Tiere",
+      "icon": "🐾",
+      "question_ids": [
+        "q01",
+        "q04",
+        "q08",
+        "q11",
+        "q14",
+        "q16",
+        "q21",
+        "q22",
+        "q23",
+        "q24"
+      ]
+    },
+    {
+      "id": "everyday",
+      "name": "Alltag",
+      "icon": "🏠",
+      "question_ids": [
+        "q02",
+        "q05",
+        "q07",
+        "q10",
+        "q12",
+        "q15",
+        "q17",
+        "q20",
+        "q25",
+        "q26"
+      ]
+    },
+    {
+      "id": "nature",
+      "name": "Natur & Jahreszeiten",
+      "icon": "🌤️",
+      "question_ids": [
+        "q09",
+        "q13",
+        "q18",
+        "q19",
+        "q27",
+        "q28",
+        "q29",
+        "q30",
+        "q31",
+        "q32"
+      ]
+    },
+    {
+      "id": "food",
+      "name": "Essen & Farben",
+      "icon": "🍓",
+      "question_ids": [
+        "q03",
+        "q06",
+        "q33",
+        "q34",
+        "q35",
+        "q36",
+        "q37",
+        "q38",
+        "q39",
+        "q40"
+      ]
+    }
+  ]
+}

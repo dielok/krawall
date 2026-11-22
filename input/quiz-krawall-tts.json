@@ -14,7 +14,7 @@
     "Die feedback-Phrase Richtig! / Nicht ganz! steht vor den jeweils zugehörigen 20 Reaktionen.",
     "Vorlesetexte enthalten keine Emojis."
   ],
-  "question_count": 20,
+  "question_count": 40,
   "items": [
     {
       "id": "welcome.title",
@@ -1723,6 +1723,1526 @@
       "category": "results",
       "emotion": "playful",
       "source": "optional_new"
+    },
+    {
+      "id": "q21.question",
+      "text": "Welches Tier macht „Muh“?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q21"
+    },
+    {
+      "id": "q21.answer.1",
+      "text": "Die Kuh",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q21",
+      "answer_id": "q21-a1",
+      "correct": true,
+      "display_label": "Die Kuh"
+    },
+    {
+      "id": "q21.answer.2",
+      "text": "Der Hund",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q21",
+      "answer_id": "q21-a2",
+      "correct": false,
+      "display_label": "Der Hund"
+    },
+    {
+      "id": "q21.answer.3",
+      "text": "Die Ente",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q21",
+      "answer_id": "q21-a3",
+      "correct": false,
+      "display_label": "Die Ente"
+    },
+    {
+      "id": "q21.answer.4",
+      "text": "Die Maus",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q21",
+      "answer_id": "q21-a4",
+      "correct": false,
+      "display_label": "Die Maus"
+    },
+    {
+      "id": "q21.correct",
+      "text": "Muh-richtig! Das war eine kuhle Antwort!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q21"
+    },
+    {
+      "id": "q21.incorrect",
+      "text": "Eine Kuh macht Muh! Die anderen Tiere haben eigene Stimmen!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q21"
+    },
+    {
+      "id": "q21.reveal",
+      "text": "Die Kuh ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q21"
+    },
+    {
+      "id": "q22.question",
+      "text": "Welches Tier trägt sein Haus auf dem Rücken?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q22"
+    },
+    {
+      "id": "q22.answer.1",
+      "text": "Die Schnecke",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q22",
+      "answer_id": "q22-a1",
+      "correct": true,
+      "display_label": "Die Schnecke"
+    },
+    {
+      "id": "q22.answer.2",
+      "text": "Das Pferd",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q22",
+      "answer_id": "q22-a2",
+      "correct": false,
+      "display_label": "Das Pferd"
+    },
+    {
+      "id": "q22.answer.3",
+      "text": "Der Schmetterling",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q22",
+      "answer_id": "q22-a3",
+      "correct": false,
+      "display_label": "Der Schmetterling"
+    },
+    {
+      "id": "q22.answer.4",
+      "text": "Die Katze",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q22",
+      "answer_id": "q22-a4",
+      "correct": false,
+      "display_label": "Die Katze"
+    },
+    {
+      "id": "q22.correct",
+      "text": "Schneckenschnell erkannt! Das Haus ist immer dabei!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q22"
+    },
+    {
+      "id": "q22.incorrect",
+      "text": "Die Schnecke trägt ihr Häuschen auf dem Rücken!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q22"
+    },
+    {
+      "id": "q22.reveal",
+      "text": "Die Schnecke ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q22"
+    },
+    {
+      "id": "q23.question",
+      "text": "Welches Tier quakt am Teich?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q23"
+    },
+    {
+      "id": "q23.answer.1",
+      "text": "Der Frosch",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q23",
+      "answer_id": "q23-a1",
+      "correct": true,
+      "display_label": "Der Frosch"
+    },
+    {
+      "id": "q23.answer.2",
+      "text": "Die Biene",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q23",
+      "answer_id": "q23-a2",
+      "correct": false,
+      "display_label": "Die Biene"
+    },
+    {
+      "id": "q23.answer.3",
+      "text": "Das Schaf",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q23",
+      "answer_id": "q23-a3",
+      "correct": false,
+      "display_label": "Das Schaf"
+    },
+    {
+      "id": "q23.answer.4",
+      "text": "Der Igel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q23",
+      "answer_id": "q23-a4",
+      "correct": false,
+      "display_label": "Der Igel"
+    },
+    {
+      "id": "q23.correct",
+      "text": "Quak, quak! Das war froschig gut!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q23"
+    },
+    {
+      "id": "q23.incorrect",
+      "text": "Am Teich quakt der Frosch!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q23"
+    },
+    {
+      "id": "q23.reveal",
+      "text": "Der Frosch ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q23"
+    },
+    {
+      "id": "q24.question",
+      "text": "Welches Tier macht Honig?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q24"
+    },
+    {
+      "id": "q24.answer.1",
+      "text": "Die Biene",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q24",
+      "answer_id": "q24-a1",
+      "correct": true,
+      "display_label": "Die Biene"
+    },
+    {
+      "id": "q24.answer.2",
+      "text": "Der Elefant",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q24",
+      "answer_id": "q24-a2",
+      "correct": false,
+      "display_label": "Der Elefant"
+    },
+    {
+      "id": "q24.answer.3",
+      "text": "Der Hase",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q24",
+      "answer_id": "q24-a3",
+      "correct": false,
+      "display_label": "Der Hase"
+    },
+    {
+      "id": "q24.answer.4",
+      "text": "Der Pinguin",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q24",
+      "answer_id": "q24-a4",
+      "correct": false,
+      "display_label": "Der Pinguin"
+    },
+    {
+      "id": "q24.correct",
+      "text": "Summ, summ! Du bist ein Honig-Profi!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q24"
+    },
+    {
+      "id": "q24.incorrect",
+      "text": "Bienen machen Honig. Summ, summ!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q24"
+    },
+    {
+      "id": "q24.reveal",
+      "text": "Die Biene ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q24"
+    },
+    {
+      "id": "q25.question",
+      "text": "Womit wäscht du dir die Hände?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q25"
+    },
+    {
+      "id": "q25.answer.1",
+      "text": "Mit Wasser und Seife",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q25",
+      "answer_id": "q25-a1",
+      "correct": true,
+      "display_label": "Mit Wasser und Seife"
+    },
+    {
+      "id": "q25.answer.2",
+      "text": "Mit Sand",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q25",
+      "answer_id": "q25-a2",
+      "correct": false,
+      "display_label": "Mit Sand"
+    },
+    {
+      "id": "q25.answer.3",
+      "text": "Mit Farbe",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q25",
+      "answer_id": "q25-a3",
+      "correct": false,
+      "display_label": "Mit Farbe"
+    },
+    {
+      "id": "q25.answer.4",
+      "text": "Mit Knete",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q25",
+      "answer_id": "q25-a4",
+      "correct": false,
+      "display_label": "Mit Knete"
+    },
+    {
+      "id": "q25.correct",
+      "text": "Blitzblank! Saubere Hände, super Antwort!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q25"
+    },
+    {
+      "id": "q25.incorrect",
+      "text": "Wasser und Seife machen die Hände sauber!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q25"
+    },
+    {
+      "id": "q25.reveal",
+      "text": "Wasser und Seife ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q25"
+    },
+    {
+      "id": "q26.question",
+      "text": "Was ziehst du an deine Füße, bevor du nach draußen gehst?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q26"
+    },
+    {
+      "id": "q26.answer.1",
+      "text": "Schuhe",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q26",
+      "answer_id": "q26-a1",
+      "correct": true,
+      "display_label": "Schuhe"
+    },
+    {
+      "id": "q26.answer.2",
+      "text": "Handschuhe",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q26",
+      "answer_id": "q26-a2",
+      "correct": false,
+      "display_label": "Handschuhe"
+    },
+    {
+      "id": "q26.answer.3",
+      "text": "Eine Mütze",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q26",
+      "answer_id": "q26-a3",
+      "correct": false,
+      "display_label": "Eine Mütze"
+    },
+    {
+      "id": "q26.answer.4",
+      "text": "Einen Schal",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q26",
+      "answer_id": "q26-a4",
+      "correct": false,
+      "display_label": "Einen Schal"
+    },
+    {
+      "id": "q26.correct",
+      "text": "Schuh-per! Jetzt kann's losgehen!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q26"
+    },
+    {
+      "id": "q26.incorrect",
+      "text": "Schuhe gehören an die Füße, nicht auf den Kopf!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q26"
+    },
+    {
+      "id": "q26.reveal",
+      "text": "Schuhe ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q26"
+    },
+    {
+      "id": "q27.question",
+      "text": "Was scheint tagsüber hell am Himmel?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q27"
+    },
+    {
+      "id": "q27.answer.1",
+      "text": "Die Sonne",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q27",
+      "answer_id": "q27-a1",
+      "correct": true,
+      "display_label": "Die Sonne"
+    },
+    {
+      "id": "q27.answer.2",
+      "text": "Die Taschenlampe",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q27",
+      "answer_id": "q27-a2",
+      "correct": false,
+      "display_label": "Die Taschenlampe"
+    },
+    {
+      "id": "q27.answer.3",
+      "text": "Der Kühlschrank",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q27",
+      "answer_id": "q27-a3",
+      "correct": false,
+      "display_label": "Der Kühlschrank"
+    },
+    {
+      "id": "q27.answer.4",
+      "text": "Der Ball",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q27",
+      "answer_id": "q27-a4",
+      "correct": false,
+      "display_label": "Der Ball"
+    },
+    {
+      "id": "q27.correct",
+      "text": "Sonnenklar! Das hast du gestrahlt!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q27"
+    },
+    {
+      "id": "q27.incorrect",
+      "text": "Tagsüber scheint die Sonne am Himmel!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q27"
+    },
+    {
+      "id": "q27.reveal",
+      "text": "Die Sonne ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q27"
+    },
+    {
+      "id": "q28.question",
+      "text": "Was bewegt die Blätter an einem windigen Tag?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q28"
+    },
+    {
+      "id": "q28.answer.1",
+      "text": "Der Wind",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q28",
+      "answer_id": "q28-a1",
+      "correct": true,
+      "display_label": "Der Wind"
+    },
+    {
+      "id": "q28.answer.2",
+      "text": "Die Zahnbürste",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q28",
+      "answer_id": "q28-a2",
+      "correct": false,
+      "display_label": "Die Zahnbürste"
+    },
+    {
+      "id": "q28.answer.3",
+      "text": "Der Löffel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q28",
+      "answer_id": "q28-a3",
+      "correct": false,
+      "display_label": "Der Löffel"
+    },
+    {
+      "id": "q28.answer.4",
+      "text": "Das Kissen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q28",
+      "answer_id": "q28-a4",
+      "correct": false,
+      "display_label": "Das Kissen"
+    },
+    {
+      "id": "q28.correct",
+      "text": "Puste, puste! Die Antwort war ein Volltreffer!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q28"
+    },
+    {
+      "id": "q28.incorrect",
+      "text": "Der Wind lässt die Blätter wackeln!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q28"
+    },
+    {
+      "id": "q28.reveal",
+      "text": "Der Wind ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q28"
+    },
+    {
+      "id": "q29.question",
+      "text": "Was entsteht auf dem Weg, wenn es viel geregnet hat?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q29"
+    },
+    {
+      "id": "q29.answer.1",
+      "text": "Eine Pfütze",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q29",
+      "answer_id": "q29-a1",
+      "correct": true,
+      "display_label": "Eine Pfütze"
+    },
+    {
+      "id": "q29.answer.2",
+      "text": "Eine Sandburg",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q29",
+      "answer_id": "q29-a2",
+      "correct": false,
+      "display_label": "Eine Sandburg"
+    },
+    {
+      "id": "q29.answer.3",
+      "text": "Ein Kuchen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q29",
+      "answer_id": "q29-a3",
+      "correct": false,
+      "display_label": "Ein Kuchen"
+    },
+    {
+      "id": "q29.answer.4",
+      "text": "Ein Schneemann",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q29",
+      "answer_id": "q29-a4",
+      "correct": false,
+      "display_label": "Ein Schneemann"
+    },
+    {
+      "id": "q29.correct",
+      "text": "Plitsch, platsch! Voll in die Pfütze getroffen!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q29"
+    },
+    {
+      "id": "q29.incorrect",
+      "text": "Nach viel Regen gibt es Pfützen!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q29"
+    },
+    {
+      "id": "q29.reveal",
+      "text": "Die Pfütze ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q29"
+    },
+    {
+      "id": "q30.question",
+      "text": "Was wird aus einer Pfütze, wenn es sehr kalt wird und friert?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q30"
+    },
+    {
+      "id": "q30.answer.1",
+      "text": "Eis",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q30",
+      "answer_id": "q30-a1",
+      "correct": true,
+      "display_label": "Eis"
+    },
+    {
+      "id": "q30.answer.2",
+      "text": "Watte",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q30",
+      "answer_id": "q30-a2",
+      "correct": false,
+      "display_label": "Watte"
+    },
+    {
+      "id": "q30.answer.3",
+      "text": "Brot",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q30",
+      "answer_id": "q30-a3",
+      "correct": false,
+      "display_label": "Brot"
+    },
+    {
+      "id": "q30.answer.4",
+      "text": "Papier",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q30",
+      "answer_id": "q30-a4",
+      "correct": false,
+      "display_label": "Papier"
+    },
+    {
+      "id": "q30.correct",
+      "text": "Eiskalt richtig! Brrr, wie schlau!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q30"
+    },
+    {
+      "id": "q30.incorrect",
+      "text": "Bei Frost kann Wasser zu Eis werden!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q30"
+    },
+    {
+      "id": "q30.reveal",
+      "text": "Eis ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q30"
+    },
+    {
+      "id": "q31.question",
+      "text": "Was können Blumen im Frühling machen?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q31"
+    },
+    {
+      "id": "q31.answer.1",
+      "text": "Blühen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q31",
+      "answer_id": "q31-a1",
+      "correct": true,
+      "display_label": "Blühen"
+    },
+    {
+      "id": "q31.answer.2",
+      "text": "Schuhe anziehen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q31",
+      "answer_id": "q31-a2",
+      "correct": false,
+      "display_label": "Schuhe anziehen"
+    },
+    {
+      "id": "q31.answer.3",
+      "text": "Fahrrad fahren",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q31",
+      "answer_id": "q31-a3",
+      "correct": false,
+      "display_label": "Fahrrad fahren"
+    },
+    {
+      "id": "q31.answer.4",
+      "text": "Suppe kochen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q31",
+      "answer_id": "q31-a4",
+      "correct": false,
+      "display_label": "Suppe kochen"
+    },
+    {
+      "id": "q31.correct",
+      "text": "Blumig gut! Da blüht uns ja was!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q31"
+    },
+    {
+      "id": "q31.incorrect",
+      "text": "Im Frühling fangen viele Blumen an zu blühen!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q31"
+    },
+    {
+      "id": "q31.reveal",
+      "text": "Blühen ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q31"
+    },
+    {
+      "id": "q32.question",
+      "text": "Was hörst du manchmal bei einem Gewitter?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q32"
+    },
+    {
+      "id": "q32.answer.1",
+      "text": "Donner",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q32",
+      "answer_id": "q32-a1",
+      "correct": true,
+      "display_label": "Donner"
+    },
+    {
+      "id": "q32.answer.2",
+      "text": "Eine Fahrradklingel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q32",
+      "answer_id": "q32-a2",
+      "correct": false,
+      "display_label": "Eine Fahrradklingel"
+    },
+    {
+      "id": "q32.answer.3",
+      "text": "Eine Spieluhr",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q32",
+      "answer_id": "q32-a3",
+      "correct": false,
+      "display_label": "Eine Spieluhr"
+    },
+    {
+      "id": "q32.answer.4",
+      "text": "Einen Wecker",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q32",
+      "answer_id": "q32-a4",
+      "correct": false,
+      "display_label": "Einen Wecker"
+    },
+    {
+      "id": "q32.correct",
+      "text": "Donnerwetter! Das war richtig!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q32"
+    },
+    {
+      "id": "q32.incorrect",
+      "text": "Beim Gewitter kann man Donner hören!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q32"
+    },
+    {
+      "id": "q32.reveal",
+      "text": "Donner ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q32"
+    },
+    {
+      "id": "q33.question",
+      "text": "Welche Farbe hat eine Karotte meistens?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q33"
+    },
+    {
+      "id": "q33.answer.1",
+      "text": "Orange",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q33",
+      "answer_id": "q33-a1",
+      "correct": true,
+      "display_label": "Orange"
+    },
+    {
+      "id": "q33.answer.2",
+      "text": "Blau",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q33",
+      "answer_id": "q33-a2",
+      "correct": false,
+      "display_label": "Blau"
+    },
+    {
+      "id": "q33.answer.3",
+      "text": "Lila mit Punkten",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q33",
+      "answer_id": "q33-a3",
+      "correct": false,
+      "display_label": "Lila mit Punkten"
+    },
+    {
+      "id": "q33.answer.4",
+      "text": "Schwarz mit Sternen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q33",
+      "answer_id": "q33-a4",
+      "correct": false,
+      "display_label": "Schwarz mit Sternen"
+    },
+    {
+      "id": "q33.correct",
+      "text": "Karottenklar! Orange wie die Sonne am Abend!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q33"
+    },
+    {
+      "id": "q33.incorrect",
+      "text": "Karotten sind meistens orange!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q33"
+    },
+    {
+      "id": "q33.reveal",
+      "text": "Orange ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q33"
+    },
+    {
+      "id": "q34.question",
+      "text": "Was ist meistens weiß und kommt von einer Kuh?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q34"
+    },
+    {
+      "id": "q34.answer.1",
+      "text": "Milch",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q34",
+      "answer_id": "q34-a1",
+      "correct": true,
+      "display_label": "Milch"
+    },
+    {
+      "id": "q34.answer.2",
+      "text": "Apfelsaft",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q34",
+      "answer_id": "q34-a2",
+      "correct": false,
+      "display_label": "Apfelsaft"
+    },
+    {
+      "id": "q34.answer.3",
+      "text": "Tomatensoße",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q34",
+      "answer_id": "q34-a3",
+      "correct": false,
+      "display_label": "Tomatensoße"
+    },
+    {
+      "id": "q34.answer.4",
+      "text": "Kakao mit Erdbeeren",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q34",
+      "answer_id": "q34-a4",
+      "correct": false,
+      "display_label": "Kakao mit Erdbeeren"
+    },
+    {
+      "id": "q34.correct",
+      "text": "Milchmäßig gut! Das war kuhl!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q34"
+    },
+    {
+      "id": "q34.incorrect",
+      "text": "Milch von der Kuh ist meistens weiß!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q34"
+    },
+    {
+      "id": "q34.reveal",
+      "text": "Milch ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q34"
+    },
+    {
+      "id": "q35.question",
+      "text": "Welche Farbe hat eine Zitrone meistens?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q35"
+    },
+    {
+      "id": "q35.answer.1",
+      "text": "Gelb",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q35",
+      "answer_id": "q35-a1",
+      "correct": true,
+      "display_label": "Gelb"
+    },
+    {
+      "id": "q35.answer.2",
+      "text": "Rosa",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q35",
+      "answer_id": "q35-a2",
+      "correct": false,
+      "display_label": "Rosa"
+    },
+    {
+      "id": "q35.answer.3",
+      "text": "Braun",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q35",
+      "answer_id": "q35-a3",
+      "correct": false,
+      "display_label": "Braun"
+    },
+    {
+      "id": "q35.answer.4",
+      "text": "Türkis",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q35",
+      "answer_id": "q35-a4",
+      "correct": false,
+      "display_label": "Türkis"
+    },
+    {
+      "id": "q35.correct",
+      "text": "Zitronenstark! Sauer macht lustig!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q35"
+    },
+    {
+      "id": "q35.incorrect",
+      "text": "Eine reife Zitrone ist meistens gelb!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q35"
+    },
+    {
+      "id": "q35.reveal",
+      "text": "Gelb ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q35"
+    },
+    {
+      "id": "q36.question",
+      "text": "Welche Farbe hat eine Heidelbeere außen meistens?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q36"
+    },
+    {
+      "id": "q36.answer.1",
+      "text": "Blau",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q36",
+      "answer_id": "q36-a1",
+      "correct": true,
+      "display_label": "Blau"
+    },
+    {
+      "id": "q36.answer.2",
+      "text": "Gelb",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q36",
+      "answer_id": "q36-a2",
+      "correct": false,
+      "display_label": "Gelb"
+    },
+    {
+      "id": "q36.answer.3",
+      "text": "Weiß",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q36",
+      "answer_id": "q36-a3",
+      "correct": false,
+      "display_label": "Weiß"
+    },
+    {
+      "id": "q36.answer.4",
+      "text": "Orange",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q36",
+      "answer_id": "q36-a4",
+      "correct": false,
+      "display_label": "Orange"
+    },
+    {
+      "id": "q36.correct",
+      "text": "Beerig gut! Die Antwort war zum Anbeißen!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q36"
+    },
+    {
+      "id": "q36.incorrect",
+      "text": "Heidelbeeren sind außen meist blau!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q36"
+    },
+    {
+      "id": "q36.reveal",
+      "text": "Blau ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q36"
+    },
+    {
+      "id": "q37.question",
+      "text": "Was ist meistens grün und wächst im Gemüsebeet?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q37"
+    },
+    {
+      "id": "q37.answer.1",
+      "text": "Eine Gurke",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q37",
+      "answer_id": "q37-a1",
+      "correct": true,
+      "display_label": "Eine Gurke"
+    },
+    {
+      "id": "q37.answer.2",
+      "text": "Ein Croissant",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q37",
+      "answer_id": "q37-a2",
+      "correct": false,
+      "display_label": "Ein Croissant"
+    },
+    {
+      "id": "q37.answer.3",
+      "text": "Ein Brötchen",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q37",
+      "answer_id": "q37-a3",
+      "correct": false,
+      "display_label": "Ein Brötchen"
+    },
+    {
+      "id": "q37.answer.4",
+      "text": "Ein Keks",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q37",
+      "answer_id": "q37-a4",
+      "correct": false,
+      "display_label": "Ein Keks"
+    },
+    {
+      "id": "q37.correct",
+      "text": "Gurkenstark! Knackig richtig!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q37"
+    },
+    {
+      "id": "q37.incorrect",
+      "text": "Im Gemüsebeet wächst eine grüne Gurke!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q37"
+    },
+    {
+      "id": "q37.reveal",
+      "text": "Die Gurke ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q37"
+    },
+    {
+      "id": "q38.question",
+      "text": "Was kannst du auf ein Brot streichen?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q38"
+    },
+    {
+      "id": "q38.answer.1",
+      "text": "Butter",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q38",
+      "answer_id": "q38-a1",
+      "correct": true,
+      "display_label": "Butter"
+    },
+    {
+      "id": "q38.answer.2",
+      "text": "Einen Stein",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q38",
+      "answer_id": "q38-a2",
+      "correct": false,
+      "display_label": "Einen Stein"
+    },
+    {
+      "id": "q38.answer.3",
+      "text": "Einen Bauklotz",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q38",
+      "answer_id": "q38-a3",
+      "correct": false,
+      "display_label": "Einen Bauklotz"
+    },
+    {
+      "id": "q38.answer.4",
+      "text": "Eine Socke",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q38",
+      "answer_id": "q38-a4",
+      "correct": false,
+      "display_label": "Eine Socke"
+    },
+    {
+      "id": "q38.correct",
+      "text": "Butter bei die Fische! Das war richtig!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q38"
+    },
+    {
+      "id": "q38.incorrect",
+      "text": "Butter kann man aufs Brot streichen!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q38"
+    },
+    {
+      "id": "q38.reveal",
+      "text": "Butter ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q38"
+    },
+    {
+      "id": "q39.question",
+      "text": "Welche Frucht ist innen oft rot und hat außen eine grüne Schale?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q39"
+    },
+    {
+      "id": "q39.answer.1",
+      "text": "Die Wassermelone",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q39",
+      "answer_id": "q39-a1",
+      "correct": true,
+      "display_label": "Die Wassermelone"
+    },
+    {
+      "id": "q39.answer.2",
+      "text": "Die Banane",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q39",
+      "answer_id": "q39-a2",
+      "correct": false,
+      "display_label": "Die Banane"
+    },
+    {
+      "id": "q39.answer.3",
+      "text": "Die Zitrone",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q39",
+      "answer_id": "q39-a3",
+      "correct": false,
+      "display_label": "Die Zitrone"
+    },
+    {
+      "id": "q39.answer.4",
+      "text": "Die Kokosnuss",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q39",
+      "answer_id": "q39-a4",
+      "correct": false,
+      "display_label": "Die Kokosnuss"
+    },
+    {
+      "id": "q39.correct",
+      "text": "Melonenmäßig! Das war ein saftiger Treffer!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q39"
+    },
+    {
+      "id": "q39.incorrect",
+      "text": "Eine Wassermelone ist innen oft rot und außen grün!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q39"
+    },
+    {
+      "id": "q39.reveal",
+      "text": "Die Wassermelone ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q39"
+    },
+    {
+      "id": "q40.question",
+      "text": "Was ist ein Obst?",
+      "category": "question",
+      "emotion": "curious",
+      "source": "current",
+      "question_id": "q40"
+    },
+    {
+      "id": "q40.answer.1",
+      "text": "Die Birne",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q40",
+      "answer_id": "q40-a1",
+      "correct": true,
+      "display_label": "Die Birne"
+    },
+    {
+      "id": "q40.answer.2",
+      "text": "Die Gabel",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q40",
+      "answer_id": "q40-a2",
+      "correct": false,
+      "display_label": "Die Gabel"
+    },
+    {
+      "id": "q40.answer.3",
+      "text": "Der Teller",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q40",
+      "answer_id": "q40-a3",
+      "correct": false,
+      "display_label": "Der Teller"
+    },
+    {
+      "id": "q40.answer.4",
+      "text": "Die Zahnbürste",
+      "category": "answer",
+      "emotion": "clear",
+      "source": "current",
+      "question_id": "q40",
+      "answer_id": "q40-a4",
+      "correct": false,
+      "display_label": "Die Zahnbürste"
+    },
+    {
+      "id": "q40.correct",
+      "text": "Birnenstark! Das war fruchtig richtig!",
+      "category": "correct_reaction",
+      "emotion": "jubilant",
+      "source": "current",
+      "question_id": "q40"
+    },
+    {
+      "id": "q40.incorrect",
+      "text": "Die Birne ist ein Obst!",
+      "category": "incorrect_reaction",
+      "emotion": "playful_kind",
+      "source": "current",
+      "question_id": "q40"
+    },
+    {
+      "id": "q40.reveal",
+      "text": "Die Birne ist richtig.",
+      "category": "reveal",
+      "emotion": "friendly",
+      "source": "current",
+      "question_id": "q40"
     }
   ]
 }
