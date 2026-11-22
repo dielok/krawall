@@ -416,25 +416,38 @@ describe('controller color mapping and sound cues',()=>{
   click(/Musik & Effekte aus/);
   expect(sound.setEnabled).toHaveBeenCalledWith(true);
  });
- it('keeps question reading alive when an answer is selected and delays feedback until completion',()=>{
+ it('stops a playing question immediately on answer and starts complete feedback',()=>{
   render(<App/>);
   click(/Spiel starten/);skipIntro();
-  const questionDone=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
-  // Simulate a slow narrator by starting the question again without completing it.
   narrator.play.mockImplementation(()=>{});
-  key('r');
+  key('r'); // a slow, still-playing question
   const readingDone=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
   expect(readingDone).toBeTypeOf('function');
   const stops=narrator.stop.mock.calls.length;
-  key('x');
-  expect(narrator.stop.mock.calls.length).toBe(stops);
-  expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
   const plays=narrator.play.mock.calls.length;
-  key('Enter');
-  expect(narrator.play.mock.calls.length).toBe(plays);
-  act(()=>readingDone?.());
+  key('x');
+  expect(narrator.stop.mock.calls.length).toBe(stops+1);
   expect(narrator.play.mock.calls.length).toBe(plays+1);
-  expect(questionDone).toBeTypeOf('function');
+  expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
+  const feedback=narrator.play.mock.calls.at(-1);
+  expect((feedback?.[0] as {id:string}[])[0].id).toMatch(/^feedback\./);
+  act(()=>readingDone?.()); // stale question completion must not supersede feedback
+  expect(narrator.play.mock.calls.length).toBe(plays+1);
+  key('Enter'); // fast navigation must still wait for the feedback voice
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  const finishFeedback=feedback?.[1] as (()=>void)|undefined;
+  expect(finishFeedback).toBeTypeOf('function');
+  act(()=>finishFeedback?.());
+ });
+ it('interrupts both keyboard and mouse question playback for an answer',()=>{
+  render(<App/>);click(/Spiel starten/);skipIntro();
+  narrator.play.mockImplementation(()=>{});
+  key('r');
+  const beforeStop=narrator.stop.mock.calls.length;
+  const answer=screen.getAllByRole('button').find(b=>b.classList.contains('answer'))!;
+  fireEvent.click(answer);
+  expect(narrator.stop.mock.calls.length).toBe(beforeStop+1);
+  expect(narrator.play.mock.calls.at(-1)?.[0]).toHaveLength(2);
  });
  it('queues immediate Enter until the feedback voice finishes',()=>{
   render(<App/>);click(/Spiel starten/);skipIntro();

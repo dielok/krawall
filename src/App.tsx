@@ -105,11 +105,12 @@ export function App(){
  function answer(i:number){
   const state=ref.current;
   if(state.screen!=='question'||state.paused||state.answered!==null||!state.round[state.index]||i<0||i>3)return;
-  const wasReading=speechPhase.current==='question';
-  if(!wasReading)stop();
+  // Selecting an answer intentionally interrupts only the question,
+  // never the following feedback. Narrator.stop invalidates stale callbacks.
+  stop();
   const q=state.round[state.index];
   patch({answered:i,points:state.points+(q.options[i].correct?1:0)});
-  if(!wasReading)feedbackSpeech(q,i);
+  feedbackSpeech(q,i);
  }
  function pause(){
   stop();patch({paused:true,focus:0});
