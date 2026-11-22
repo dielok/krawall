@@ -160,7 +160,10 @@ describe('additional controller and audio transitions',()=>{
   render(<App/>);
   act(()=>frameCallback?.(0));tickPad(0);
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  // B remains the red answer during gameplay; Start pauses, B returns in menus.
   tickPad(1);
+  expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
+  tickPad(9);
   expect(screen.getByText('Pause')).toBeTruthy();
   tickPad(1);
   expect(screen.queryByText('Pause')).toBeNull();
