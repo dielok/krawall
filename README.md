@@ -36,7 +36,7 @@ Der Testlauf speichert sein Manifest separat unter `tests/manifest.json` und lä
 .venv/bin/python scripts/validate.py
 ```
 
-Alle 345 Einträge werden berücksichtigt: `current`, `optional_new` und `runtime_template`. Die beiden Vorlagen mit Platzhaltern werden in konkrete Clips expandiert, ohne die JSON-Formulierungen zu ändern: Frage 1–40 sowie jede Punktzahl für die in der JSON genannten Rundenlängen 5, 10 und 20. Das ergibt 421 WAV-Dateien aus 345 Quell-IDs. Im Manifest bleibt jede Original-ID erhalten; Varianten stehen mit eingesetzten Laufzeitwerten unter `variants`.
+Alle 361 Einträge werden berücksichtigt: `current`, `optional_new` und `runtime_template`. Die beiden Vorlagen mit Platzhaltern werden in konkrete Clips expandiert, ohne die JSON-Formulierungen zu ändern: Frage 1–40 sowie jede Punktzahl für die in der JSON genannten Rundenlängen 5, 10 und 20. Das ergibt 437 WAV-Dateien aus 361 Quell-IDs. Im Manifest bleibt jede Original-ID erhalten; Varianten stehen mit eingesetzten Laufzeitwerten unter `variants`.
 
 Pro Text wird eine passende `max_new_tokens`-Grenze aus der Wortzahl berechnet, damit kurze Clips nicht unnötig weiterlaufen. Ein stabiler Seed pro ID und Variante macht gezielte Wiederholungen mit derselben Konfiguration reproduzierbar.
 
@@ -145,3 +145,32 @@ Aufzeichnung des letzten Erzeugungslaufs und wird erst nach einer lokalen
 Generierung für die neuen IDs vollständig. Es müssen keine WAV-Dateien eingecheckt werden.
 
 Die Tests validieren die vier Kategorien und die referenzierten Fragen-IDs.
+
+## Moderierte Kategorienwechsel
+
+Im Standardmodus „Alles gemischt“ werden die Fragen **in zufälligen Themenblöcken
+mit 2–3 Fragen** gespielt. Vor dem ersten Block und bei jedem Kategorienwechsel
+erscheint ein Intro-Screen mit Kategorie-Name, Symbol und einer zufällig gewählten
+hyperaktiven Moderation. Der Ablauf setzt nach der gesprochenen Ansage automatisch
+fort; A bzw. Enter oder ein Klick auf „Weiter zur Frage“ überspringt die Ansage.
+Mit R1 lässt sie sich erneut starten, Esc führt zum Hauptmenü.
+
+Bei Auswahl einer festen Kategorie bleiben alle Fragen in diesem Thema,
+und der Intro-Screen erscheint nur einmal am Rundenbeginn. Jede Kategorie
+hat vier verschiedene Ansagen, die innerhalb einer Runde nach Möglichkeit
+nicht wiederholt werden. Die Dramaturgie liegt in `src/show.ts`, die
+16 Audioskripte liegen als zusätzliche `category_intro`-Einträge in
+`input/quiz-krawall-tts.json`. Die bisherigen 345 Quelltexte bleiben unverändert.
+Neues Kategoriematerial wird durch Ergänzen der Daten hinzugefügt.
+
+Die 16 Ansagen können auf Athene mit dem bereits vorhandenen TTS-Generator
+nachvertont werden, z. B.:
+
+```bash
+.venv/bin/python scripts/generate.py --id category.intro.animals.1
+.venv/bin/python scripts/generate.py
+```
+
+Die neuen Dateien heißen z. B. `output/category.intro.animals.1.wav`.
+Sie werden nicht in Git gespeichert. Fehlende Audiodateien werden im Spiel
+weiterhin über die Browser-Sprachengine ausgegeben.

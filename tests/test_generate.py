@@ -19,7 +19,7 @@ class GenerateInputTests(unittest.TestCase):
     def test_source_has_unique_ids_and_readable_text(self):
         data = json.loads(Path("input/quiz-krawall-tts.json").read_text(encoding="utf-8"))
         items = validate_input(data)
-        self.assertEqual(len(items), 345)
+        self.assertEqual(len(items), 361)
         self.assertEqual(len({item["id"] for item in items}), len(items))
         self.assertTrue(all(isinstance(item["text"], str) for item in items))
 
@@ -37,7 +37,7 @@ class GenerateInputTests(unittest.TestCase):
         self.assertEqual(scores[-1]["text"], "20 von 20 Fragen richtig.")
         self.assertTrue(all("{" not in row["text"] for row in questions + scores))
         self.assertEqual(len({row["filename"] for row in scores}), 38)
-        self.assertEqual(all_jobs, 421)
+        self.assertEqual(all_jobs, 437)
 
     def test_one_runtime_variant_can_be_selected_explicitly(self):
         data = json.loads(Path("input/quiz-krawall-tts.json").read_text(encoding="utf-8"))
