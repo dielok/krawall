@@ -237,7 +237,10 @@ export function App(){
  const currentBlock=s.blocks.find(block=>block.start<=s.index&&s.index<block.start+block.length);
  const blockPosition=currentBlock?s.blocks.indexOf(currentBlock)+1:0;
  const hint=(action:ControlAction)=><ControlHint action={action} device={device}/>;
- const menu=(items:{text:string;action:string;kind?:string}[],offset=0)=> <div className="menu-stack">{items.map((item,i)=><button type="button" key={item.action} className={'menu-button '+(item.kind??'')+' '+(s.focus===i+offset?'focused':'')} onMouseEnter={()=>{setDevice('keyboard');patch({focus:i+offset});}} onClick={()=>{setDevice('keyboard');perform(item.action);}}><span>{item.text}</span></button>)}</div>;
+ const menu=(items:{text:string;action:string;kind?:string}[],offset=0)=> <div className="menu-stack">{items.map((item,i)=>{
+  const control:ControlAction|undefined=item.action==='back'?'back':item.action==='repeat'?'repeat':['start','restart','resume'].includes(item.action)?'confirm':undefined;
+  return <button type="button" key={item.action} className={'menu-button '+(item.kind??'')+' '+(s.focus===i+offset?'focused':'')} onMouseEnter={()=>{setDevice('keyboard');patch({focus:i+offset});}} onClick={()=>{setDevice('keyboard');perform(item.action);}}>{control&&hint(control)}<span>{item.text}</span></button>;
+ })}</div>;
  return <div className="game" role="application" aria-label="Quiz-Krawall Kinderquiz">
   <header><div><div className="kicker">Das superduper Kinderquiz</div><div className="brand">QUIZ-KRAWALL!</div></div>
    <div className="top">{(s.screen==='question'||s.screen==='results')&&<span className="score">⭐ {s.points} {s.points===1?'Punkt':'Punkte'}</span>}{s.screen==='question'&&<button className="small-button" onClick={()=>{setDevice('keyboard');input('MENU');}}>{hint('pause')}<span>☰ Menü</span></button>}</div></header>

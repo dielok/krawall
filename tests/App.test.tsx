@@ -490,3 +490,62 @@ describe('sound activation and defensive progression',()=>{
   spy.mockRestore();
  });
 });
+
+describe('adaptive keyboard and controller hints',()=>{
+ it('defaults to keyboard labels on the main menu and category intro',()=>{
+  render(<App/>);
+  expect(screen.getByText('Pfeiltasten: Auswahl',{exact:false})).toBeTruthy();
+  expect(screen.getByRole('button',{name:/Spiel starten/}).textContent).toContain('Enter');
+  click(/Spiel starten/);
+  expect(screen.getByRole('button',{name:/Weiter zur Frage/}).textContent).toContain('Enter');
+  expect(screen.getByRole('button',{name:/Ansage wiederholen/}).textContent).toContain('R');
+  expect(screen.getByText(/Enter: Überspringen/)).toBeTruthy();
+  key('a');expect(screen.getByText('KATEGORIE 1 VON',{exact:false})).toBeTruthy();
+ });
+ it('switches to gamepad hints on connection and updates intro actions',()=>{
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);act(()=>frameCallback?.(0));
+  expect(screen.getByRole('button',{name:/Spiel starten/}).textContent).toContain('A');
+  tickPad(9);
+  expect(screen.getByRole('button',{name:/Weiter zur Frage/}).textContent).toContain('A');
+  expect(screen.getByRole('button',{name:/Ansage wiederholen/}).textContent).toContain('R1');
+  expect(screen.getByText(/A: Überspringen/)).toBeTruthy();
+  tickPad(0);
+  expect(screen.getByRole('button',{name:/Frage vorlesen/}).textContent).toContain('R1');
+  expect(screen.getByRole('button',{name:/Menü/}).textContent).toContain('Start');
+  const keys=screen.getAllByRole('button').filter(b=>b.classList.contains('answer')).map(b=>b.querySelector('.letter')?.textContent);
+  expect(keys).toEqual(['X','Y','B','A']);
+ });
+ it('uses keyboard numbers after a key press even with gamepad still connected and returns to pad on button press',()=>{
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);act(()=>frameCallback?.(0));tickPad(9);tickPad(0);
+  key('r');
+  expect(screen.getAllByRole('button').filter(b=>b.classList.contains('answer')).map(b=>b.querySelector('.letter')?.textContent)).toEqual(['1','2','3','4']);
+  expect(screen.getByRole('button',{name:/Frage vorlesen/}).textContent).toContain('R');
+  tickPad(5);
+  expect(screen.getAllByRole('button').filter(b=>b.classList.contains('answer')).map(b=>b.querySelector('.letter')?.textContent)).toEqual(['X','Y','B','A']);
+  pad=null;act(()=>frameCallback?.(0));
+  expect(screen.getAllByRole('button').filter(b=>b.classList.contains('answer')).map(b=>b.querySelector('.letter')?.textContent)).toEqual(['1','2','3','4']);
+ });
+ it('displays correct pause-menu shortcuts and restores keyboard mode after using mouse',()=>{
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  render(<App/>);act(()=>frameCallback?.(0));tickPad(9);tickPad(0);tickPad(9);
+  expect(screen.getByRole('button',{name:/Weiterspielen/}).textContent).toContain('A');
+  expect(screen.getByRole('button',{name:/Frage wiederholen/}).textContent).toContain('R1');
+  fireEvent.mouseEnter(screen.getByRole('button',{name:/Weiterspielen/}));
+  expect(screen.getByRole('button',{name:/Weiterspielen/}).textContent).toContain('Enter');
+  expect(screen.getByRole('button',{name:/Frage wiederholen/}).textContent).toContain('R');
+  expect(screen.getByText(/Esc: Zurück/)).toBeTruthy();
+ });
+ it('uses keyboard hints in the settings and returns to controller on D-pad',()=>{
+  render(<App/>);click('⚙ Einstellungen');
+  expect(screen.getByText(/Enter: Bestätigen/)).toBeTruthy();
+  pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
+  act(()=>frameCallback?.(0));
+  expect(screen.getByText(/A: Bestätigen/)).toBeTruthy();
+  key('ArrowDown');
+  expect(screen.getByText(/Enter: Bestätigen/)).toBeTruthy();
+  (pad.axes as number[])[1]=-1;act(()=>frameCallback?.(0));
+  expect(screen.getByText(/A: Bestätigen/)).toBeTruthy();
+ });
+});

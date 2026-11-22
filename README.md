@@ -222,3 +222,12 @@ Die Originaldateien unter `sounds/` unterliegen ihren jeweiligen Lizenzbedingung
 und dürfen nicht als eigenständige Audio-Bibliothek weiterverteilt werden.
 
 Alle 160 Antwortoptionen besitzen einen `display_label` mit einem passenden Emoji. Das ursprüngliche `text`-Feld bleibt als TTS-Sprechertext unverändert. Tests prüfen die vollständige Zuordnung, sodass neue Fragen nicht versehentlich reine Textantworten enthalten.
+
+## Dynamische Steuerungshinweise
+
+`src/controls.tsx` liefert die Tastenbeschriftungen zentral. Ohne Gamepad
+stehen an Aktionsschaltflächen Enter, Esc, R und bei Antworten 1–4.
+Bei erkanntem Controller werden A, B, Start, R1 und X/Y/B/A angezeigt.
+Die Anzeige folgt dem zuletzt genutzten Eingabegerät und schaltet bei Trennung
+des Controllers wieder auf Tastatur um. Tastatureingaben funktionieren auch
+bei verbundenem Controller weiterhin.
