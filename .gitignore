@@ -2,7 +2,7 @@
 /output/*
 !/output/*.mp3
 /backups/
-/sounds/
+/sounds/*.wav
 
 # Operating system files
 .DS_Store
