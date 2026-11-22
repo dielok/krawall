@@ -304,3 +304,70 @@ describe('category menu',()=>{
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
 });
+
+
+describe('automatic category-intro transitions',()=>{
+ it('shows the introduction until the recording has ended and then starts the first question',()=>{
+  vi.useFakeTimers();
+  render(<App/>);
+  click(/Spiel starten/);
+  expect(screen.getByText('KATEGORIE 1 VON',{exact:false})).toBeTruthy();
+  const last=narrator.play.mock.calls.at(-1);
+  expect((last?.[0] as {id:string;text:string}[])[0].id).toMatch(/^category\.intro\./);
+  expect(last?.[1]).toBeTypeOf('function');
+  act(()=>last?.[1]?.());
+  act(()=>vi.advanceTimersByTime(499));
+  expect(screen.getByText('KATEGORIE 1 VON',{exact:false})).toBeTruthy();
+  act(()=>vi.advanceTimersByTime(1));
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+ it('keeps an extra 1.5 seconds of title time when voice is disabled',()=>{
+  vi.useFakeTimers();
+  render(<App/>);
+  click('⚙ Einstellungen');click(/Stimme an/);click(/Zurück zum Menü/);
+  click(/Spiel starten/);
+  const completed=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
+  act(()=>completed?.());
+  act(()=>vi.advanceTimersByTime(1499));
+  expect(screen.getByText('KATEGORIE 1 VON',{exact:false})).toBeTruthy();
+  act(()=>vi.advanceTimersByTime(1));
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+ it('ignores outdated category callbacks after skipping or leaving the round',()=>{
+  vi.useFakeTimers();render(<App/>);click(/Spiel starten/);
+  const complete=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
+  click(/Weiter zur Frage/);
+  act(()=>complete?.());act(()=>vi.advanceTimersByTime(650));
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  key('Escape');click(/Zum Hauptmenü/);
+  act(()=>complete?.());act(()=>vi.advanceTimersByTime(650));
+  expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
+ });
+ it('can repeat and skip category announcements with keyboard, controller-style menu, and mouse',()=>{
+  render(<App/>);click(/Spiel starten/);
+  const before=narrator.play.mock.calls.length;
+  key('r');expect(narrator.play.mock.calls.length).toBe(before+1);
+  click(/Ansage wiederholen/);expect(narrator.play.mock.calls.length).toBe(before+2);
+  key('ArrowDown');
+  key('Escape');expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
+  click(/Spiel starten/);key('Enter');
+  expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+ });
+ it('automatically introduces a new category after the previous block',()=>{
+  render(<App/>);click(/Spiel starten/);skipIntro();
+  const firstQuestions=screen.getByText('Frage 1 von 10');
+  expect(firstQuestions).toBeTruthy();
+  let progress=1;
+  while(screen.queryByText('Frage '+progress+' von 10') && progress<=3){
+   const ans=screen.getAllByRole('button').find(b=>b.classList.contains('answer'));
+   if(!ans)break;
+   fireEvent.click(ans);
+   key('Enter');
+   progress++;
+   if(screen.queryByText('KATEGORIE 2 VON',{exact:false}))break;
+  }
+  expect(screen.getByText('KATEGORIE 2 VON',{exact:false})).toBeTruthy();
+  skipIntro();
+  expect(screen.getByText('Frage '+progress+' von 10')).toBeTruthy();
+ });
+});
