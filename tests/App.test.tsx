@@ -187,7 +187,7 @@ describe('branch completion: navigation, callbacks and gamepad states',()=>{
   fireEvent.keyDown(window,{key:'ArrowDown',repeat:true});
   fireEvent.keyDown(window,{key:'n'});
   key('ArrowLeft');key('ArrowRight');
-  key('Enter');expect(screen.getByText('So funktioniert’s',{selector:'h2'})).toBeTruthy();
+  key('Enter');expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
  it('uses shorter silent-feedback timing and ignores delayed callbacks on new questions',()=>{
   vi.useFakeTimers();render(<App/>);
