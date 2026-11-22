@@ -2,10 +2,11 @@ import {useEffect,useRef,useState} from 'react';
 import {Narrator,type Cue} from './audio';
 import {newRound,phrase,result,type Question} from './game';
 import {allCategory,categories,categoryName} from './categories';
+import {createShowRound,type CategoryBlock} from './show';
 
-type Screen='menu'|'instructions'|'settings'|'categories'|'question'|'results';
+type Screen='menu'|'instructions'|'settings'|'categories'|'categoryIntro'|'question'|'results';
 type Action='UP'|'DOWN'|'CONFIRM'|'BACK'|'MENU'|'REPEAT'|'ANSWER_X'|'ANSWER_Y'|'ANSWER_B'|'ANSWER_A';
-type State={screen:Screen;paused:boolean;length:5|10|20;categoryId:string;voiceOn:boolean;round:Question[];index:number;points:number;answered:number|null;focus:number};
+type State={screen:Screen;paused:boolean;length:5|10|20;categoryId:string;voiceOn:boolean;round:Question[];blocks:CategoryBlock[];index:number;points:number;answered:number|null;focus:number};
 const letters=['X','Y','B','A'] as const;
 const colors=['blau','gelb','rot','grün'] as const;
 const choices:Record<string,string[]>={menu:['start','instructions','settings'],instructions:['back'],settings:['length5','length10','length20','sound','back'],categories:['category:all',...categories.map(c=>'category:'+c.id),'back'],results:['restart','menu'],pause:['resume','repeat','menu']};
@@ -14,7 +15,7 @@ const cue=(id:string,text=phrase(id)):Cue=>({id,text});
 const padded=(value:number)=>String(value).padStart(2,'0');
 
 export function App(){
- const [s,setS]=useState<State>({screen:'menu',paused:false,length:10,categoryId:'all',voiceOn:true,round:[],index:0,points:0,answered:null,focus:0});
+ const [s,setS]=useState<State>({screen:'menu',paused:false,length:10,categoryId:'all',voiceOn:true,round:[],blocks:[],index:0,points:0,answered:null,focus:0});
  const ref=useRef(s);ref.current=s;
  const narrator=useRef(new Narrator());
  const timeout=useRef<ReturnType<typeof setTimeout>|null>(null);
@@ -36,19 +37,38 @@ export function App(){
    timeout.current=setTimeout(()=>advance(),ref.current.voiceOn?900:4000);
   });
  }
- function begin(){
-  stop();const round=newRound(ref.current.length,Math.random,ref.current.categoryId);
-  patch({screen:'question',paused:false,round,index:0,points:0,answered:null,focus:0});
+ function showIntro(index:number){
+  stop();
+  const block=ref.current.blocks.find(b=>b.start===index);
+  if(!block)throw new Error('Missing category block for question '+index);
+  patch({screen:'categoryIntro',index,answered:null,focus:0,paused:false});
   narrator.current.enabled=ref.current.voiceOn;
-  questionSpeech(round[0],0);
+  narrator.current.play([cue(block.intro.id,block.intro.text)],()=>{
+   timeout.current=setTimeout(()=>enterQuestion(index),ref.current.voiceOn?500:1500);
+  });
+ }
+ function enterQuestion(index:number){
+  if(ref.current.screen!=='categoryIntro'||ref.current.index!==index)return;
+  stop();patch({screen:'question',focus:0});
+  questionSpeech(ref.current.round[index],index);
+ }
+ function begin(){
+  stop();
+  const show=createShowRound(ref.current.length,ref.current.categoryId);
+  patch({screen:'categoryIntro',paused:false,round:show.questions,blocks:show.blocks,index:0,points:0,answered:null,focus:0});
+  showIntro(0);
  }
  function advance(){
   const current=ref.current;
   if(current.screen!=='question'||current.paused||current.answered===null)return;
   stop();
   if(current.index+1<current.round.length){
-   const nextIndex=current.index+1;patch({index:nextIndex,answered:null});
-   questionSpeech(current.round[nextIndex],nextIndex);
+   const nextIndex=current.index+1;
+   if(current.blocks.some(b=>b.start===nextIndex))showIntro(nextIndex);
+   else{
+    patch({index:nextIndex,answered:null});
+    questionSpeech(current.round[nextIndex],nextIndex);
+   }
   }else{
    patch({screen:'results',focus:0});
    const outcome=result(current.points,current.round.length);
@@ -97,6 +117,7 @@ export function App(){
  function input(action:Action){
   const state=ref.current;
   if(action==='REPEAT'){
+   if(state.screen==='categoryIntro'){showIntro(state.index);return;}
    if(state.screen==='question'){
     if(state.paused)resume(true);
     else if(state.answered===null){stop();questionSpeech(state.round[state.index],state.index);}
@@ -106,14 +127,20 @@ export function App(){
   }
   if(action==='MENU'){
    if(state.screen==='question'){state.paused?resume():pause();}
+   else if(state.screen==='categoryIntro')enterQuestion(state.index);
    else if(state.screen==='menu'||state.screen==='results')begin();
    else toMenu();
    return;
   }
   if(action==='BACK'){
    if(state.paused)resume();
+   else if(state.screen==='categoryIntro')toMenu();
    else if(state.screen==='question')pause();
    else if(state.screen!=='menu')toMenu();
+   return;
+  }
+  if(state.screen==='categoryIntro'){
+   if(action==='CONFIRM')enterQuestion(state.index);
    return;
   }
   if(!state.paused&&state.screen==='question'){
@@ -178,6 +205,8 @@ export function App(){
  },[]);
  useEffect(()=>()=>stop(),[]);
  const q=s.round[s.index];
+ const currentBlock=s.blocks.find(block=>block.start<=s.index&&s.index<block.start+block.length);
+ const blockPosition=currentBlock?s.blocks.indexOf(currentBlock)+1:0;
  const padBadge=(key:string)=> <span className={'pad-badge pad-badge--'+key.toLowerCase()} aria-label={'Controller: '+key}>{key}</span>;
  const menu=(items:{text:string;action:string;kind?:string}[],offset=0)=> <div className="menu-stack">{items.map((item,i)=><button type="button" key={item.action} className={'menu-button '+(item.kind??'')+' '+(s.focus===i+offset?'focused':'')} onMouseEnter={()=>patch({focus:i+offset})} onClick={()=>perform(item.action)}><span>{item.text}</span></button>)}</div>;
  return <div className="game" role="application" aria-label="Quiz-Krawall Kinderquiz">
@@ -188,6 +217,18 @@ export function App(){
    {s.screen==='instructions'&&<section className="screen"><div className="character">🎮</div><h2>So funktioniert’s</h2><p className="info-paragraph">Höre die Frage und drücke die richtige bunte Taste. <strong>X = Blau, Y = Gelb, B = Rot, A = Grün.</strong> Alternativ X/Y/B/A oder 1–4 auf der Tastatur oder mit der Maus klicken.</p><p className="info-paragraph">Nach jeder Antwort kommt ein lustiger Spruch, dann geht es weiter. Start / Esc / ☰ pausiert das Spiel.</p>{menu([{text:'← Zurück',action:'back',kind:'primary'}])}</section>}
    {s.screen==='categories'&&<section className="screen category-screen"><div className="character">🎲</div><h2>Kategorie auswählen</h2><p className="category-explainer">Je Kategorie gibt es zehn Fragen. Bei „Alles gemischt“ sind alle vierzig dabei.</p>{menu([{text:allCategory.icon+' '+allCategory.name+(s.categoryId==='all'?' ✓':''),action:'category:all'},...categories.map(c=>({text:c.icon+' '+c.name+(s.categoryId===c.id?' ✓':''),action:'category:'+c.id})),{text:'← Zurück',action:'back'}])}</section>}
    {s.screen==='settings'&&<section className="screen"><div className="character">⚙️</div><h2>Einstellungen</h2><p>Wie viele Fragen möchtest du spielen?</p><div className="options">{([5,10,20] as const).map((n,i)=><button type="button" className={'length-btn '+(s.focus===i?'focused':'')} aria-pressed={s.length===n} key={n} onMouseEnter={()=>patch({focus:i})} onClick={()=>perform('length'+n)}><span>{n}</span></button>)}</div>{menu([{text:s.voiceOn?'🔊 Stimme an':'🔇 Stimme aus',action:'sound'},{text:'← Zurück zum Menü',action:'back',kind:'primary'}],3)}</section>}
+   {s.screen==='categoryIntro'&&currentBlock&&<section className="screen show-intro">
+    <div className="intro-eyebrow">KATEGORIE {blockPosition} VON {s.blocks.length}</div>
+    <div className="intro-symbol" aria-hidden="true">{categories.find(c=>c.id===currentBlock.categoryId)?.icon}</div>
+    <h1>{categoryName(currentBlock.categoryId)}</h1>
+    <p className="intro-monologue" aria-live="polite">{currentBlock.intro.text}</p>
+    <div className="intro-next">Danach: Frage {s.index+1} von {s.round.length}</div>
+    <div className="intro-actions">
+     <button type="button" className="menu-button primary" onClick={()=>enterQuestion(s.index)}>{padBadge('A')}<span>Weiter zur Frage</span></button>
+     <button type="button" className="small-button" onClick={()=>input('REPEAT')}>{padBadge('R1')}<span>Ansage wiederholen</span></button>
+    </div>
+    <p className="helper">Automatischer Start nach der Ansage · A / Enter: Überspringen</p>
+   </section>}
    {s.screen==='question'&&q&&<section className="screen question-screen"><div className="progress" aria-label="Fortschritt">{s.round.map((v,i)=><div key={v.id} className={'bar '+(i<=s.index?'active':'')}/>)}</div><div className="character">{s.answered===null?'🎤':q.options[s.answered].correct?'🎉':'🤹'}</div><div className="eyebrow">Frage {s.index+1} von {s.round.length}</div><h1>{q.text}</h1><div className="answers">{q.options.map((o,i)=><button type="button" key={o.id} data-key={letters[i]} className={'answer '+(s.answered!==null&&o.correct?'correct ':'')+(s.answered===i&&!o.correct?'wrong':'')} disabled={s.answered!==null} onClick={()=>answer(i)}><span className="letter">{letters[i]}</span><span>{o.label}</span></button>)}</div><div className="feedback" aria-live="polite">{s.answered===null?'Welche Antwort ist richtig?':<><strong>{q.options[s.answered].correct?'RICHTIG!':'NICHT GANZ!'}</strong><span>{q.options[s.answered].correct?q.fun:q.wrong}</span></>}</div><div className="toolbar"><button type="button" className="small-button" onClick={()=>input('REPEAT')}>{padBadge('R1')}<span>↻ Frage vorlesen</span></button></div><div className="helper">X Blau · Y Gelb · B Rot · A Grün · R1: Vorlesen · Start / Esc: Pause</div></section>}
    {s.screen==='results'&&<section className="screen"><div className="character">🏆</div><div className="eyebrow">Geschafft!</div><h1>Das war Quiz-Krawall!</h1><div className="result-number">{s.points} / {s.round.length}</div><p className="muted">{phrase(result(s.points,s.round.length))}</p>{menu([{text:'↻ Nochmal spielen',action:'restart',kind:'primary'},{text:'⌂ Zum Hauptmenü',action:'menu'}])}</section>}
   </main>
