@@ -44,10 +44,7 @@ export function App(){
   narrator.current.play(lines,()=>{
    if(speechPhase.current!=='question')return; // ignore callbacks from interrupted question speech
    speechPhase.current=null;
-   if(ref.current.screen==='question'&&ref.current.index===i){
-    if(ref.current.answered!==null)feedbackSpeech(q,ref.current.answered);
-    else sounds.current.setScene('waiting');
-   }
+   if(ref.current.screen==='question'&&ref.current.index===i) sounds.current.setScene('waiting');
   });
  }
  function feedbackSpeech(q:Question,i:number){
