@@ -11,6 +11,8 @@ let pad:Gamepad|null=null;
 let frameCallback:FrameRequestCallback|undefined;
 function key(k:string){fireEvent.keyDown(window,{key:k});}
 function click(label:RegExp|string){fireEvent.click(screen.getByRole('button',{name:label}));}
+function skipIntro(){const next=screen.queryByRole('button',{name:/Weiter zur Frage/});if(next)fireEvent.click(next);}
+function startQuiz(){click(/Spiel starten/);skipIntro();}
 function tickPad(button:number){
  if(!pad)throw Error('No controller');
  (pad.buttons as GamepadButton[])[button]={pressed:true,touched:true,value:1};
@@ -52,22 +54,23 @@ describe('quiz app interaction',()=>{
   expect(screen.getByText('🔇 Stimme aus')).toBeTruthy();
   click(/Stimme aus/);
   expect(narrator.play).toHaveBeenCalled();
-  key('Escape');click(/Spiel starten/);
+  key('Escape');startQuiz();
   expect(screen.getByText('Frage 1 von 20')).toBeTruthy();
  });
  it('runs question, repeat, feedback and next-question flow',()=>{
-  render(<App/>);click(/Spiel starten/);
+  render(<App/>);startQuiz();
   expect(screen.getAllByRole('button').length).toBeGreaterThan(4);
+  const calls=narrator.play.mock.calls.length;
   key('r');
-  expect(narrator.play).toHaveBeenCalledTimes(2);
+  expect(narrator.play.mock.calls.length).toBe(calls+1);
   const options=screen.getAllByRole('button').filter(b=>b.classList.contains('answer'));
   fireEvent.click(options[0]);
   expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
-  key('Enter');
+  key('Enter');skipIntro();
   expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
  });
  it('handles pause, replay and resume through header button',()=>{
-  render(<App/>);click(/Spiel starten/);
+  render(<App/>);startQuiz();
   click(/Menü/);
   expect(screen.getByText('Pause')).toBeTruthy();
   click(/Frage wiederholen/);
@@ -78,14 +81,14 @@ describe('quiz app interaction',()=>{
   expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
  });
  it('navigates result screen and restarts after correct and incorrect answers',()=>{
-  render(<App/>);click('⚙ Einstellungen');click('5');click(/Zurück zum Menü/);click(/Spiel starten/);
+  render(<App/>);click('⚙ Einstellungen');click('5');click(/Zurück zum Menü/);startQuiz();
   for(let i=0;i<5;i++){
    const buttons=screen.getAllByRole('button').filter(b=>b.classList.contains('answer'));
    fireEvent.click(buttons[i%4]);
-   key('Enter');
+   key('Enter');skipIntro();
   }
   expect(screen.getByText('Das war Quiz-Krawall!')).toBeTruthy();
-  click(/Nochmal spielen/);
+  click(/Nochmal spielen/);skipIntro();
   expect(screen.getByText('Frage 1 von 5')).toBeTruthy();
   key('Escape');click(/Zum Hauptmenü/);
   expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
@@ -97,7 +100,7 @@ describe('quiz app interaction',()=>{
   expect(screen.getByText(/Controller verbunden/)).toBeTruthy();
   tickPad(13);tickPad(0);
   expect(screen.getByText('So funktioniert’s',{selector:'h2'})).toBeTruthy();
-  tickPad(1);tickPad(9);
+  tickPad(1);tickPad(9);tickPad(0);
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
   tickPad(5);
   expect(narrator.play.mock.calls.length).toBeGreaterThan(1);
@@ -107,12 +110,12 @@ describe('quiz app interaction',()=>{
   expect(screen.getByText(/Controller getrennt/)).toBeTruthy();
  });
  it('does not answer twice and handles start and back navigation',()=>{
-  render(<App/>);key('Enter');
+  render(<App/>);key('Enter');key('Enter');
   key('x');const first=screen.getByText(/RICHTIG!|NICHT GANZ!/).textContent;
   key('y');expect(screen.getByText(/RICHTIG!|NICHT GANZ!/).textContent).toBe(first);
   key('Escape');expect(screen.getByText('Pause')).toBeTruthy();
   click(/Weiterspielen/);expect(screen.queryByText('Pause')).toBeNull();
-  key('Enter');expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
+  key('Enter');skipIntro();expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
  });
 });
 
@@ -120,15 +123,15 @@ describe('quiz app interaction',()=>{
 describe('additional controller and audio transitions',()=>{
  it('waits for spoken feedback before automatically advancing',()=>{
   vi.useFakeTimers();
-  render(<App/>);click(/Spiel starten/);key('x');
+  render(<App/>);startQuiz();key('x');
   const call=narrator.play.mock.calls.at(-1);
   expect(call?.[1]).toBeTypeOf('function');
   act(()=>call?.[1]?.());
-  act(()=>vi.advanceTimersByTime(950));
+  act(()=>vi.advanceTimersByTime(950));skipIntro();
   expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
  });
  it('supports spoken feedback replay during and after pause',()=>{
-  render(<App/>);click(/Spiel starten/);
+  render(<App/>);startQuiz();
   key('x');const plays=narrator.play.mock.calls.length;
   key('r');expect(narrator.play.mock.calls.length).toBeGreaterThan(plays);
   key('Escape');expect(screen.getByText('Pause')).toBeTruthy();
@@ -137,7 +140,7 @@ describe('additional controller and audio transitions',()=>{
  });
  it('returns from settings with Start and repeats with R1 on gamepad',()=>{
   render(<App/>);click('⚙ Einstellungen');
-  key('Escape');click(/Spiel starten/);key('Escape');
+  key('Escape');startQuiz();key('Escape');
   key('Escape');key('Escape');expect(screen.getByText('Pause')).toBeTruthy();
   click(/Zum Hauptmenü/);click('⚙ Einstellungen');
   pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
@@ -148,17 +151,17 @@ describe('additional controller and audio transitions',()=>{
   pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
   render(<App/>);
   act(()=>frameCallback?.(0));
-  tickPad(9);
+  tickPad(9);tickPad(0);
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
   tickPad(2);
   expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
-  tickPad(0);
+  tickPad(0);skipIntro();
   expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
  });
  it('allows controller A to start, D-pad to choose and B to return',()=>{
   pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
   render(<App/>);
-  act(()=>frameCallback?.(0));tickPad(0);
+  act(()=>frameCallback?.(0));tickPad(0);tickPad(0);
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
   // B remains the red answer during gameplay; Start pauses, B returns in menus.
   tickPad(1);
@@ -179,7 +182,7 @@ describe('branch completion: navigation, callbacks and gamepad states',()=>{
   click(/Zurück/);click('⚙ Einstellungen');
   fireEvent.mouseEnter(screen.getByRole('button',{name:'5'}));
   key('Enter');expect(screen.getByRole('button',{name:'5'}).getAttribute('aria-pressed')).toBe('true');
-  key('Escape');click(/Spiel starten/);
+  key('Escape');startQuiz();
   click(/Frage vorlesen/);expect(narrator.play.mock.calls.length).toBeGreaterThan(1);
  });
  it('covers key repeat, left, up and unknown keys',()=>{
@@ -187,18 +190,18 @@ describe('branch completion: navigation, callbacks and gamepad states',()=>{
   fireEvent.keyDown(window,{key:'ArrowDown',repeat:true});
   fireEvent.keyDown(window,{key:'n'});
   key('ArrowLeft');key('ArrowRight');
-  key('Enter');expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  key('Enter');skipIntro();expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
  it('uses shorter silent-feedback timing and ignores delayed callbacks on new questions',()=>{
   vi.useFakeTimers();render(<App/>);
-  click('⚙ Einstellungen');click(/Stimme an/);click(/Zurück zum Menü/);click(/Spiel starten/);
+  click('⚙ Einstellungen');click(/Stimme an/);click(/Zurück zum Menü/);startQuiz();
   key('x');expect(screen.getByText(/RICHTIG!|NICHT GANZ!/)).toBeTruthy();
-  key('Enter');expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
-  key('x');key('Enter');expect(screen.getByText('Frage 3 von 10')).toBeTruthy();
+  key('Enter');skipIntro();expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
+  key('x');key('Enter');skipIntro();expect(screen.getByText('Frage 3 von 10')).toBeTruthy();
   // With voice off, feedback is scheduled on the 4-second path only when narrator completes.
  });
  it('ignores a delayed feedback callback after quitting the round',()=>{
-  vi.useFakeTimers();render(<App/>);click(/Spiel starten/);key('x');
+  vi.useFakeTimers();render(<App/>);startQuiz();key('x');
   const done=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
   expect(done).toBeTypeOf('function');
   key('Escape');click(/Zum Hauptmenü/);
@@ -206,7 +209,7 @@ describe('branch completion: navigation, callbacks and gamepad states',()=>{
   expect(screen.getByText('Bereit für Quiz-Krawall?')).toBeTruthy();
  });
  it('handles old voice callbacks after the next question has started',()=>{
-  vi.useFakeTimers();render(<App/>);click(/Spiel starten/);key('x');
+  vi.useFakeTimers();render(<App/>);startQuiz();key('x');
   const done=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
   key('Enter');expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
   act(()=>done?.());act(()=>vi.advanceTimersByTime(900));
@@ -222,7 +225,7 @@ describe('branch completion: navigation, callbacks and gamepad states',()=>{
   (pad.axes as number[])[1]=-1;act(()=>frameCallback?.(0));
   (pad.axes as number[])[1]=0;act(()=>frameCallback?.(0));
   tickPad(13);tickPad(12);
-  tickPad(0);expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  tickPad(0);tickPad(0);expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
   tickPad(9);expect(screen.getByText('Pause')).toBeTruthy();
   tickPad(13);tickPad(12);tickPad(5); // menu navigation and replay
   expect(screen.queryByText('Pause')).toBeNull();
@@ -232,6 +235,8 @@ describe('branch completion: navigation, callbacks and gamepad states',()=>{
   render(<App/>);act(()=>frameCallback?.(0));
   (pad.buttons as GamepadButton[])[0]={pressed:true,touched:true,value:1};
   act(()=>frameCallback?.(0));act(()=>frameCallback?.(0));
+  expect(screen.getByText('KATEGORIE 1 VON', {exact:false})).toBeTruthy();
+  tickPad(0);
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
 });
@@ -240,20 +245,20 @@ describe('remaining moderator and pause branches',()=>{
  it('advances after silent audio callbacks using the longer feedback delay',()=>{
   vi.useFakeTimers();
   render(<App/>);
-  click('⚙ Einstellungen');click(/Stimme an/);click(/Zurück zum Menü/);click(/Spiel starten/);
+  click('⚙ Einstellungen');click(/Stimme an/);click(/Zurück zum Menü/);startQuiz();
   key('x');
   const complete=narrator.play.mock.calls.at(-1)?.[1] as (()=>void)|undefined;
   expect(complete).toBeTypeOf('function');
   act(()=>complete?.());
   act(()=>vi.advanceTimersByTime(3999));
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
-  act(()=>vi.advanceTimersByTime(1));
+  act(()=>vi.advanceTimersByTime(1));skipIntro();
   expect(screen.getByText('Frage 2 von 10')).toBeTruthy();
  });
  it('uses controller Start to both pause and resume an active question',()=>{
   pad={index:0,buttons:Array.from({length:16},()=>({pressed:false,touched:false,value:0})),axes:[0,0,0,0],id:'Xbox',connected:true,mapping:'standard',timestamp:0} as unknown as Gamepad;
   render(<App/>);act(()=>frameCallback?.(0));
-  tickPad(0);tickPad(9);
+  tickPad(0);tickPad(0);tickPad(9);
   expect(screen.getByText('Pause')).toBeTruthy();
   tickPad(9);
   expect(screen.queryByText('Pause')).toBeNull();
@@ -273,7 +278,7 @@ describe('category menu',()=>{
   expect(screen.getByRole('button',{name:/Essen & Farben/})).toBeTruthy();
   click(/Tiere/);
   expect(screen.getByText('Aktuelle Auswahl: Tiere')).toBeTruthy();
-  click(/Spiel starten/);
+  startQuiz();
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
  it('selects other categories and mixed mode via keyboard and mouse',()=>{
@@ -288,12 +293,12 @@ describe('category menu',()=>{
   expect(screen.getByText('Aktuelle Auswahl: Essen & Farben')).toBeTruthy();
   click('Kategorien');key('Enter');
   expect(screen.getByText('Aktuelle Auswahl: Alles gemischt')).toBeTruthy();
-  click(/Spiel starten/);expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
+  startQuiz();expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
  it('limits a configured 20-question round to its ten-question category',()=>{
   render(<App/>);
   click('⚙ Einstellungen');click('20');click(/Zurück zum Menü/);
-  click('Kategorien');click(/Tiere/);click(/Spiel starten/);
+  click('Kategorien');click(/Tiere/);startQuiz();
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
 });
