@@ -236,6 +236,8 @@ describe('branch completion: navigation, callbacks and gamepad states',()=>{
   (pad.buttons as GamepadButton[])[0]={pressed:true,touched:true,value:1};
   act(()=>frameCallback?.(0));act(()=>frameCallback?.(0));
   expect(screen.getByText('KATEGORIE 1 VON', {exact:false})).toBeTruthy();
+  (pad.buttons as GamepadButton[])[0]={pressed:false,touched:false,value:0};
+  act(()=>frameCallback?.(0));
   tickPad(0);
   expect(screen.getByText('Frage 1 von 10')).toBeTruthy();
  });
