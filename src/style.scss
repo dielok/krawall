@@ -13,7 +13,7 @@
 
 
 /* Stable console-style viewport: content changes never resize the application. */
-.game{container-type:size}
+.game{width:min(980px,calc(100vw - 32px));min-width:0;container-type:normal}
 main{overflow:hidden;scrollbar-gutter:auto;display:flex;flex-direction:column;padding:clamp(12px,2.2cqh,22px) clamp(14px,4vw,36px) 8px}
 .screen{flex:1 1 auto;min-height:0;overflow:hidden}
 .question-screen{display:grid;grid-template-rows:9px clamp(36px,6cqh,48px) 17px minmax(55px,auto) minmax(0,1fr) clamp(96px,15cqh,125px) 42px 18px;row-gap:clamp(3px,.9cqh,9px);align-content:stretch}
