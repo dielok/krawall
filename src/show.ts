@@ -26,7 +26,6 @@ export function createShowRound(count:number,categoryId='all',random:()=>number=
   const remaining=count-questions.length;
   const desired=remaining<=3?remaining:remaining===4?2:random()<.5?2:3;
   const length=Math.min(desired,pool.length);
-  if(length===0)throw new Error('Not enough questions in category: '+category.id);
   const start=questions.length;
   questions.push(...pool.splice(0,length));
   blocks.push(makeBlock(category.id,start,length,random,usedIntros));

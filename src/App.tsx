@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState} from 'react';
 import {Narrator,type Cue} from './audio';
-import {newRound,phrase,result,type Question} from './game';
+import {phrase,result,type Question} from './game';
 import {allCategory,categories,categoryName} from './categories';
 import {createShowRound,type CategoryBlock} from './show';
 
@@ -39,8 +39,7 @@ export function App(){
  }
  function showIntro(index:number){
   stop();
-  const block=ref.current.blocks.find(b=>b.start===index);
-  if(!block)throw new Error('Missing category block for question '+index);
+  const block=ref.current.blocks.find(b=>b.start===index)!;
   patch({screen:'categoryIntro',index,answered:null,focus:0,paused:false});
   narrator.current.enabled=ref.current.voiceOn;
   narrator.current.play([cue(block.intro.id,block.intro.text)],()=>{
@@ -219,7 +218,7 @@ export function App(){
    {s.screen==='settings'&&<section className="screen"><div className="character">⚙️</div><h2>Einstellungen</h2><p>Wie viele Fragen möchtest du spielen?</p><div className="options">{([5,10,20] as const).map((n,i)=><button type="button" className={'length-btn '+(s.focus===i?'focused':'')} aria-pressed={s.length===n} key={n} onMouseEnter={()=>patch({focus:i})} onClick={()=>perform('length'+n)}><span>{n}</span></button>)}</div>{menu([{text:s.voiceOn?'🔊 Stimme an':'🔇 Stimme aus',action:'sound'},{text:'← Zurück zum Menü',action:'back',kind:'primary'}],3)}</section>}
    {s.screen==='categoryIntro'&&currentBlock&&<section className="screen show-intro">
     <div className="intro-eyebrow">KATEGORIE {blockPosition} VON {s.blocks.length}</div>
-    <div className="intro-symbol" aria-hidden="true">{categories.find(c=>c.id===currentBlock.categoryId)?.icon}</div>
+    <div className="intro-symbol" aria-hidden="true">{categories.find(c=>c.id===currentBlock.categoryId)!.icon}</div>
     <h1>{categoryName(currentBlock.categoryId)}</h1>
     <p className="intro-monologue" aria-live="polite">{currentBlock.intro.text}</p>
     <div className="intro-next">Danach: Frage {s.index+1} von {s.round.length}</div>
