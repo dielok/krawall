@@ -8,7 +8,7 @@ export class Narrator {
   this.generation++;
   this.settle?.();this.settle=null;
   if(this.audio){this.audio.pause();this.audio.removeAttribute('src');this.audio=null;}
-  if('speechSynthesis' in window)speechSynthesis.cancel();
+  if(typeof window.speechSynthesis !== 'undefined')window.speechSynthesis.cancel();
  }
  play(cues:Cue[],done?:()=>void){
   this.stop();if(!this.enabled){done?.();return;}
@@ -30,7 +30,7 @@ export class Narrator {
    a.play().catch(()=>finish(false));
   });
   this.audio=null;
-  if(token!==this.generation||played||!('speechSynthesis' in window))return;
+  if(token!==this.generation||played||typeof window.speechSynthesis === 'undefined')return;
   await new Promise<void>(resolve=>{
    const u=new SpeechSynthesisUtterance(cue.text);u.lang='de-DE';u.rate=.88;u.pitch=1.1;
    const voices=speechSynthesis.getVoices();
