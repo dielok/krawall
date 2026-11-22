@@ -6,7 +6,7 @@ export default defineConfig({
   environment:'jsdom',
   include:['tests/**/*.test.{ts,tsx}'],
   coverage:{
-   provider:'v8',reporter:['text','json-summary','html'],
+   provider:'v8',reporter:['text','json-summary','json','html'],
    include:['src/**/*.{ts,tsx}'],
    exclude:['src/main.tsx'],
   }

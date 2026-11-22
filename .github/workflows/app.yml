@@ -3,7 +3,7 @@ on:
   push:
     paths: ['src/**', 'input/**', 'package.json', 'tsconfig.json', 'vite.config.ts', 'index.html', 'tests/**', 'vitest.config.ts', '.github/workflows/app.yml']
   pull_request:
-    paths: ['src/**', 'input/**', 'package.json', 'tsconfig.json', 'vite.config.ts', 'index.html', 'tests/web.test.mjs', '.github/workflows/app.yml']
+    paths: ['src/**', 'input/**', 'package.json', 'tsconfig.json', 'vite.config.ts', 'index.html', 'tests/**', 'vitest.config.ts', 'scripts/uncovered.mjs', '.github/workflows/app.yml']
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,4 +15,5 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm test
       - run: npm run test:coverage
+      - run: node scripts/uncovered.mjs
       - run: npm run build
