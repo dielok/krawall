@@ -25,16 +25,16 @@ beforeEach(()=>{
 afterEach(()=>vi.unstubAllGlobals());
 const tick=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
 describe('narration',()=>{
- it('plays WAV clips in sequence without browser TTS',async()=>{
+ it('plays MP3 clips in sequence without browser TTS',async()=>{
   const done=vi.fn();const n=new Narrator();
   n.play([{id:'q01.question',text:'Hallo'},{id:'q02.question',text:'Weiter'}],done);
-  expect(players).toHaveLength(1);expect(players[0].src).toContain('q01.question.wav');
+  expect(players).toHaveLength(1);expect(players[0].src).toContain('q01.question.mp3');
   players[0].onended?.();await tick();
   expect(players).toHaveLength(2);
   players[1].onended?.();await tick();
   expect(done).toHaveBeenCalledOnce();expect(speak).not.toHaveBeenCalled();
  });
- it('uses German browser speech on missing WAV and continues',async()=>{
+ it('uses German browser speech on missing MP3 and continues',async()=>{
   const done=vi.fn();const n=new Narrator();
   n.play([{id:'missing',text:'Guten Morgen'}],done);
   players[0].onerror?.();await tick();

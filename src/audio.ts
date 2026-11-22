@@ -20,7 +20,7 @@ export class Narrator {
   if(token===this.generation)done?.();
  }
  private async one(cue:Cue,token:number){
-  const filename=encodeURIComponent(cue.id+'.wav');
+  const filename=encodeURIComponent(cue.id+'.mp3');
   const played=await new Promise<boolean>(resolve=>{
    const a=new Audio();this.audio=a;let settled=false;
    const finish=(v:boolean)=>{if(settled)return;settled=true;this.settle=null;resolve(v);};

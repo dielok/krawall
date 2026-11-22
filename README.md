@@ -1,6 +1,8 @@
 # Quiz-Krawall TTS
 
-Lokale, fortsetzbare WAV-Erzeugung aus `input/quiz-krawall-tts.json` mit Qwen3-TTS VoiceDesign. Das Skript spricht ausschließlich Text aus den JSON-`text`-Feldern. Regiehinweise und Emotionen steuern nur den VoiceDesign-Auftrag. Runtime-Vorlagen werden anhand ihrer JSON-Variablen-Metadaten mit den vorgesehenen Werten expandiert.
+Fortsetzbare TTS-Pipeline aus `input/quiz-krawall-tts.json` mit Qwen3-TTS VoiceDesign auf Athene. Athene liefert WAV-Master zurück; lokal entstehen daraus MP3-Dateien für die App. Gesprochen wird ausschließlich Text aus den JSON-`text`-Feldern. Regiehinweise und Emotionen steuern nur den VoiceDesign-Auftrag. Runtime-Vorlagen werden anhand ihrer JSON-Variablen-Metadaten mit den vorgesehenen Werten expandiert.
+
+Einzelnen Freitext als WAV erzeugen: [HOWTO-TTS.md](HOWTO-TTS.md).
 
 ## Installation auf Athene
 
@@ -20,23 +22,46 @@ export UV_PYTHON_INSTALL_DIR="$PWD/.tools/python" UV_CACHE_DIR="$PWD/.cache/uv"
 
 Die offizielle Qwen3-TTS-Anleitung empfiehlt eine frische Python-3.12-Umgebung. `flash-attn` ist optional und wird hier ausgelassen, damit keine unnötige CUDA-Erweiterung kompiliert werden muss; Inferenz verwendet PyTorch SDPA und FP16 für die RTX 3060.
 
-Kopiere `input/quiz-krawall-tts.json`, `scripts/`, `tests/` und dieses README in das Verzeichnis. Prüfe vorab `nvidia-smi`, `python3 --version`, `df -h ~` und den freien VRAM. `uv` und Python 3.12 werden dabei im Arbeitsverzeichnis abgelegt; globale Python-Pakete bleiben unberührt. Das erste Laden lädt die Modellgewichte von Hugging Face herunter.
+Prüfe vorab `nvidia-smi`, `python3 --version`, `df -h ~` und den freien VRAM. `uv` und Python 3.12 werden dabei im Arbeitsverzeichnis abgelegt; globale Python-Pakete bleiben unberührt. Das erste Laden lädt die Modellgewichte von Hugging Face herunter. Das Repository bleibt auf deinem Rechner; die Pipeline überträgt nur den generischen TTS-Server und fehlende Textanfragen.
 
-## Testclips und Gesamtlauf
+## TTS-Pipeline
 
-```bash
-.venv/bin/python scripts/generate.py --test
-```
-
-Das erzeugt separat `tests/welcome.wav`, `tests/question.wav` und `tests/correct.wav`. Höre diese drei Dateien ab und prüfe deutsche Aussprache, Stimmcharakter und Verständlichkeit, bevor du die komplette Sammlung erzeugst.
-Der Testlauf speichert sein Manifest separat unter `tests/manifest.json` und lässt das Manifest des vollständigen Exports unberührt.
+Im Repository startet ein einzelner Befehl die Pipeline:
 
 ```bash
-.venv/bin/python scripts/generate.py
-.venv/bin/python scripts/validate.py
+npm run tts
 ```
 
-Alle 361 Einträge werden berücksichtigt: `current`, `optional_new` und `runtime_template`. Die beiden Vorlagen mit Platzhaltern werden in konkrete Clips expandiert, ohne die JSON-Formulierungen zu ändern: Frage 1–40 sowie jede Punktzahl für die in der JSON genannten Rundenlängen 5, 10 und 20. Das ergibt 437 WAV-Dateien aus 361 Quell-IDs. Im Manifest bleibt jede Original-ID erhalten; Varianten stehen mit eingesetzten Laufzeitwerten unter `variants`.
+Der Befehl verbindet sich per SSH mit `athene`, aktualisiert dort den generischen Server unter `~/.local/lib/tts-service/tts_server.py` und sendet die noch fehlenden Clips. Das Modell wird pro Pipeline-Lauf einmal geladen und für alle Anfragen wiederverwendet. Athene kennt nur Text, Sprache, Stimmenbeschreibung, Emotion, Regieanweisung und Seed; Quiz-IDs, Dateinamen und MP3-Konvertierung bleiben lokal.
+
+**Vorhandene WAV- und MP3-Dateien werden niemals überschrieben oder neu erzeugt**, auch wenn sich ein Text in der JSON geändert hat. Gibt es eine WAV, aber noch keine MP3, wird nur lokal konvertiert. WAV-Master bleiben lokal; MP3-App-Dateien werden versioniert.
+
+Für eine Vorschau ohne Dateiveränderungen, SSH oder Modelllauf:
+
+```bash
+npm run tts:dry-run
+```
+
+Die lokale MP3-Konvertierung benötigt `ffmpeg` und `ffprobe`.
+
+Nur vorhandene WAV-Master konvertieren, ohne Athene oder TTS-Generierung:
+
+```bash
+npm run tts:convert
+```
+
+Der Standard-SSH-Alias ist `athene`. Abweichungen lassen sich über Umgebungsvariablen setzen:
+
+```bash
+KRAWALL_TTS_HOST=athene npm run tts
+KRAWALL_TTS_REMOTE_PYTHON=services/quiz-krawall-tts/.venv/bin/python npm run tts
+```
+
+Der zweite Wert zeigt den Standardpfad zur vorhandenen Python-Umgebung. Der Client benötigt lokal nur Python 3 und SSH; Qwen, PyTorch und CUDA laufen ausschließlich auf Athene.
+
+Die bisherigen Generator-Kommandos bleiben für gezielte Tests und Debugging verfügbar; sie erzeugen nur WAVs. Für MP3-App-Dateien und die vollständige Pipeline `npm run tts` verwenden.
+
+Alle 361 Einträge werden berücksichtigt: `current`, `optional_new`, `runtime_template` und `category_intro`. Die Vorlagen werden ohne Änderungen an den Quelltexten in konkrete Clips expandiert: Frage 1–40 sowie Punktestände für 5, 10 und 20 Fragen. Das ergibt 437 WAV-Master und 437 MP3-App-Dateien aus 361 Quell-IDs. Im Manifest bleibt jede Original-ID erhalten; Varianten stehen mit eingesetzten Laufzeitwerten unter `variants`.
 
 Pro Text wird eine passende `max_new_tokens`-Grenze aus der Wortzahl berechnet, damit kurze Clips nicht unnötig weiterlaufen. Ein stabiler Seed pro ID und Variante macht gezielte Wiederholungen mit derselben Konfiguration reproduzierbar.
 
@@ -59,8 +84,9 @@ Für Runtime-Texte können einzelne Variablenwerte gezielt erzeugt werden. Ohne 
 
 ## Dateien
 
-- `output/<id>.wav`: Mono-PCM-16 WAV mit nativer Modell-Samplerate für feste Texte. Laufzeitvarianten nutzen `<id>.<variable>-<wert>.wav`.
-- `manifest.json`: Quelltext, ID, Varianten/gesprochener Text, Pfad, Dauer, Status, Modell, VoiceDesign-Auftrag, Generierungsparameter, Laufzeit und nach Möglichkeit Spitzen-VRAM pro Clip.
+- `output/<id>.wav`: unveränderter Mono-PCM-16 WAV-Master mit nativer Modell-Samplerate. Laufzeitvarianten nutzen `<id>.<variable>-<wert>.wav`.
+- `output/<id>.mp3`: Mono-MP3 mit 64 kbit/s für die App; dieselben IDs und Varianten wie bei den WAV-Mastern.
+- `manifest.json`: Quelltext, Varianten, WAV-Masterpfad (`path`) und App-MP3-Pfad (`app_path`). Die Pipeline ergänzt Konvertierungsdaten, ändert aber keine vorhandenen Quelltexte.
 - `tests/`: drei separate Hörproben (`welcome.wav`, `question.wav`, `correct.wav`).
 
 ## Hinweise
@@ -79,11 +105,11 @@ npm run dev
 npm run build
 ```
 
-### WAV-Audios im Spiel
+### MP3-Audios im Spiel
 
-Die generierten Clips verbleiben lokal in **`output/`** (per `.gitignore` ausgeschlossen). Der Vite-Entwicklungsserver stellt sie unter `/audio/` bereit; `npm run build` übernimmt vorhandene `output/**/*.wav` in `dist/audio/`. **WAV-Dateien niemals ins Repository pushen.** Fehlen WAV-Dateien, verwendet das Spiel automatisch die Browser-SpeechSynthesis-API als Fallback. Die Anwendung startet deshalb auch mit leerem `output/`.
+WAV-Master verbleiben lokal in **`output/`** und sind per `.gitignore` ausgeschlossen. Die MP3-App-Dateien liegen ebenfalls dort, werden aber ins Repository eingecheckt. Der Vite-Entwicklungsserver stellt MP3s mit `audio/mpeg` unter `/audio/` bereit; `npm run build` übernimmt vorhandene `output/**/*.mp3` in `dist/audio/`. Fehlen MP3-Dateien, verwendet das Spiel automatisch die Browser-SpeechSynthesis-API als Fallback.
 
-Die Dateinamen entsprechen den IDs aus der TTS-JSON, z. B. `output/q01.question.wav`, `output/q01.answer.1.wav`, `output/feedback.correct.wav`. Dynamische Varianten werden wie von `scripts/generate.py` erzeugt angesprochen: `output/question.prefix.question_number-01.wav` und `output/results.score.points-04.total-05.wav`. Die Antwortpositionen X/Y/B/A werden als eigenständige Clips angesagt, damit die Reihenfolge pro Runde beliebig gemischt werden kann.
+Die MP3-Dateinamen entsprechen den IDs aus der TTS-JSON, z. B. `output/q01.question.mp3`, `output/q01.answer.1.mp3`, `output/feedback.correct.mp3`. Dynamische Varianten heißen z. B. `output/question.prefix.question_number-01.mp3` und `output/results.score.points-04.total-05.mp3`. Die Antwortpositionen X/Y/B/A werden als eigenständige Clips angesagt, damit die Reihenfolge pro Runde beliebig gemischt werden kann.
 
 **Eingaben:** Xbox-Standardbelegung X/blau, Y/gelb, B/rot, A/grün; Steuerkreuz/Stick und A bestätigen Menüs, B geht zurück, Start pausiert. Tastatur X/Y/B/A oder 1–4, Pfeiltasten, Enter und Esc. Maus klickt Menüpunkte/Antworten.
 
@@ -127,22 +153,23 @@ eine Antwort mit `correct: true` markiert. Die UI mischt Fragen und Antworten
 unabhängig. Wird eine Spielrundenlänge von 20 gewählt, eine Kategorie enthält aber
 nur zehn Fragen, spielt die Runde maximal zehn Fragen.
 
-### Audio für neue Fragen erzeugen
+### Audio für neue Fragen und Kategorien erzeugen
 
-Die 20 neuen Fragen benötigen lokal WAV-Clips für ihre 160 neuen Sprecheinträge
-und 20 zusätzliche Fragennummern-Varianten (21–40). Der vorhandene Generator
-überspringt bereits erfolgreich generierte Dateien; die vorhandenen WAVs
-werden nicht überschrieben und `output/` bleibt in `.gitignore`.
+Die 20 neuen Fragen benötigen 160 Clips für Frage, Antworten und Reaktionen sowie
+20 Varianten der Fragennummer (21–40). Die 16 Kategorie-Intros sind ebenfalls
+Einträge der TTS-JSON. `npm run tts` berücksichtigt alle diese Texte automatisch.
+Es konvertiert vorhandene WAV-Master ohne TTS-Neugenerierung und überspringt
+vorhandene MP3s unabhängig vom Manifest. WAVs bleiben lokal und ausgeschlossen;
+die MP3s werden versioniert.
 
 ```bash
-.venv/bin/python scripts/generate.py
-.venv/bin/python scripts/validate.py
+npm run tts
 ```
 
-Bis die neuen WAV-Dateien vorhanden sind, verwendet das Spiel für diese Clips
+Bis die neuen MP3-Dateien vorhanden sind, verwendet das Spiel für diese Clips
 die Browser-Sprachausgabe. Das bereits eingecheckte `manifest.json` ist eine
-Aufzeichnung des letzten Erzeugungslaufs und wird erst nach einer lokalen
-Generierung für die neuen IDs vollständig. Es müssen keine WAV-Dateien eingecheckt werden.
+Aufzeichnung des letzten Erzeugungslaufs und wird nach TTS-Generierung oder
+MP3-Konvertierung ergänzt. Es müssen keine Audiodateien eingecheckt werden.
 
 Die Tests validieren die vier Kategorien und die referenzierten Fragen-IDs.
 
@@ -163,14 +190,12 @@ nicht wiederholt werden. Die Dramaturgie liegt in `src/show.ts`, die
 `input/quiz-krawall-tts.json`. Die bisherigen 345 Quelltexte bleiben unverändert.
 Neues Kategoriematerial wird durch Ergänzen der Daten hinzugefügt.
 
-Die 16 Ansagen können auf Athene mit dem bereits vorhandenen TTS-Generator
-nachvertont werden, z. B.:
+Die 16 Ansagen sind bereits in der Eingabe für `npm run tts` enthalten und werden
+automatisch erzeugt, sofern weder WAV-Master noch MP3 vorhanden sind. Die App-Dateinamen lauten z. B.:
 
 ```bash
-.venv/bin/python scripts/generate.py --id category.intro.animals.1
-.venv/bin/python scripts/generate.py
+output/category.intro.animals.1.mp3
 ```
 
-Die neuen Dateien heißen z. B. `output/category.intro.animals.1.wav`.
-Sie werden nicht in Git gespeichert. Fehlende Audiodateien werden im Spiel
+Die WAV-Master werden nicht in Git gespeichert, die MP3s schon. Bis zur Erzeugung werden fehlende Audios im Spiel
 weiterhin über die Browser-Sprachengine ausgegeben.

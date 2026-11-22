@@ -1,5 +1,8 @@
-# Generated production audio (kept on Athene, not in Git)
-/output/
+# Generated audio: commit app MP3s; keep WAV masters and other output local
+/output/*
+!/output/*.mp3
+/backups/
+/sounds/
 
 # Operating system files
 .DS_Store
