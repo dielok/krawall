@@ -19,7 +19,7 @@ class GenerateInputTests(unittest.TestCase):
     def test_source_has_unique_ids_and_readable_text(self):
         data = json.loads(Path("input/quiz-krawall-tts.json").read_text(encoding="utf-8"))
         items = validate_input(data)
-        self.assertEqual(len(items), 185)
+        self.assertEqual(len(items), 345)
         self.assertEqual(len({item["id"] for item in items}), len(items))
         self.assertTrue(all(isinstance(item["text"], str) for item in items))
 
@@ -29,15 +29,15 @@ class GenerateInputTests(unittest.TestCase):
         questions = build_jobs(items["question.prefix"], data)
         scores = build_jobs(items["results.score"], data)
         all_jobs = sum(len(build_jobs(item, data)) for item in data["items"])
-        self.assertEqual(len(questions), 20)
+        self.assertEqual(len(questions), 40)
         self.assertEqual(questions[0]["text"], "Frage 1.")
-        self.assertEqual(questions[-1]["text"], "Frage 20.")
+        self.assertEqual(questions[-1]["text"], "Frage 40.")
         self.assertEqual(len(scores), 38)
         self.assertEqual(scores[0]["text"], "0 von 5 Fragen richtig.")
         self.assertEqual(scores[-1]["text"], "20 von 20 Fragen richtig.")
         self.assertTrue(all("{" not in row["text"] for row in questions + scores))
         self.assertEqual(len({row["filename"] for row in scores}), 38)
-        self.assertEqual(all_jobs, 241)
+        self.assertEqual(all_jobs, 421)
 
     def test_one_runtime_variant_can_be_selected_explicitly(self):
         data = json.loads(Path("input/quiz-krawall-tts.json").read_text(encoding="utf-8"))

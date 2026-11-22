@@ -2,11 +2,11 @@ import {describe,it,expect,vi} from 'vitest';
 import data from '../input/quiz-krawall-tts.json';
 import {newRound,phrase,shuffle,result} from '../src/game';
 describe('question bank and randomization',()=>{
- it('contains 20 complete playable questions',()=>{
-  expect(data.question_count).toBe(20);
-  const round=newRound(20,()=>0.1);
-  expect(round).toHaveLength(20);
-  expect(new Set(round.map(q=>q.id)).size).toBe(20);
+ it('contains 40 complete playable questions',()=>{
+  expect(data.question_count).toBe(40);
+  const round=newRound(40,()=>0.1);
+  expect(round).toHaveLength(40);
+  expect(new Set(round.map(q=>q.id)).size).toBe(40);
   for(const q of round){
    expect(q.text).toBeTruthy();
    expect(q.fun).toBeTruthy();

@@ -1,19 +1,20 @@
 import {useEffect,useRef,useState} from 'react';
 import {Narrator,type Cue} from './audio';
 import {newRound,phrase,result,type Question} from './game';
+import {allCategory,categories,categoryName} from './categories';
 
-type Screen='menu'|'instructions'|'settings'|'question'|'results';
+type Screen='menu'|'instructions'|'settings'|'categories'|'question'|'results';
 type Action='UP'|'DOWN'|'CONFIRM'|'BACK'|'MENU'|'REPEAT'|'ANSWER_X'|'ANSWER_Y'|'ANSWER_B'|'ANSWER_A';
-type State={screen:Screen;paused:boolean;length:5|10|20;voiceOn:boolean;round:Question[];index:number;points:number;answered:number|null;focus:number};
+type State={screen:Screen;paused:boolean;length:5|10|20;categoryId:string;voiceOn:boolean;round:Question[];index:number;points:number;answered:number|null;focus:number};
 const letters=['X','Y','B','A'] as const;
 const colors=['blau','gelb','rot','grün'] as const;
-const choices:Record<string,string[]>={menu:['start','instructions','settings'],instructions:['back'],settings:['length5','length10','length20','sound','back'],results:['restart','menu'],pause:['resume','repeat','menu']};
+const choices:Record<string,string[]>={menu:['start','instructions','settings'],instructions:['back'],settings:['length5','length10','length20','sound','back'],categories:['category:all',...categories.map(c=>'category:'+c.id),'back'],results:['restart','menu'],pause:['resume','repeat','menu']};
 const padActions:Record<number,Action>={0:'ANSWER_A',1:'ANSWER_B',2:'ANSWER_X',3:'ANSWER_Y',9:'MENU',5:'REPEAT',12:'UP',13:'DOWN'};
 const cue=(id:string,text=phrase(id)):Cue=>({id,text});
 const padded=(value:number)=>String(value).padStart(2,'0');
 
 export function App(){
- const [s,setS]=useState<State>({screen:'menu',paused:false,length:10,voiceOn:true,round:[],index:0,points:0,answered:null,focus:0});
+ const [s,setS]=useState<State>({screen:'menu',paused:false,length:10,categoryId:'all',voiceOn:true,round:[],index:0,points:0,answered:null,focus:0});
  const ref=useRef(s);ref.current=s;
  const narrator=useRef(new Narrator());
  const timeout=useRef<ReturnType<typeof setTimeout>|null>(null);
@@ -36,7 +37,7 @@ export function App(){
   });
  }
  function begin(){
-  stop();const round=newRound(ref.current.length);
+  stop();const round=newRound(ref.current.length,Math.random,ref.current.categoryId);
   patch({screen:'question',paused:false,round,index:0,points:0,answered:null,focus:0});
   narrator.current.enabled=ref.current.voiceOn;
   questionSpeech(round[0],0);
@@ -80,10 +81,11 @@ export function App(){
  function toMenu(){stop();patch({screen:'menu',paused:false,focus:0,answered:null});}
  function perform(action:string){
   const state=ref.current;
+  if(action.startsWith('category:')){patch({categoryId:action.slice('category:'.length),screen:'menu',focus:0});return;}
   switch(action){
    case 'start':case 'restart':begin();break;
    case 'length5':case 'length10':case 'length20':patch({length:Number(action.slice(6)) as 5|10|20});break;
-   case 'instructions':case 'settings':stop();patch({screen:action,focus:0});break;
+   case 'instructions':case 'settings':case 'categories':stop();patch({screen:action,focus:0});break;
    case 'menu':toMenu();break;
    case 'back':toMenu();break;
    case 'resume':resume();break;
@@ -182,8 +184,9 @@ export function App(){
   <header><div><div className="kicker">Das superduper Kinderquiz</div><div className="brand">QUIZ-KRAWALL!</div></div>
    <div className="top">{(s.screen==='question'||s.screen==='results')&&<span className="score">⭐ {s.points} {s.points===1?'Punkt':'Punkte'}</span>}{s.screen==='question'&&<button className="small-button" onClick={()=>input('MENU')}>{padBadge('START')}<span>☰ Menü</span></button>}</div></header>
   <main>
-   {s.screen==='menu'&&<section className="screen"><div className="character">🎤</div><div className="eyebrow">Die große Mini-Quizshow</div><h1>Bereit für Quiz-Krawall?</h1>{menu([{text:'▶ Spiel starten',action:'start',kind:'primary'},{text:'So funktioniert’s',action:'instructions'},{text:'⚙ Einstellungen',action:'settings'}])}<div className="helper">Controller: Steuerkreuz + A · Tastatur: Pfeiltasten + Enter · Maus: Klicken</div></section>}
+   {s.screen==='menu'&&<section className="screen"><div className="character">🎤</div><div className="eyebrow">Die große Mini-Quizshow</div><h1>Bereit für Quiz-Krawall?</h1>{menu([{text:'▶ Spiel starten',action:'start',kind:'primary'},{text:'So funktioniert’s',action:'instructions'},{text:'⚙ Einstellungen',action:'settings'},{text:'Kategorien',action:'categories'}])}<p className="category-choice">Aktuelle Auswahl: {categoryName(s.categoryId)}</p><div className="helper">Controller: Steuerkreuz + A · Tastatur: Pfeiltasten + Enter · Maus: Klicken</div></section>}
    {s.screen==='instructions'&&<section className="screen"><div className="character">🎮</div><h2>So funktioniert’s</h2><p className="info-paragraph">Höre die Frage und drücke die richtige bunte Taste. <strong>X = Blau, Y = Gelb, B = Rot, A = Grün.</strong> Alternativ X/Y/B/A oder 1–4 auf der Tastatur oder mit der Maus klicken.</p><p className="info-paragraph">Nach jeder Antwort kommt ein lustiger Spruch, dann geht es weiter. Start / Esc / ☰ pausiert das Spiel.</p>{menu([{text:'← Zurück',action:'back',kind:'primary'}])}</section>}
+   {s.screen==='categories'&&<section className="screen category-screen"><div className="character">🎲</div><h2>Kategorie auswählen</h2><p className="category-explainer">Je Kategorie gibt es zehn Fragen. Bei „Alles gemischt“ sind alle vierzig dabei.</p>{menu([{text:allCategory.icon+' '+allCategory.name+(s.categoryId==='all'?' ✓':''),action:'category:all'},...categories.map(c=>({text:c.icon+' '+c.name+(s.categoryId===c.id?' ✓':''),action:'category:'+c.id})),{text:'← Zurück',action:'back'}])}</section>
    {s.screen==='settings'&&<section className="screen"><div className="character">⚙️</div><h2>Einstellungen</h2><p>Wie viele Fragen möchtest du spielen?</p><div className="options">{([5,10,20] as const).map((n,i)=><button type="button" className={'length-btn '+(s.focus===i?'focused':'')} aria-pressed={s.length===n} key={n} onMouseEnter={()=>patch({focus:i})} onClick={()=>perform('length'+n)}><span>{n}</span></button>)}</div>{menu([{text:s.voiceOn?'🔊 Stimme an':'🔇 Stimme aus',action:'sound'},{text:'← Zurück zum Menü',action:'back',kind:'primary'}],3)}</section>}
    {s.screen==='question'&&q&&<section className="screen question-screen"><div className="progress" aria-label="Fortschritt">{s.round.map((v,i)=><div key={v.id} className={'bar '+(i<=s.index?'active':'')}/>)}</div><div className="character">{s.answered===null?'🎤':q.options[s.answered].correct?'🎉':'🤹'}</div><div className="eyebrow">Frage {s.index+1} von {s.round.length}</div><h1>{q.text}</h1><div className="answers">{q.options.map((o,i)=><button type="button" key={o.id} data-key={letters[i]} className={'answer '+(s.answered!==null&&o.correct?'correct ':'')+(s.answered===i&&!o.correct?'wrong':'')} disabled={s.answered!==null} onClick={()=>answer(i)}><span className="letter">{letters[i]}</span><span>{o.label}</span></button>)}</div><div className="feedback" aria-live="polite">{s.answered===null?'Welche Antwort ist richtig?':<><strong>{q.options[s.answered].correct?'RICHTIG!':'NICHT GANZ!'}</strong><span>{q.options[s.answered].correct?q.fun:q.wrong}</span></>}</div><div className="toolbar"><button type="button" className="small-button" onClick={()=>input('REPEAT')}>{padBadge('R1')}<span>↻ Frage vorlesen</span></button></div><div className="helper">X Blau · Y Gelb · B Rot · A Grün · R1: Vorlesen · Start / Esc: Pause</div></section>}
    {s.screen==='results'&&<section className="screen"><div className="character">🏆</div><div className="eyebrow">Geschafft!</div><h1>Das war Quiz-Krawall!</h1><div className="result-number">{s.points} / {s.round.length}</div><p className="muted">{phrase(result(s.points,s.round.length))}</p>{menu([{text:'↻ Nochmal spielen',action:'restart',kind:'primary'},{text:'⌂ Zum Hauptmenü',action:'menu'}])}</section>}
