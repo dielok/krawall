@@ -1,11 +1,13 @@
 export type Cue={id:string;text:string};
 export class Narrator {
  enabled=true;
+ onActivityChange?: (active:boolean)=>void;
  private generation=0;
  private audio:HTMLAudioElement|null=null;
  private settle:(()=>void)|null=null;
  stop(){
   this.generation++;
+  this.onActivityChange?.(false);
   this.settle?.();this.settle=null;
   if(this.audio){this.audio.pause();this.audio.removeAttribute('src');this.audio=null;}
   if(typeof window.speechSynthesis !== 'undefined')window.speechSynthesis.cancel();
@@ -13,7 +15,8 @@ export class Narrator {
  play(cues:Cue[],done?:()=>void){
   this.stop();if(!this.enabled){done?.();return;}
   const token=this.generation;
-  void this.sequence(cues,token,done);
+  this.onActivityChange?.(true);
+  void this.sequence(cues,token,()=>{this.onActivityChange?.(false);done?.();});
  }
  private async sequence(cues:Cue[],token:number,done?:()=>void){
   for(const cue of cues){if(token!==this.generation)return;await this.one(cue,token);}
