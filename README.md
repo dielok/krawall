@@ -88,3 +88,25 @@ Die Dateinamen entsprechen den IDs aus der TTS-JSON, z. B. `output/q01.question.
 **Eingaben:** Xbox-Standardbelegung X/blau, Y/gelb, B/rot, A/grün; Steuerkreuz/Stick und A bestätigen Menüs, B geht zurück, Start pausiert. Tastatur X/Y/B/A oder 1–4, Pfeiltasten, Enter und Esc. Maus klickt Menüpunkte/Antworten.
 
 Die App ist zunächst ein Web-Build; eine native Tauri-Hülle ist noch nicht integriert.
+
+## Automatisierte Tests und Coverage
+
+Die React-Anwendung wird mit Vitest, Testing Library und V8-Coverage geprüft.
+
+```bash
+npm install
+npm test
+npm run test:coverage
+npm run build
+```
+
+Die Tests prüfen die 20 Fragen, Zufallsreihenfolgen, Menü- und Controllersteuerung,
+Spielzustände, Audio-Playback, TTS-Fallback, Unterbrechungen und fehlerhafte Daten.
+Der CI-Build erzwingt **100 % Statements, Branches, Functions und Lines** für
+`src/App.tsx`, `src/game.ts` und `src/audio.ts`. Der reine React-Bootstrap
+`src/main.tsx`, Styling, Vite-Buildkonfiguration sowie die separate Python-TTS-Pipeline
+sind **nicht** Bestandteil dieser TypeScript-Coverage-Messung.
+
+Für die Python-TTS-Pipeline existieren getrennte Tests unter `tests/test_generate.py`.
+Ein Coverage-Wert von 100 % bedeutet vollständig ausgeführte instrumentierte Codepfade,
+nicht automatisch fehlerfreie Benutzeroberflächen oder reale Controller-Kompatibilität.
