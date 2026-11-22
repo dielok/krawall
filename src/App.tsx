@@ -42,6 +42,7 @@ export function App(){
   speechPhase.current='question';
   sounds.current.setScene('question');
   narrator.current.play(lines,()=>{
+   if(speechPhase.current!=='question')return; // ignore callbacks from interrupted question speech
    speechPhase.current=null;
    if(ref.current.screen==='question'&&ref.current.index===i){
     if(ref.current.answered!==null)feedbackSpeech(q,ref.current.answered);
