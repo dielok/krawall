@@ -23,7 +23,7 @@ function tickPad(button:number){
  act(()=>frameCallback?.(0));
 }
 beforeEach(()=>{
- narrator.play.mockReset();narrator.play.mockImplementation((cues:unknown[],done?:()=>void)=>{if(cues.length>5)done?.();});narrator.stop.mockReset();narrator.enabled=true;
+ narrator.play.mockReset();narrator.play.mockImplementation((cues:unknown[],done?:()=>void)=>{if(cues.length>5||cues.length===2)done?.();});narrator.stop.mockReset();narrator.enabled=true;
  for(const fn of Object.values(sound))fn.mockReset();
  pad=null;frameCallback=undefined;
  vi.stubGlobal('requestAnimationFrame',vi.fn((f:FrameRequestCallback)=>{frameCallback=f;return 1;}));

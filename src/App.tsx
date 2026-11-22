@@ -52,7 +52,9 @@ export function App(){
  function feedbackSpeech(q:Question,i:number){
   const correct=q.options[i].correct;
   speechPhase.current='feedback';
+  sounds.current.playEffect(correct?'correct':'wrong');
   narrator.current.play([cue(correct?'feedback.correct':'feedback.incorrect'),cue(q.id+(correct?'.correct':'.incorrect'),correct?q.fun:q.wrong)],()=>{
+   if(ref.current.screen!=='question'||ref.current.round[ref.current.index]?.id!==q.id||ref.current.paused)return;
    speechPhase.current=null;
    timeout.current=setTimeout(()=>advance(),queuedAdvance.current?250:ref.current.voiceOn?900:4000);
    queuedAdvance.current=false;
@@ -107,7 +109,6 @@ export function App(){
   if(!wasReading)stop();
   const q=state.round[state.index];
   patch({answered:i,points:state.points+(q.options[i].correct?1:0)});
-  sounds.current.playEffect(q.options[i].correct?'correct':'wrong');
   if(!wasReading)feedbackSpeech(q,i);
  }
  function pause(){
