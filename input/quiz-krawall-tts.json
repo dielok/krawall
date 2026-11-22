@@ -3243,6 +3243,150 @@
       "emotion": "friendly",
       "source": "current",
       "question_id": "q40"
+    },
+    {
+      "id": "category.intro.animals.1",
+      "text": "TIERE! AAAAAACHTUNG, DAS TIERREICH DREHT DURCH! Hier wird gemiaut, gequakt und getrampelt! Ist das ein Elefant oder ein RIESIGER WACKELPUDDING?! LOS GEHT'S!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "animals"
+    },
+    {
+      "id": "category.intro.animals.2",
+      "text": "OHREN AUFGESPERRT! Willkommen bei den TIEREN! Die Kuh macht Muh, die Ente macht Quak, und ich mache ... QUIIIIZ! WER BRÜLLT DENN DA SO LAUT?",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "animals"
+    },
+    {
+      "id": "category.intro.animals.3",
+      "text": "TIERE, TIERE, TIEEEERE! Die Schnecke hat ihr Haus dabei, der Frosch macht einen HÜPF-SALTO! Moment mal, KANN EIN FROSCH SALTO? Egal! QUIZ-ALARM!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "animals"
+    },
+    {
+      "id": "category.intro.animals.4",
+      "text": "UUUUUND JETZT: DIE WILDE TIERPARADE! Von der winzigen Biene bis zum RIE-SEN-ELE-FAN-TEN! Ich hoffe, ihr habt eure Ohren angeschnallt!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "animals"
+    },
+    {
+      "id": "category.intro.everyday.1",
+      "text": "ALLTAG! JAAA, DER GANZ NORMALE WAHNSINN! Zahnbürste? DA! Schuhe? DA! Und die Socke? DIE IST SCHON WIEDER WEG! LOS GEHT'S!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "everyday"
+    },
+    {
+      "id": "category.intro.everyday.2",
+      "text": "Willkommen im ALLTAGS-QUIZ! Hier fliegen keine Raketen, aber manchmal die BROTKRÜMEL! Hände waschen, Mütze auf und ... QUIZ!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "everyday"
+    },
+    {
+      "id": "category.intro.everyday.3",
+      "text": "AAAAACHTUNG, ALLTAGSALARM! Wer hat die Zahnpasta versteckt? WARUM STEHT DER LÖFFEL IM SCHUH? Wir klären das! VIELLEICHT!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "everyday"
+    },
+    {
+      "id": "category.intro.everyday.4",
+      "text": "ES IST SO WEIT! Die große ALLTAGS-RUNDE! Ich habe meinen Schuh gefunden! Moment. DAS IST EIN TOPFLAPPEN! Egal, wir starten!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "everyday"
+    },
+    {
+      "id": "category.intro.nature.1",
+      "text": "NATUR UND JAHRESZEITEN! SONNE! REGEN! SCHNEEGESTÖÖÖBER! Das Wetter hat heute ganz offensichtlich ZU VIEL LIMONADE GETRUNKEN!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "nature"
+    },
+    {
+      "id": "category.intro.nature.2",
+      "text": "AAAAACHTUNG, WETTER-EXPLOSION! Die Blumen blühen, der Wind pustet, und eine Pfütze ruft: PLATSCH! Willkommen in der NATUR!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "nature"
+    },
+    {
+      "id": "category.intro.nature.3",
+      "text": "NATUR-ALARM! Ist es Sommer? Ist es Winter? WARUM TRÄGT DER SCHNEEMANN EINE SONNENBRILLE?! Hier kommen die JAHRESZEITEN!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "nature"
+    },
+    {
+      "id": "category.intro.nature.4",
+      "text": "UND JETZT: NATUR UND JAHRESZEITEN! Die Sonne strahlt, die Wolke grummelt, und ICH? ICH BIN EIN DONNERWETTER-MODERATOR! QUIZ!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "nature"
+    },
+    {
+      "id": "category.intro.food.1",
+      "text": "ESSEN UND FARBEN! BANANEN-ALARM! Ist die Erdbeere blau? IST DIE GURKE LILA?! Nein, moment ... DAS FINDEN WIR JETZT HERAUS!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "food"
+    },
+    {
+      "id": "category.intro.food.2",
+      "text": "UUUUUND JETZT WIRD'S BUNT! Willkommen bei ESSEN UND FARBEN! Rot, grün, gelb! Und plötzlich rollt eine WASSERMELONE DURCHS STUDIO!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "food"
+    },
+    {
+      "id": "category.intro.food.3",
+      "text": "ESSEN! FARBEN! HUUUUNGER AUF QUIZ! Die Zitrone macht sauer, die Banane macht krumm, und ich mache ... TROMMELWIRBEL!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "food"
+    },
+    {
+      "id": "category.intro.food.4",
+      "text": "ACHTUNG! ES WIRD LECKER UND KUNTERBUNT! Willkommen bei ESSEN UND FARBEN! Die Karotte trägt Orange und die Heidelbeere? EIN BLAUES ABENDKLEID!",
+      "category": "category_intro",
+      "emotion": "extremely_excited",
+      "direction": "Hyperaktiver, herzlicher deutscher Quizshow-Moderator: sehr energetisch, dramatisch und verspielt. Sprich natürlich auf Hochdeutsch. Deutliche Betonung, rasante Wechsel zwischen laut und flüsternd. Keine Regieanweisungen vorlesen.",
+      "source": "new",
+      "category_id": "food"
     }
   ]
 }
