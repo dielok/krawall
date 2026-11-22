@@ -47,3 +47,6 @@ htmlcov/
 # Editors
 .idea/
 .vscode/
+
+# Test coverage output
+coverage/
