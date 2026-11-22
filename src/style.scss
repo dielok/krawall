@@ -80,3 +80,6 @@ main{overflow:hidden;scrollbar-gutter:auto;display:flex;flex-direction:column;pa
 .show-intro .intro-actions .menu-button{width:auto;min-width:180px;margin:0}
 .show-intro .helper{margin:0}
 @media(max-height:650px){.show-intro{grid-template-rows:auto 38px auto minmax(68px,1fr) auto auto auto;gap:5px}.show-intro .intro-symbol{font-size:36px}.show-intro h1{font-size:32px}.show-intro .intro-monologue{font-size:15px}.show-intro .intro-next{font-size:12px}.show-intro .intro-actions .menu-button{min-height:38px;font-size:14px;padding:5px}}
+
+/* Keyboard shortcut badges share the gamepad badge's layout without implying an Xbox button. */
+.pad-badge--keyboard{min-width:42px;padding-inline:8px;border-radius:6px;background:#41445b;border-color:#abb4d8;color:white;box-shadow:inset 0 -3px 0 #0005;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
